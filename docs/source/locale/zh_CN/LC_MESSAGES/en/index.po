@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, hello world
+# This file is distributed under the same license as the my project package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: my project 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-28 17:08+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../en/index.rst:11
+msgid "Language Selection:"
+msgstr ""
+
+#: ../en/index.rst:7
+msgid "Welcome to Your Project Name"
+msgstr ""
+
+#: ../en/index.rst:9
+msgid "This is an example of documentation supporting both English and Chinese."
+msgstr ""
+
+#: ../en/index.rst:19
+msgid "Indices and tables"
+msgstr ""
+
+#: ../en/index.rst:21
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../en/index.rst:22
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../en/index.rst:23
+msgid ":ref:`search`"
+msgstr ""
+
