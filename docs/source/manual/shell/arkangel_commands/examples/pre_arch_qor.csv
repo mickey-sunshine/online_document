@@ -1,0 +1,10 @@
+Benchmark/Metrics,Suite,K,$lut,_fpga_adder,dff,dffns,num_cells,num_memories,num_memory_bits,num_port_bits,num_ports,num_processes,num_pub_wire_bits,num_pub_wires,num_wire_bits,num_wires
+and2,checkin,4,1,0,0,0,1,0,0,3,3,0,3,3,3,3
+and2,checkin,5,1,0,0,0,1,0,0,3,3,0,3,3,3,3
+and2,checkin,6,1,0,0,0,1,0,0,3,3,0,3,3,3,3
+and2_latch,checkin,4,1,0,1,0,2,0,0,5,5,0,5,5,5,5
+and2_latch,checkin,5,1,0,1,0,2,0,0,5,5,0,5,5,5,5
+and2_latch,checkin,6,1,0,1,0,2,0,0,5,5,0,5,5,5,5
+counterdown16_1clk_negedge_async_resetp,ff,4,0,17,0,16,33,0,0,18,3,0,51,21,51,21
+counterdown16_1clk_negedge_async_resetp,ff,5,0,17,0,16,33,0,0,18,3,0,51,21,51,21
+counterdown16_1clk_negedge_async_resetp,ff,6,0,17,0,16,33,0,0,18,3,0,51,21,51,21
