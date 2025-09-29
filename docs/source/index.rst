@@ -1,19 +1,42 @@
-.. Your Project Name documentation master file, created by
-   sphinx-quickstart on Sun Sep 28 2025.
+.. documentation master file, created by
+   sphinx-quickstart on Thu Sep 13 12:15:14 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Your Project Name
-============================
+Welcome to ArkAngel documentation!
+==================================
 
-This is an example of documentation supporting both English and Chinese.
+Version
+-------
+
+.. mdinclude:: VERSION.md
+
+User Manual
+-----------
 
 .. toctree::
    :maxdepth: 2
-   :caption: Language Selection:
+   :caption: User Manual
 
-   en/index.rst
-   zh_CN/index.rst
+   manual/index
+
+Developer Manual
+----------------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Developer Manual
+
+   developer/index
+
+Appendix
+--------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Appendix
+
+   appendix/index
 
 Indices and tables
 ==================
