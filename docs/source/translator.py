@@ -1,312 +1,425 @@
 """
-sphinx_po_translator.py
-
-方案 A 实现：按 PO 文件、但以“批次（batch）”把多个 msgid 一次性发给 DeepSeek，让模型利用上下文进行翻译。
-
-特点（模块化、便于调试）：
-- 把每一步分成独立函数（收集未翻译条目 -> 构建批次提示 -> 调用 API -> 解析返回 -> 回写 PO -> 保存/备份）。
-- 支持 dry-run（只打印 prompt 不调用 API）便于调试。
-- 支持按条目数量或按字符数分块（用于控制 token 大小）。
-- 在失败解析 JSON 时会把原始响应保存到 responses/ 供人工检查。
-
-使用：
-    pip install openai polib
-    export DEEPSEEK_API_KEY=你的_key
-    python sphinx_po_translator.py --locale-dir locale --lang zh_CN --batch-size 10
-
-注意：需要根据 DeepSeek 的 token 限制调整 --batch-size 或 --max-chars。
+translator.py
+Batch translation tool for Sphinx PO files (powered by DeepSeek API)
+Supports dynamic target language switching (en/zh_CN), automatic batching, and preserves reStructuredText markup
+Usage:
+1. Install dependencies: pip install openai polib
+2. Set API Key: export DEEPSEEK_API_KEY=your_api_key (use "set DEEPSEEK_API_KEY=your_api_key" for Windows)
+3. Translate to Chinese: python translator.py --locale-dir source/locale --lang zh_CN --batch-size 10
+4. Translate to English: python translator.py --locale-dir source/locale --lang en --batch-size 10
 """
 
 import os
 import polib
 import time
 import json
-import argparse
 import re
+import argparse
 from openai import OpenAI
 from typing import List, Dict, Tuple, Any
 
 
-# -------------------- 配置 DeepSeek 客户端 --------------------
-def init_client():
-    api_key = "sk-70406818a671408b80f43720b7978aab"
+# -------------------------- 1. Configuration & Initialization --------------------------
+def init_deepseek_client() -> OpenAI:
+    """Initialize DeepSeek client (compatible with OpenAI interface) by reading API Key from environment variable"""
+    api_key = os.getenv("DEEPSEEK_API_KEY")
     if not api_key:
-        raise EnvironmentError("请先设置环境变量 DEEPSEEK_API_KEY")
-    client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
-    return client
+        raise EnvironmentError(
+            "Please set the DEEPSEEK_API_KEY environment variable first\n"
+            "Linux/Mac: export DEEPSEEK_API_KEY=your_api_key\n"
+            "Windows: set DEEPSEEK_API_KEY=your_api_key"
+        )
+    try:
+        client = OpenAI(
+            api_key=api_key,
+            base_url="https://api.deepseek.com"  # DeepSeek API base URL
+        )
+        return client
+    except Exception as e:
+        raise RuntimeError(f"Failed to initialize DeepSeek client: {str(e)}")
 
 
-# -------------------- 工具函数 --------------------
-
-
-def chunk_entries(entries: List[polib.POEntry], batch_size: int, max_chars: int) -> List[List[polib.POEntry]]:
-    """按数量和字符数同时分批。返回批次列表，每项是一组 entry。"""
+# -------------------------- 2. Utility Functions (Batching, Logging) --------------------------
+def chunk_po_entries(
+    entries: List[polib.POEntry],
+    batch_size: int = 10,
+    max_chars: int = 8000
+) -> List[List[polib.POEntry]]:
+    """
+    Batch PO entries using dual criteria: entry count and total character count
+    Prevents single-batch token overflow (DeepSeek's default limit is 8192 tokens)
+    """
     batches = []
-    cur = []
-    cur_chars = 0
-    for e in entries:
-        est = len(e.msgid) + (len(e.msgid_plural) if e.msgid_plural else 0)
-        # 当单条本身超过 max_chars 时也要至少放入一个批次
-        if cur and (len(cur) >= batch_size or cur_chars + est > max_chars):
-            batches.append(cur)
-            cur = []
-            cur_chars = 0
-        cur.append(e)
-        cur_chars += est
-    if cur:
-        batches.append(cur)
+    current_batch = []
+    current_chars = 0  # Count total characters in current batch (msgid + msgid_plural)
+
+    for entry in entries:
+        # Estimate character count for current entry (including plural form if exists)
+        entry_chars = len(entry.msgid)
+        if entry.msgid_plural:
+            entry_chars += len(entry.msgid_plural)
+
+        # Split into new batch if either condition is met:
+        # 1. Current batch reaches maximum entry count
+        # 2. Adding current entry exceeds maximum character limit (force add if single entry is too long)
+        if (current_batch and (len(current_batch) >= batch_size or current_chars + entry_chars > max_chars)):
+            batches.append(current_batch)
+            current_batch = []
+            current_chars = 0
+
+        current_batch.append(entry)
+        current_chars += entry_chars
+
+    # Add the last incomplete batch
+    if current_batch:
+        batches.append(current_batch)
+
     return batches
 
 
-def save_response_debug(po_path: str, batch_index: int, content: str):
-    os.makedirs("responses", exist_ok=True)
-    fname = os.path.join("responses", f"{os.path.basename(po_path)}.batch{batch_index}.resp.txt")
-    with open(fname, "w", encoding="utf-8") as f:
-        f.write(content)
-    print(f"  已保存原始响应到 {fname}")
+def save_debug_response(po_file_path: str, batch_idx: int, response: str):
+    """Save raw model response to 'responses/' directory for debugging purposes"""
+    debug_dir = "responses"
+    os.makedirs(debug_dir, exist_ok=True)
+    # Generate debug filename (includes PO filename and batch number)
+    po_filename = os.path.basename(po_file_path)
+    debug_file = os.path.join(debug_dir, f"{po_filename}.batch{batch_idx}.txt")
+    with open(debug_file, "w", encoding="utf-8") as f:
+        f.write(f"PO File Path: {po_file_path}\n")
+        f.write(f"Batch Number: {batch_idx}\n")
+        f.write(f"Generation Time: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write("=" * 50 + "\n")
+        f.write(response)
+    print(f"  [Debug] Raw response saved to: {debug_file}")
 
 
-# -------------------- Prompt 构造 --------------------
-
-
-def build_prompt_for_batch(entries: List[polib.POEntry], po_path: str, start_index: int = 1) -> str:
-    """为一个批次构建 prompt。每条用编号标记，包含文件/位置/上下文信息。
-
-    要求模型仅输出 JSON 格式：
-    返回格式为 dict，key 为数字字符串（从 start_index 开始），value 为：
-      - 对于单数条目: {"translation": "..."}
-      - 对于复数条目: {"translation": "...", "plural": ["...", "..."]}
-
-    示例:
-    {
-      "1": {"translation": "翻译文本"},
-      "2": {"translation": "xxx", "plural": ["xxx-plural0", "xxx-plural1"]}
-    }
+# -------------------------- 3. Prompt Construction (Dynamic Language Adaptation) --------------------------
+def build_batch_prompt(
+    entries: List[polib.POEntry],
+    po_file_path: str,
+    target_lang: str,
+    start_idx: int = 1
+) -> str:
     """
-    parts = []
-    header = ("你是一个专业的技术文档翻译助手，主要为半导体、FPGA方面。\n"
-              "请把下面列出的英文内容翻译成中文，并保留 reStructuredText 的标记（例如 :ref:, :doc:, **bold**, ``code``, 链接标记等）。\n"
-              "不要添加任何额外解释，只返回严格的 JSON（见下文）。\n\n"
-              "返回要求（非常重要）：\n"
-              "1) 输出一个 JSON 对象，键为条目编号（字符串形式），值为翻译对象。\n"
-              "2) 单数条目的值为 {\"translation\": \"...\"}。\n"
-              "3) 如果原文有复数（msgid_plural），翻译对象还应包含键 \"plural\"，其值为一个数组，对应各复数形式的翻译，例如 ['form0', 'form1']。\n"
-              "4) 翻译时请尽量保持术语一致。请严禁输出除 JSON 以外的内容。\n\n"
-              "下面给出条目列表：\n")
-    parts.append(header)
+    Dynamically generate prompt based on target language to ensure correct translation direction:
+    - target_lang=zh_CN: English → Chinese
+    - target_lang=en: Chinese → English (or retain original English if already in English)
+    """
+    # 1. Dynamically generate translation rules
+    if target_lang == "zh_CN":
+        translate_rule = "Translate the following English content to Chinese while maintaining technical document accuracy and professionalism"
+    elif target_lang == "en":
+        translate_rule = "Translate the following content to English (retain original English if already in English) and ensure consistent terminology"
+    else:
+        raise ValueError(f"Unsupported target language: {target_lang}, only en/zh_CN are supported")
 
-    idx = start_index
-    for e in entries:
-        occ = ", ".join([":".join(map(str, occ)) for occ in (e.occurrences or [])])
-        parts.append(f"### ENTRY {idx} \nFILE: {po_path} \nOCCURRENCES: {occ}\nCONTEXT: {e.msgctxt}\nSINGULAR:\n{e.msgid}\n")
-        if e.msgid_plural:
-            parts.append(f"PLURAL:\n{e.msgid_plural}\n")
-        parts.append("\n")
-        idx += 1
+    # 2. Prompt header (includes translation rules and format requirements)
+    prompt_parts = [
+        "You are a professional technical document translation assistant specializing in semiconductor and FPGA documentation localization.",
+        translate_rule + ", and strictly preserve the following content:",
+        "- reStructuredText markup (e.g., :ref:, :doc:, **bold text**, ``code snippets``, `links`)",
+        "- Variable names, function names, and paths (e.g., ${HOME}, func())",
+        "- Version numbers, numbers, and symbols (e.g., v1.0.0, 2024, %)",
+        "",
+        "【Output Requirements】",
+        "1. Return ONLY JSON format, no additional explanations or comments!",
+        "2. JSON Structure:",
+        "   - Key: Entry number (string format, e.g., \"1\", \"2\")",
+        "   - Value: Translation object (singular entries include \"translation\"; plural entries additionally include \"plural\" array)",
+        "3. Example (format reference only, replace with actual translations):",
+        '   { "1": { "translation": "User Manual" }, "2": { "translation": "File", "plural": ["File 1", "Files"] } }',
+        "",
+        "【Entries to Translate】",
+    ]
 
-    parts.append("输出示例（仅说明格式，务必输出实际 JSON 且不要包含注释）：\n"
-                 "{\n  \"1\": {\"translation\": \"...\"},\n  \"2\": {\"translation\": \"...\", \"plural\": [\"...\", \"...\"]}\n}\n")
-    prompt = "\n".join(parts)
-    return prompt
+    # 3. Populate entries to translate (includes file path and location info to help model understand context)
+    for idx, entry in enumerate(entries):
+        entry_num = start_idx + idx
+        # Extract entry location info (file name and line number)
+        occurrences = entry.occurrences or []
+        occ_str = ", ".join([f"{file}:{line}" for file, line in occurrences])
+        # Construct entry content
+        prompt_parts.append(f"--- Entry {entry_num} ---")
+        prompt_parts.append(f"PO File: {po_file_path}")
+        prompt_parts.append(f"Location: {occ_str or 'Unknown'}")
+        prompt_parts.append(f"Original Text (Singular): {entry.msgid}")
+        if entry.msgid_plural:
+            prompt_parts.append(f"Original Text (Plural): {entry.msgid_plural}")
+        prompt_parts.append("")  # Empty line for separation
+
+    return "\n".join(prompt_parts)
 
 
-# -------------------- 调用 DeepSeek API --------------------
-
-
-def call_deepseek(client: OpenAI, prompt: str, max_retries: int = 2, temperature: float = 0.0) -> str:
-    """调用 DeepSeek（通过 openai.OpenAI 客户端），返回文本响应。出现异常会重试几次。"""
-    for attempt in range(1, max_retries + 1):
+# -------------------------- 4. DeepSeek API Call --------------------------
+def call_deepseek_api(
+    client: OpenAI,
+    prompt: str,
+    max_retries: int = 3,
+    temperature: float = 0.1
+) -> str:
+    """
+    Call DeepSeek API to translate batch entries with retry mechanism
+    temperature=0.1: Ensures translation stability (avoids excessive divergence)
+    """
+    for retry in range(1, max_retries + 1):
         try:
             response = client.chat.completions.create(
-                model="deepseek-chat",
-                messages=[{
-                    "role": "user",
-                    "content": prompt
-                }],
+                model="deepseek-chat",  # DeepSeek general-purpose chat model
+                messages=[{"role": "user", "content": prompt}],
                 temperature=temperature,
-                max_tokens=8192,
+                max_tokens=8192,  # Matches DeepSeek free-tier token limit
+                timeout=30,
             )
-            content = response.choices[0].message.content
+            # Extract text content from model response
+            content = response.choices[0].message.content.strip()
+            if not content:
+                raise ValueError("Model returned empty content")
             return content
-        except Exception as exc:
-            print(f"  调用 DeepSeek 失败（尝试 {attempt}/{max_retries}）：{exc}")
-            if attempt < max_retries:
-                time.sleep(1 + 2 * attempt)
+        except Exception as e:
+            error_msg = f"API call failed (Attempt {retry}/{max_retries}): {str(e)}"
+            print(f"  [Error] {error_msg}")
+            if retry < max_retries:
+                sleep_time = 2 ** retry  # Exponential backoff (2s, 4s, 8s...)
+                print(f"  [Wait] Retrying after {sleep_time} seconds...")
+                time.sleep(sleep_time)
             else:
-                raise
-    raise RuntimeError("未能成功调用 DeepSeek API")
+                raise RuntimeError(f"API call failed after multiple attempts: {error_msg}")
 
 
-# -------------------- 解析模型返回 --------------------
-
-
-def parse_json_from_response(text: str) -> Any:
-    """尝试把模型返回解析为 JSON 对象。若失败，抛出异常。
-    也会尝试从长文本中提取第一个 JSON 区块。
+# -------------------------- 5. Model Response Parsing --------------------------
+def parse_translation_response(response: str) -> Dict[str, Any]:
     """
-    # 先尝试直接解析
+    Parse JSON response from model and handle common format issues (e.g., extra code block markers)
+    """
     try:
-        return json.loads(text)
-    except Exception:
-        # 尝试提取第一个 JSON 块
-        m = re.search(r"(\{.*\}|\[.*\])", text, re.S)
-        if m:
-            try:
-                return json.loads(m.group(1))
-            except Exception:
-                raise ValueError("无法从响应中解析 JSON（已尝试提取 JSON 子串但解析失败）")
-        else:
-            raise ValueError("响应中未找到 JSON 子串")
+        # Handle potential code block markers (e.g., ```json ... ```) returned by model
+        json_match = re.search(r"```(?:json)?\s*(.*?)\s*```", response, re.DOTALL)
+        if json_match:
+            response = json_match.group(1)
+        # Parse JSON
+        return json.loads(response)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Failed to parse JSON: {str(e)}\nRaw response snippet: {response[:200]}...")
+    except Exception as e:
+        raise RuntimeError(f"Unexpected error during response parsing: {str(e)}")
 
 
-# -------------------- 回写翻译到 PO --------------------
-
-
-def apply_translations_to_entries(entries: List[polib.POEntry], parsed: Dict[str, Any], start_index: int = 1) -> Tuple[int, int]:
-    """把解析后的 JSON 应用到 entries。返回 (成功数, 失败数)。
-
-    parsed 的结构期望为 {"1": {"translation": "...", "plural": [..]?}, ...}
+# -------------------------- 6. Translate Single PO File --------------------------
+def translate_single_po_file(
+    po_file_path: str,
+    client: OpenAI,
+    target_lang: str,
+    batch_size: int = 10,
+    max_chars: int = 8000,
+    save_backup: bool = True
+) -> Tuple[int, int]:
     """
-    success = 0
-    fail = 0
-    for i, entry in enumerate(entries):
-        key = str(start_index + i)
-        if key not in parsed:
-            print(f"  WARNING: 响应中缺少条目 {key}")
-            fail += 1
+    Translate a single PO file and return (successful_translations_count, failed_translations_count)
+    Workflow: Load PO → Filter untranslated entries → Batch translation → Write back results → Save
+    """
+    print(f"\n【Processing PO File】: {po_file_path}")
+    # 1. Load PO file and create backup
+    try:
+        po = polib.pofile(po_file_path, encoding="utf-8")
+        # Create backup (prevents file corruption if translation fails)
+        if save_backup:
+            backup_path = f"{po_file_path}.bak"
+            po.save(backup_path)
+            print(f"  [Backup] Saved to: {backup_path}")
+    except Exception as e:
+        raise RuntimeError(f"Failed to load PO file: {str(e)}")
+
+    # 2. Filter untranslated entries (exclude obsolete and already translated entries)
+    untranslated = [
+        entry for entry in po
+        if not entry.obsolete and not entry.translated()
+    ]
+    if not untranslated:
+        print(f"  [Skipped] No untranslated entries found")
+        return (0, 0)
+    print(f"  [Stats] Total {len(untranslated)} untranslated entries")
+
+    # 3. Batch process entries
+    batches = chunk_po_entries(untranslated, batch_size, max_chars)
+    print(f"  [Batching] Split into {len(batches)} batches (Max {batch_size} entries/{max_chars} chars per batch)")
+
+    total_success = 0
+    total_fail = 0
+
+    for batch_idx, batch in enumerate(batches, 1):
+        print(f"\n  【Batch {batch_idx}/{len(batches)}】({len(batch)} entries)")
+        # 4. Construct prompt and call API
+        prompt = build_batch_prompt(batch, po_file_path, target_lang, start_idx=total_success + 1)
+        try:
+            # Call API (comment this line for dry-run mode to only print prompts)
+            response = call_deepseek_api(client, prompt)
+            save_debug_response(po_file_path, batch_idx, response)
+
+            # 5. Parse response and write back translations
+            parsed = parse_translation_response(response)
+            batch_success, batch_fail = 0, 0
+
+            for entry_idx, entry in enumerate(batch):
+                entry_num = str(total_success + entry_idx + 1)
+                # Check if current entry exists in parsed results
+                if entry_num not in parsed:
+                    print(f"    [Failed] Entry {entry_num}: No corresponding translation found in response")
+                    batch_fail += 1
+                    continue
+
+                trans_data = parsed[entry_num]
+                # Validate translation data format
+                if not isinstance(trans_data, dict) or "translation" not in trans_data:
+                    print(f"    [Failed] Entry {entry_num}: Invalid translation format ({trans_data})")
+                    batch_fail += 1
+                    continue
+
+                # Write back singular translation
+                entry.msgstr = trans_data["translation"].strip()
+                # Write back plural translation (if exists)
+                if entry.msgid_plural and "plural" in trans_data:
+                    plural_trans = trans_data["plural"]
+                    if isinstance(plural_trans, list) and len(plural_trans) > 0:
+                        # polib requires plural translations in { "0": "...", "1": "..." } format
+                        entry.msgstr_plural = {str(i): t.strip() for i, t in enumerate(plural_trans)}
+                    else:
+                        print(f"    [Warning] Entry {entry_num}: Invalid plural translation format, skipping plural section")
+
+                batch_success += 1
+                print(f"    [Success] Entry {entry_num}: {entry.msgid[:50]}... → {entry.msgstr[:50]}...")
+
+            # Update total stats for current batch
+            total_success += batch_success
+            total_fail += batch_fail
+            print(f"  【Batch Result】Success: {batch_success} entries, Failed: {batch_fail} entries")
+
+            # 6. Save PO file after each batch (prevents progress loss from mid-process failures)
+            po.save(po_file_path)
+            print(f"  [Save] Updated PO file: {po_file_path}")
+
+        except Exception as e:
+            print(f"  [Batch Error] Processing failed: {str(e)}")
+            total_fail += len(batch)
             continue
-        val = parsed[key]
-        if not isinstance(val, dict) or "translation" not in val:
-            print(f"  WARNING: 条目 {key} 的结构不符合预期: {val}")
-            fail += 1
-            continue
-        entry.msgstr = val["translation"].strip()
-        # 处理复数
-        if entry.msgid_plural:
-            if "plural" in val and isinstance(val["plural"], list):
-                # polib 要求 msgstr_plural 是一个 dict，键为索引字符串
-                mp = {}
-                for idx, s in enumerate(val["plural"]):
-                    mp[str(idx)] = s
-                entry.msgstr_plural = mp
-            else:
-                print(f"  WARNING: 条目 {key} 有复数原文，但响应中未提供 plural 字段。")
-                # 不覆盖 plural 的话可能会导致构建错误，用户需人工处理
-        success += 1
-    return success, fail
+
+    # 7. Return total results
+    print(f"\n【File Result】{po_file_path}: Success: {total_success} entries, Failed: {total_fail} entries")
+    return (total_success, total_fail)
 
 
-# -------------------- 主处理流程（文件级） --------------------
+# -------------------------- 7. Batch Translate All PO Files in Directory --------------------------
+def batch_translate_locale_dir(
+    locale_dir: str,
+    target_lang: str,
+    batch_size: int = 10,
+    max_chars: int = 8000,
+    save_backup: bool = True
+):
+    """
+    Batch translate all PO files for a specific language in the locale directory
+    Required directory structure: locale_dir/[lang]/LC_MESSAGES/*.po (Sphinx standard structure)
+    """
+    # Check if target language directory exists
+    target_dir = os.path.join(locale_dir, target_lang, "LC_MESSAGES")
+    if not os.path.exists(target_dir):
+        raise FileNotFoundError(f"Target language directory not found: {target_dir}\nPlease verify --locale-dir and --lang parameters")
 
+    # Initialize client
+    client = init_deepseek_client()
+    print(f"【Starting Batch Translation】")
+    print(f"Target Language: {target_lang}")
+    print(f"PO File Directory: {target_dir}")
+    print(f"Batch Configuration: {batch_size} entries/batch, {max_chars} chars/batch")
+    print("=" * 60)
 
-def translate_po_file_batch(po_path: str, client: OpenAI, batch_size: int = 10, max_chars: int = 8000, sleep_secs: float = 1.0, dry_run: bool = False, save_backup: bool = True, start_index_offset: int = 1, max_retries_api: int = 2, verbose: bool = True):
-    """处理一个 .po 文件：收集未翻译条目 -> 分批 -> 调用 API -> 解析 -> 写回并保存。"""
-    print(f"处理 PO: {po_path}")
-    po = polib.pofile(po_path)
+    # Traverse all PO files
+    total_success = 0
+    total_fail = 0
+    po_files = [f for f in os.listdir(target_dir) if f.endswith(".po")]
 
-    # 收集未翻译条目
-    entries = [e for e in po if (not e.obsolete) and (not e.translated())]
-    if not entries:
-        print("  没有未翻译条目。")
+    if not po_files:
+        print(f"【No PO Files】No .po files found in {target_dir}")
         return
 
-    batches = chunk_entries(entries, batch_size=batch_size, max_chars=max_chars)
-    print(f"  共 {len(entries)} 条未翻译，分成 {len(batches)} 个批次（batch_size={batch_size}, max_chars={max_chars}）。")
-
-    if save_backup:
-        bak = po_path + ".bak"
-        po.save(bak)
-        print(f"  已保存备份: {bak}")
-
-    batch_no = 0
-    for batch in batches:
-        batch_no += 1
-        print(f"  处理第 {batch_no}/{len(batches)} 批（{len(batch)} 条）...")
-        prompt = build_prompt_for_batch(batch, po_path, start_index=start_index_offset)
-
-        if dry_run:
-            print("  dry-run 模式：下面是要发送给模型的 prompt（前 1000 字）：")
-            print(prompt[:1000])
-            continue
-
-        # 调用 API
-        resp_text = call_deepseek(client, prompt, max_retries=max_retries_api)
-
-        # 解析 JSON
+    for po_filename in po_files:
+        po_file_path = os.path.join(target_dir, po_filename)
         try:
-            parsed = parse_json_from_response(resp_text)
-        except Exception as exc:
-            print(f"  ERROR: 无法解析模型返回为 JSON: {exc}")
-            save_response_debug(po_path, batch_no, resp_text)
+            success, fail = translate_single_po_file(
+                po_file_path=po_file_path,
+                client=client,
+                target_lang=target_lang,
+                batch_size=batch_size,
+                max_chars=max_chars,
+                save_backup=save_backup
+            )
+            total_success += success
+            total_fail += fail
+        except Exception as e:
+            print(f"【File Skipped】{po_file_path}: Processing exception → {str(e)}")
+            total_fail += 1  # Count as failure
             continue
 
-        # 如果返回是数组（按顺序），转换为映射
-        if isinstance(parsed, list):
-            parsed_map = {}
-            for i, item in enumerate(parsed):
-                parsed_map[str(start_index_offset + i)] = item
-            parsed = parsed_map
-
-        # 把翻译应用到条目
-        succ, fail = apply_translations_to_entries(batch, parsed, start_index=start_index_offset)
-        print(f"    应用翻译: 成功 {succ}, 失败 {fail}")
-
-        # 每批次保存一次
-        po.save(po_path)
-        print(f"    已保存: {po_path}")
-
-        # 保存原始响应供人工检查
-        save_response_debug(po_path, batch_no, resp_text)
-
-        time.sleep(sleep_secs)
-
-    print("处理完成。建议用 po 编辑器（如 Poedit）或人工复核关键文件。")
+    # Print final summary
+    print("\n" + "=" * 60)
+    print(f"【Batch Translation Summary】")
+    print(f"Total PO Files Processed: {len(po_files)}")
+    print(f"Total Successful Translations: {total_success}")
+    print(f"Total Failed Translations: {total_fail}")
+    print(f"Overall Success Rate: {total_success/(total_success+total_fail)*100:.1f}%" if (total_success+total_fail) > 0 else "N/A")
+    print("=" * 60)
 
 
-# -------------------- 目录级别批量处理 --------------------
+# -------------------------- 8. Command Line Interface & Main Function --------------------------
+def parse_arguments():
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(description="Batch translate Sphinx PO files using DeepSeek API with dynamic language support")
+    parser.add_argument(
+        '--locale-dir', 
+        default='locale', 
+        help='Root directory of Sphinx locale files (contains language-specific subdirectories)'
+    )
+    parser.add_argument(
+        '--lang', 
+        default='en', 
+        choices=['en', 'zh_CN'],
+        help='Target language for translation (en/zh_CN)'
+    )
+    parser.add_argument(
+        '--batch-size', 
+        type=int, 
+        default=10, 
+        help='Maximum number of entries per translation batch (default: 10)'
+    )
+    parser.add_argument(
+        '--max-chars', 
+        type=int, 
+        default=8000, 
+        help='Maximum total characters per batch (prevents token overflow, default: 8000)'
+    )
+    parser.add_argument(
+        '--no-backup', 
+        dest='save_backup', 
+        action='store_false', 
+        help='Disable automatic backup of PO files (not recommended)'
+    )
+    return parser.parse_args()
 
 
-def translate_locale_dir_batches(locale_dir: str, lang: str = "zh_CN", **kwargs):
-    base_path = os.path.join(locale_dir, lang, "LC_MESSAGES")
-    if not os.path.exists(base_path):
-        raise FileNotFoundError(f"找不到路径: {base_path}")
-
-    client = init_client()
-
-    for root, _, files in os.walk(base_path):
-        for f in files:
-            if f.endswith('.po'):
-                po_path = os.path.join(root, f)
-                try:
-                    translate_po_file_batch(po_path, client, **kwargs)
-                except Exception as exc:
-                    print(f"处理 {po_path} 时发生异常: {exc}")
-
-
-# -------------------- CLI --------------------
-
-
-def parse_args():
-    p = argparse.ArgumentParser(description="批量翻译 Sphinx .po 文件（基于 DeepSeek），以批次形式提高上下文质量。")
-    p.add_argument('--locale-dir', default='locales', help='Sphinx locale 目录')
-    p.add_argument('--lang', default='zh_CN', help='目标语言代码')
-    p.add_argument('--batch-size', type=int, default=50, help='每批的最大条目数')
-    p.add_argument('--max-chars', type=int, default=8000, help='每批的最大字符数（用于控制 token 大小）')
-    p.add_argument('--sleep', type=float, default=1.0, help='批次间休眠秒数（防速率限制）')
-    p.add_argument('--dry-run', action='store_true', help='只打印 prompt，不调用 API')
-    p.add_argument('--no-backup', dest='save_backup', action='store_false', help='不保存 .po 备份')
-    p.add_argument('--verbose', action='store_true', help='输出更多调试信息')
-    return p.parse_args()
+def main():
+    """Main function to execute batch translation"""
+    args = parse_arguments()
+    try:
+        batch_translate_locale_dir(
+            locale_dir=args.locale_dir,
+            target_lang=args.lang,
+            batch_size=args.batch_size,
+            max_chars=args.max_chars,
+            save_backup=args.save_backup
+        )
+    except Exception as e:
+        print(f"\n【Fatal Error】{str(e)}")
+        exit(1)
 
 
 if __name__ == '__main__':
-    args = parse_args()
-    kwargs = {
-        'batch_size': args.batch_size,
-        'max_chars': args.max_chars,
-        'sleep_secs': args.sleep,
-        'dry_run': args.dry_run,
-        'save_backup': args.save_backup,
-        'verbose': args.verbose,
-    }
-    translate_locale_dir_batches(args.locale_dir, lang=args.lang, **kwargs)
+    main()  # Execute main function when script is run directly
