@@ -7,4 +7,6 @@ sphinx-copybutton>=0.5.0  # For copy button in code blocks
 myst-parser>=0.18.0  # For Markdown support in Sphinx
 sphinx-tabs>=3.0.0  # For tabbed content in documentation
 sphinxcontrib-mermaid>=0.7.0  # For Mermaid diagrams in docs
-sphinx-design>=0.3.0  # For design elements in Sphinx   
+sphinx-design>=0.3.0  # For design elements in Sphinx
+sphinxcontrib-bibtex>=1.0.0  # For bibliography support
+sphinxcontrib-svg2pdfconverter>=1.1.0  # For SVG to PDF conversion
