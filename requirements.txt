@@ -10,3 +10,5 @@ sphinxcontrib-mermaid>=0.7.0  # For Mermaid diagrams in docs
 sphinx-design>=0.3.0  # For design elements in Sphinx
 sphinxcontrib-bibtex>=1.0.0  # For bibliography support
 sphinxcontrib-svg2pdfconverter>=1.1.0  # For SVG to PDF conversion
+m2r2
+openai
