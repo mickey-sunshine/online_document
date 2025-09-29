@@ -22,7 +22,7 @@ from typing import List, Dict, Tuple, Any
 # -------------------------- 1. Configuration & Initialization --------------------------
 def init_deepseek_client() -> OpenAI:
     """Initialize DeepSeek client (compatible with OpenAI interface) by reading API Key from environment variable"""
-    api_key = os.getenv("DEEPSEEK_API_KEY")
+    api_key = "sk-70406818a671408b80f43720b7978aab"
     if not api_key:
         raise EnvironmentError(
             "Please set the DEEPSEEK_API_KEY environment variable first\n"
