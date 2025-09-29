@@ -19,7 +19,7 @@ LOCALE_DIR="${SOURCE_DIR}/locale"
 # 自动翻译脚本路径（假设在 source 下，若不在需调整）
 TRANSLATOR_SCRIPT="${SOURCE_DIR}/translator.py"
 # 支持的语言列表
-LANGUAGES=("en" "zh_CN")
+LANGUAGES=("zh_CN" "en")
 
 # ========================== 2. 工具函数（辅助检查和清理）==========================
 # 检查命令是否存在（如 sphinx-build、python3）
@@ -103,7 +103,7 @@ for lang in "${LANGUAGES[@]}"; do
 
     # 步骤 3：自动翻译（调用 translator.py 填充 .po 文件，若无此脚本可注释）
     echo -e "\n3/4 🤖 自动翻译 ${lang_name} 内容"
-    python3 "$TRANSLATOR_SCRIPT" --locale-dir "$LOCALE_DIR" --lang "$lang"
+    python3 "$TRANSLATOR_SCRIPT" --locale-dir "$LOCALE_DIR" --target-langs "$lang" --batch-size 10
 
     if [ $? -ne 0 ]; then
         echo "❌ 错误：${lang_name} 自动翻译失败，请检查 translator.py！"

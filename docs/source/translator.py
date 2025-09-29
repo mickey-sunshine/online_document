@@ -1,425 +1,328 @@
-"""
-translator.py
-Batch translation tool for Sphinx PO files (powered by DeepSeek API)
-Supports dynamic target language switching (en/zh_CN), automatic batching, and preserves reStructuredText markup
-Usage:
-1. Install dependencies: pip install openai polib
-2. Set API Key: export DEEPSEEK_API_KEY=your_api_key (use "set DEEPSEEK_API_KEY=your_api_key" for Windows)
-3. Translate to Chinese: python translator.py --locale-dir source/locale --lang zh_CN --batch-size 10
-4. Translate to English: python translator.py --locale-dir source/locale --lang en --batch-size 10
-"""
-
 import os
 import polib
 import time
 import json
-import re
 import argparse
+import re
 from openai import OpenAI
 from typing import List, Dict, Tuple, Any
 
 
-# -------------------------- 1. Configuration & Initialization --------------------------
-def init_deepseek_client() -> OpenAI:
-    """Initialize DeepSeek client (compatible with OpenAI interface) by reading API Key from environment variable"""
+# -------------------- Initialize DeepSeek Client --------------------
+def init_client():
+    # Hardcoded API Key (as requested)
     api_key = "sk-70406818a671408b80f43720b7978aab"
     if not api_key:
-        raise EnvironmentError(
-            "Please set the DEEPSEEK_API_KEY environment variable first\n"
-            "Linux/Mac: export DEEPSEEK_API_KEY=your_api_key\n"
-            "Windows: set DEEPSEEK_API_KEY=your_api_key"
-        )
-    try:
-        client = OpenAI(
-            api_key=api_key,
-            base_url="https://api.deepseek.com"  # DeepSeek API base URL
-        )
-        return client
-    except Exception as e:
-        raise RuntimeError(f"Failed to initialize DeepSeek client: {str(e)}")
+        raise EnvironmentError("DeepSeek API Key is not set (check hardcoded value in init_client())")
+    client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+    return client
 
 
-# -------------------------- 2. Utility Functions (Batching, Logging) --------------------------
-def chunk_po_entries(
-    entries: List[polib.POEntry],
-    batch_size: int = 10,
-    max_chars: int = 8000
-) -> List[List[polib.POEntry]]:
-    """
-    Batch PO entries using dual criteria: entry count and total character count
-    Prevents single-batch token overflow (DeepSeek's default limit is 8192 tokens)
-    """
+# -------------------- Utility Functions --------------------
+def chunk_entries(entries: List[polib.POEntry], batch_size: int, max_chars: int) -> List[List[polib.POEntry]]:
+    """Chunk entries by both count and character limit. Returns a list of batches, each containing a group of entries."""
     batches = []
     current_batch = []
-    current_chars = 0  # Count total characters in current batch (msgid + msgid_plural)
+    current_char_count = 0
 
     for entry in entries:
-        # Estimate character count for current entry (including plural form if exists)
-        entry_chars = len(entry.msgid)
-        if entry.msgid_plural:
-            entry_chars += len(entry.msgid_plural)
-
-        # Split into new batch if either condition is met:
-        # 1. Current batch reaches maximum entry count
-        # 2. Adding current entry exceeds maximum character limit (force add if single entry is too long)
-        if (current_batch and (len(current_batch) >= batch_size or current_chars + entry_chars > max_chars)):
+        entry_char_est = len(entry.msgid) + (len(entry.msgid_plural) if entry.msgid_plural else 0)
+        
+        if current_batch and (len(current_batch) >= batch_size or current_char_count + entry_char_est > max_chars):
             batches.append(current_batch)
             current_batch = []
-            current_chars = 0
-
+            current_char_count = 0
+        
         current_batch.append(entry)
-        current_chars += entry_chars
+        current_char_count += entry_char_est
 
-    # Add the last incomplete batch
     if current_batch:
         batches.append(current_batch)
-
+    
     return batches
 
 
-def save_debug_response(po_file_path: str, batch_idx: int, response: str):
-    """Save raw model response to 'responses/' directory for debugging purposes"""
-    debug_dir = "responses"
+def save_response_debug(po_path: str, batch_index: int, target_lang: str, content: str):
+    """Save raw API responses for debugging, organized by target language."""
+    debug_dir = os.path.join("responses", target_lang)
     os.makedirs(debug_dir, exist_ok=True)
-    # Generate debug filename (includes PO filename and batch number)
-    po_filename = os.path.basename(po_file_path)
-    debug_file = os.path.join(debug_dir, f"{po_filename}.batch{batch_idx}.txt")
-    with open(debug_file, "w", encoding="utf-8") as f:
-        f.write(f"PO File Path: {po_file_path}\n")
-        f.write(f"Batch Number: {batch_idx}\n")
-        f.write(f"Generation Time: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
-        f.write("=" * 50 + "\n")
-        f.write(response)
-    print(f"  [Debug] Raw response saved to: {debug_file}")
+    
+    debug_filename = os.path.join(debug_dir, f"{os.path.basename(po_path)}.batch{batch_index}.resp.txt")
+    with open(debug_filename, "w", encoding="utf-8") as f:
+        f.write(content)
+    
+    print(f"  Saved raw response to {debug_filename}")
 
 
-# -------------------------- 3. Prompt Construction (Dynamic Language Adaptation) --------------------------
-def build_batch_prompt(
-    entries: List[polib.POEntry],
-    po_file_path: str,
-    target_lang: str,
-    start_idx: int = 1
-) -> str:
-    """
-    Dynamically generate prompt based on target language to ensure correct translation direction:
-    - target_lang=zh_CN: English → Chinese
-    - target_lang=en: Chinese → English (or retain original English if already in English)
-    """
-    # 1. Dynamically generate translation rules
-    if target_lang == "zh_CN":
-        translate_rule = "Translate the following English content to Chinese while maintaining technical document accuracy and professionalism"
-    elif target_lang == "en":
-        translate_rule = "Translate the following content to English (retain original English if already in English) and ensure consistent terminology"
+# -------------------- Prompt Construction (Multi-Language Support) --------------------
+def build_prompt_for_batch(entries: List[polib.POEntry], po_path: str, target_lang: str, start_index: int = 1) -> str:
+    """Build a prompt for a batch of entries, dynamically adjusting translation direction based on target language."""
+    if target_lang.startswith("zh"):
+        translation_instruction = "Translate the following English content into Simplified Chinese"
+    elif target_lang.startswith("en"):
+        translation_instruction = "Translate the following non-English content into English (keep original if already in English)"
     else:
-        raise ValueError(f"Unsupported target language: {target_lang}, only en/zh_CN are supported")
+        translation_instruction = f"Translate the following content into {target_lang}"
 
-    # 2. Prompt header (includes translation rules and format requirements)
-    prompt_parts = [
-        "You are a professional technical document translation assistant specializing in semiconductor and FPGA documentation localization.",
-        translate_rule + ", and strictly preserve the following content:",
-        "- reStructuredText markup (e.g., :ref:, :doc:, **bold text**, ``code snippets``, `links`)",
-        "- Variable names, function names, and paths (e.g., ${HOME}, func())",
-        "- Version numbers, numbers, and symbols (e.g., v1.0.0, 2024, %)",
-        "",
-        "【Output Requirements】",
-        "1. Return ONLY JSON format, no additional explanations or comments!",
-        "2. JSON Structure:",
-        "   - Key: Entry number (string format, e.g., \"1\", \"2\")",
-        "   - Value: Translation object (singular entries include \"translation\"; plural entries additionally include \"plural\" array)",
-        "3. Example (format reference only, replace with actual translations):",
-        '   { "1": { "translation": "User Manual" }, "2": { "translation": "File", "plural": ["File 1", "Files"] } }',
-        "",
-        "【Entries to Translate】",
-    ]
+    prompt_parts = []
+    header = (f"You are a professional technical document translator specializing in semiconductor and FPGA fields.\n"
+              f"{translation_instruction}, while preserving all reStructuredText markup (e.g., :ref:, :doc:, **bold**, ``code``, link tags).\n"
+              "DO NOT add any extra explanations—only return valid JSON (see format requirements below).\n\n"
+              "Response Requirements (Critical):\n"
+              "1) Output a single JSON object where keys are entry numbers (as strings, e.g., \"1\", \"2\") and values are translation objects.\n"
+              "2) For singular entries: Value = {\"translation\": \"Translated text\"}\n"
+              "3) For plural entries (with msgid_plural): Value must include a \"plural\" key (array of plural translations, e.g., [\"Form 1\", \"Form 2\"]).\n"
+              "4) Maintain consistent terminology. NEVER include content other than JSON (no comments, explanations, or line breaks).\n\n"
+              "Entry List:\n")
+    prompt_parts.append(header)
 
-    # 3. Populate entries to translate (includes file path and location info to help model understand context)
-    for idx, entry in enumerate(entries):
-        entry_num = start_idx + idx
-        # Extract entry location info (file name and line number)
-        occurrences = entry.occurrences or []
-        occ_str = ", ".join([f"{file}:{line}" for file, line in occurrences])
-        # Construct entry content
-        prompt_parts.append(f"--- Entry {entry_num} ---")
-        prompt_parts.append(f"PO File: {po_file_path}")
-        prompt_parts.append(f"Location: {occ_str or 'Unknown'}")
-        prompt_parts.append(f"Original Text (Singular): {entry.msgid}")
+    current_idx = start_index
+    for entry in entries:
+        occurrences = ", ".join([":".join(map(str, occ)) for occ in (entry.occurrences or [])]) or "Unknown location"
+        
+        prompt_parts.append(f"### Entry {current_idx} \n")
+        prompt_parts.append(f"PO File: {po_path} \n")
+        prompt_parts.append(f"Occurrences: {occurrences} \n")
+        if entry.msgctxt:
+            prompt_parts.append(f"Context: {entry.msgctxt} \n")
+        prompt_parts.append(f"Singular Text:\n{entry.msgid}\n")
+        
         if entry.msgid_plural:
-            prompt_parts.append(f"Original Text (Plural): {entry.msgid_plural}")
-        prompt_parts.append("")  # Empty line for separation
+            prompt_parts.append(f"Plural Text:\n{entry.msgid_plural}\n")
+        
+        prompt_parts.append("\n" + "-"*50 + "\n")
+        current_idx += 1
+
+    prompt_parts.append("JSON Format Example (Replace with actual translations—no comments):\n")
+    prompt_parts.append("{\n")
+    prompt_parts.append('  "1": {"translation": "Device initialization steps"},\n')
+    prompt_parts.append('  "2": {"translation": "Configuration file", "plural": ["1 configuration file", "Multiple configuration files"]}\n')
+    prompt_parts.append("}\n")
 
     return "\n".join(prompt_parts)
 
 
-# -------------------------- 4. DeepSeek API Call --------------------------
-def call_deepseek_api(
-    client: OpenAI,
-    prompt: str,
-    max_retries: int = 3,
-    temperature: float = 0.1
-) -> str:
-    """
-    Call DeepSeek API to translate batch entries with retry mechanism
-    temperature=0.1: Ensures translation stability (avoids excessive divergence)
-    """
-    for retry in range(1, max_retries + 1):
+# -------------------- DeepSeek API Call --------------------
+def call_deepseek(client: OpenAI, prompt: str, max_retries: int = 2, temperature: float = 0.0) -> str:
+    """Call DeepSeek API via OpenAI-compatible client. Retry on failures."""
+    for attempt in range(1, max_retries + 1):
         try:
             response = client.chat.completions.create(
-                model="deepseek-chat",  # DeepSeek general-purpose chat model
+                model="deepseek-chat",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=temperature,
-                max_tokens=8192,  # Matches DeepSeek free-tier token limit
-                timeout=30,
+                max_tokens=8192
             )
-            # Extract text content from model response
-            content = response.choices[0].message.content.strip()
-            if not content:
-                raise ValueError("Model returned empty content")
-            return content
+            return response.choices[0].message.content
+        
         except Exception as e:
-            error_msg = f"API call failed (Attempt {retry}/{max_retries}): {str(e)}"
-            print(f"  [Error] {error_msg}")
-            if retry < max_retries:
-                sleep_time = 2 ** retry  # Exponential backoff (2s, 4s, 8s...)
-                print(f"  [Wait] Retrying after {sleep_time} seconds...")
-                time.sleep(sleep_time)
+            print(f"  DeepSeek API call failed (Attempt {attempt}/{max_retries}): {str(e)[:100]}")
+            if attempt < max_retries:
+                time.sleep(1 + 2 * attempt)
             else:
-                raise RuntimeError(f"API call failed after multiple attempts: {error_msg}")
+                raise RuntimeError(f"API call failed after {max_retries} retries") from e
+    
+    raise RuntimeError("Failed to complete DeepSeek API call")
 
 
-# -------------------------- 5. Model Response Parsing --------------------------
-def parse_translation_response(response: str) -> Dict[str, Any]:
-    """
-    Parse JSON response from model and handle common format issues (e.g., extra code block markers)
-    """
+# -------------------- Parse API Response --------------------
+def parse_json_from_response(text: str) -> Any:
+    """Parse JSON from API response. Handle cases where extra text surrounds the JSON."""
     try:
-        # Handle potential code block markers (e.g., ```json ... ```) returned by model
-        json_match = re.search(r"```(?:json)?\s*(.*?)\s*```", response, re.DOTALL)
+        return json.loads(text)
+    
+    except json.JSONDecodeError:
+        json_match = re.search(r"(\{[\s\S]*?\}|(\[)[\s\S]*?\])", text)
         if json_match:
-            response = json_match.group(1)
-        # Parse JSON
-        return json.loads(response)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Failed to parse JSON: {str(e)}\nRaw response snippet: {response[:200]}...")
-    except Exception as e:
-        raise RuntimeError(f"Unexpected error during response parsing: {str(e)}")
+            try:
+                return json.loads(json_match.group(1))
+            except json.JSONDecodeError as e:
+                raise ValueError(f"Extracted JSON fragment failed to parse: {str(e)}") from e
+        else:
+            raise ValueError("No valid JSON found in API response (model may have added extra text)")
 
 
-# -------------------------- 6. Translate Single PO File --------------------------
-def translate_single_po_file(
-    po_file_path: str,
+# -------------------- Apply Translations to PO File --------------------
+def apply_translations_to_entries(entries: List[polib.POEntry], parsed: Dict[str, Any], start_index: int = 1) -> Tuple[int, int]:
+    """Apply parsed translations to PO entries. Return (success_count, failure_count)."""
+    success_count = 0
+    failure_count = 0
+
+    for idx, entry in enumerate(entries):
+        entry_key = str(start_index + idx)
+        
+        if entry_key not in parsed:
+            print(f"  Warning: No translation found for Entry {entry_key}")
+            failure_count += 1
+            continue
+
+        translation_data = parsed[entry_key]
+        if not isinstance(translation_data, dict) or "translation" not in translation_data:
+            print(f"  Warning: Invalid structure for Entry {entry_key} (missing 'translation' key): {translation_data}")
+            failure_count += 1
+            continue
+
+        entry.msgstr = translation_data["translation"].strip()
+        
+        if entry.msgid_plural:
+            if "plural" in translation_data and isinstance(translation_data["plural"], list):
+                entry.msgstr_plural = {str(plural_idx): trans.strip() for plural_idx, trans in enumerate(translation_data["plural"])}
+            else:
+                print(f"  Warning: Entry {entry_key} has plural text but no valid 'plural' array in response")
+                failure_count += 1
+                continue
+
+        success_count += 1
+
+    return success_count, failure_count
+
+
+# -------------------- Core PO File Processing --------------------
+def translate_po_file_batch(
+    po_path: str,
     client: OpenAI,
     target_lang: str,
     batch_size: int = 10,
     max_chars: int = 8000,
-    save_backup: bool = True
-) -> Tuple[int, int]:
-    """
-    Translate a single PO file and return (successful_translations_count, failed_translations_count)
-    Workflow: Load PO → Filter untranslated entries → Batch translation → Write back results → Save
-    """
-    print(f"\n【Processing PO File】: {po_file_path}")
-    # 1. Load PO file and create backup
-    try:
-        po = polib.pofile(po_file_path, encoding="utf-8")
-        # Create backup (prevents file corruption if translation fails)
-        if save_backup:
-            backup_path = f"{po_file_path}.bak"
-            po.save(backup_path)
-            print(f"  [Backup] Saved to: {backup_path}")
-    except Exception as e:
-        raise RuntimeError(f"Failed to load PO file: {str(e)}")
-
-    # 2. Filter untranslated entries (exclude obsolete and already translated entries)
-    untranslated = [
-        entry for entry in po
-        if not entry.obsolete and not entry.translated()
-    ]
-    if not untranslated:
-        print(f"  [Skipped] No untranslated entries found")
-        return (0, 0)
-    print(f"  [Stats] Total {len(untranslated)} untranslated entries")
-
-    # 3. Batch process entries
-    batches = chunk_po_entries(untranslated, batch_size, max_chars)
-    print(f"  [Batching] Split into {len(batches)} batches (Max {batch_size} entries/{max_chars} chars per batch)")
-
-    total_success = 0
-    total_fail = 0
-
-    for batch_idx, batch in enumerate(batches, 1):
-        print(f"\n  【Batch {batch_idx}/{len(batches)}】({len(batch)} entries)")
-        # 4. Construct prompt and call API
-        prompt = build_batch_prompt(batch, po_file_path, target_lang, start_idx=total_success + 1)
-        try:
-            # Call API (comment this line for dry-run mode to only print prompts)
-            response = call_deepseek_api(client, prompt)
-            save_debug_response(po_file_path, batch_idx, response)
-
-            # 5. Parse response and write back translations
-            parsed = parse_translation_response(response)
-            batch_success, batch_fail = 0, 0
-
-            for entry_idx, entry in enumerate(batch):
-                entry_num = str(total_success + entry_idx + 1)
-                # Check if current entry exists in parsed results
-                if entry_num not in parsed:
-                    print(f"    [Failed] Entry {entry_num}: No corresponding translation found in response")
-                    batch_fail += 1
-                    continue
-
-                trans_data = parsed[entry_num]
-                # Validate translation data format
-                if not isinstance(trans_data, dict) or "translation" not in trans_data:
-                    print(f"    [Failed] Entry {entry_num}: Invalid translation format ({trans_data})")
-                    batch_fail += 1
-                    continue
-
-                # Write back singular translation
-                entry.msgstr = trans_data["translation"].strip()
-                # Write back plural translation (if exists)
-                if entry.msgid_plural and "plural" in trans_data:
-                    plural_trans = trans_data["plural"]
-                    if isinstance(plural_trans, list) and len(plural_trans) > 0:
-                        # polib requires plural translations in { "0": "...", "1": "..." } format
-                        entry.msgstr_plural = {str(i): t.strip() for i, t in enumerate(plural_trans)}
-                    else:
-                        print(f"    [Warning] Entry {entry_num}: Invalid plural translation format, skipping plural section")
-
-                batch_success += 1
-                print(f"    [Success] Entry {entry_num}: {entry.msgid[:50]}... → {entry.msgstr[:50]}...")
-
-            # Update total stats for current batch
-            total_success += batch_success
-            total_fail += batch_fail
-            print(f"  【Batch Result】Success: {batch_success} entries, Failed: {batch_fail} entries")
-
-            # 6. Save PO file after each batch (prevents progress loss from mid-process failures)
-            po.save(po_file_path)
-            print(f"  [Save] Updated PO file: {po_file_path}")
-
-        except Exception as e:
-            print(f"  [Batch Error] Processing failed: {str(e)}")
-            total_fail += len(batch)
-            continue
-
-    # 7. Return total results
-    print(f"\n【File Result】{po_file_path}: Success: {total_success} entries, Failed: {total_fail} entries")
-    return (total_success, total_fail)
-
-
-# -------------------------- 7. Batch Translate All PO Files in Directory --------------------------
-def batch_translate_locale_dir(
-    locale_dir: str,
-    target_lang: str,
-    batch_size: int = 10,
-    max_chars: int = 8000,
-    save_backup: bool = True
+    sleep_secs: float = 1.0,
+    dry_run: bool = False,
+    save_backup: bool = True,
+    verbose: bool = True
 ):
-    """
-    Batch translate all PO files for a specific language in the locale directory
-    Required directory structure: locale_dir/[lang]/LC_MESSAGES/*.po (Sphinx standard structure)
-    """
-    # Check if target language directory exists
-    target_dir = os.path.join(locale_dir, target_lang, "LC_MESSAGES")
-    if not os.path.exists(target_dir):
-        raise FileNotFoundError(f"Target language directory not found: {target_dir}\nPlease verify --locale-dir and --lang parameters")
-
-    # Initialize client
-    client = init_deepseek_client()
-    print(f"【Starting Batch Translation】")
-    print(f"Target Language: {target_lang}")
-    print(f"PO File Directory: {target_dir}")
-    print(f"Batch Configuration: {batch_size} entries/batch, {max_chars} chars/batch")
-    print("=" * 60)
-
-    # Traverse all PO files
-    total_success = 0
-    total_fail = 0
-    po_files = [f for f in os.listdir(target_dir) if f.endswith(".po")]
-
-    if not po_files:
-        print(f"【No PO Files】No .po files found in {target_dir}")
+    """Process a single PO file: collect untranslated entries → batch → API call → parse → write back."""
+    print(f"\n[Target Language: {target_lang}] Processing PO file: {po_path}")
+    
+    try:
+        po_file = polib.pofile(po_path, encoding="utf-8")
+    except Exception as e:
+        print(f"  Error: Failed to load PO file: {str(e)}")
         return
 
-    for po_filename in po_files:
-        po_file_path = os.path.join(target_dir, po_filename)
-        try:
-            success, fail = translate_single_po_file(
-                po_file_path=po_file_path,
-                client=client,
-                target_lang=target_lang,
-                batch_size=batch_size,
-                max_chars=max_chars,
-                save_backup=save_backup
-            )
-            total_success += success
-            total_fail += fail
-        except Exception as e:
-            print(f"【File Skipped】{po_file_path}: Processing exception → {str(e)}")
-            total_fail += 1  # Count as failure
+    untranslated_entries = [entry for entry in po_file if (not entry.obsolete) and (not entry.translated())]
+    if not untranslated_entries:
+        print(f"  No untranslated entries found. Skipping.")
+        return
+
+    batches = chunk_entries(untranslated_entries, batch_size=batch_size, max_chars=max_chars)
+    print(f"  Total untranslated entries: {len(untranslated_entries)} → Split into {len(batches)} batches (max {batch_size} entries / {max_chars} chars per batch)")
+
+    if save_backup:
+        backup_path = f"{po_path}.{target_lang}.bak"
+        po_file.save(backup_path)
+        print(f"  Created backup file: {backup_path}")
+
+    for batch_num, batch_entries in enumerate(batches, start=1):
+        print(f"  Processing Batch {batch_num}/{len(batches)} ({len(batch_entries)} entries)...")
+        
+        prompt = build_prompt_for_batch(
+            entries=batch_entries,
+            po_path=po_path,
+            target_lang=target_lang,
+            start_index=(batch_num - 1) * batch_size + 1
+        )
+
+        if dry_run:
+            print(f"  [Dry-Run] Prompt Preview (first 1500 chars):\n{prompt[:1500]}...")
             continue
 
-    # Print final summary
-    print("\n" + "=" * 60)
-    print(f"【Batch Translation Summary】")
-    print(f"Total PO Files Processed: {len(po_files)}")
-    print(f"Total Successful Translations: {total_success}")
-    print(f"Total Failed Translations: {total_fail}")
-    print(f"Overall Success Rate: {total_success/(total_success+total_fail)*100:.1f}%" if (total_success+total_fail) > 0 else "N/A")
-    print("=" * 60)
+        try:
+            api_response = call_deepseek(client, prompt)
+        except Exception as e:
+            print(f"  Error: Batch {batch_num} API call failed: {str(e)}")
+            continue
+
+        try:
+            parsed_translations = parse_json_from_response(api_response)
+        except ValueError as e:
+            print(f"  Error: Batch {batch_num} JSON parsing failed: {str(e)}")
+            save_response_debug(po_path, batch_num, target_lang, api_response)
+            continue
+
+        if isinstance(parsed_translations, list):
+            parsed_translations = {str(i + 1): item for i, item in enumerate(parsed_translations)}
+
+        success, fail = apply_translations_to_entries(
+            entries=batch_entries,
+            parsed=parsed_translations,
+            start_index=(batch_num - 1) * batch_size + 1
+        )
+        print(f"    Applied translations: {success} successful, {fail} failed")
+
+        po_file.save(po_path)
+        print(f"    Saved updates to: {po_path}")
+
+        save_response_debug(po_path, batch_num, target_lang, api_response)
+        time.sleep(sleep_secs)
+
+    print(f"[Target Language: {target_lang}] Finished processing {po_path}")
 
 
-# -------------------------- 8. Command Line Interface & Main Function --------------------------
-def parse_arguments():
-    """Parse command line arguments"""
-    parser = argparse.ArgumentParser(description="Batch translate Sphinx PO files using DeepSeek API with dynamic language support")
-    parser.add_argument(
-        '--locale-dir', 
-        default='locale', 
-        help='Root directory of Sphinx locale files (contains language-specific subdirectories)'
-    )
-    parser.add_argument(
-        '--lang', 
-        default='en', 
-        choices=['en', 'zh_CN'],
-        help='Target language for translation (en/zh_CN)'
-    )
-    parser.add_argument(
-        '--batch-size', 
-        type=int, 
-        default=10, 
-        help='Maximum number of entries per translation batch (default: 10)'
-    )
-    parser.add_argument(
-        '--max-chars', 
-        type=int, 
-        default=8000, 
-        help='Maximum total characters per batch (prevents token overflow, default: 8000)'
-    )
-    parser.add_argument(
-        '--no-backup', 
-        dest='save_backup', 
-        action='store_false', 
-        help='Disable automatic backup of PO files (not recommended)'
-    )
+# -------------------- Batch Processing for Locale Directory --------------------
+def translate_locale_dir_batches(locale_dir: str, target_langs: List[str], **kwargs):
+    """Batch process all PO files in the locale directory for multiple target languages."""
+    if not os.path.exists(locale_dir):
+        raise FileNotFoundError(f"Locale directory not found: {locale_dir}")
+
+    client = init_client()
+
+    for lang in target_langs:
+        po_root_dir = os.path.join(locale_dir, lang, "LC_MESSAGES")
+        if not os.path.exists(po_root_dir):
+            print(f"Warning: PO directory for {lang} not found: {po_root_dir} → Skipping this language")
+            continue
+
+        for root, _, files in os.walk(po_root_dir):
+            for file in files:
+                if file.endswith(".po"):
+                    po_file_path = os.path.join(root, file)
+                    try:
+                        translate_po_file_batch(po_file_path, client, lang,** kwargs)
+                    except Exception as e:
+                        print(f"Error: Failed to process {po_file_path}: {str(e)}")
+                        continue
+
+
+# -------------------- Command Line Interface (CLI) & Main Function --------------------
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description="Batch translate Sphinx PO files via DeepSeek (supports multiple target languages).")
+    parser.add_argument('--locale-dir', default='locales', help="Sphinx locale directory path (default: 'locales')")
+    parser.add_argument('--target-langs', required=True, help="Comma-separated target languages (e.g., 'zh_CN,en')")
+    parser.add_argument('--batch-size', type=int, default=10, help="Max number of entries per batch (default: 10)")
+    parser.add_argument('--max-chars', type=int, default=8000, help="Max characters per batch (controls token size, default: 8000)")
+    parser.add_argument('--sleep', type=float, default=1.0, help="Seconds between batches to avoid rate limits (default: 1.0)")
+    parser.add_argument('--dry-run', action='store_true', help="Only print prompts without calling API")
+    parser.add_argument('--no-backup', dest='save_backup', action='store_false', help="Disable backup of PO files")
+    parser.add_argument('--verbose', action='store_true', help="Enable verbose output")
     return parser.parse_args()
 
 
 def main():
-    """Main function to execute batch translation"""
-    args = parse_arguments()
-    try:
-        batch_translate_locale_dir(
-            locale_dir=args.locale_dir,
-            target_lang=args.lang,
-            batch_size=args.batch_size,
-            max_chars=args.max_chars,
-            save_backup=args.save_backup
-        )
-    except Exception as e:
-        print(f"\n【Fatal Error】{str(e)}")
-        exit(1)
+    """Main execution function: parse args → start translation."""
+    args = parse_args()
+    # Convert comma-separated target languages to list
+    target_langs = [lang.strip() for lang in args.target_langs.split(',') if lang.strip()]
+    
+    if not target_langs:
+        raise ValueError("No valid target languages provided (check --target-langs)")
+
+    # Prepare keyword arguments for translation functions
+    translation_kwargs = {
+        'batch_size': args.batch_size,
+        'max_chars': args.max_chars,
+        'sleep_secs': args.sleep,
+        'dry_run': args.dry_run,
+        'save_backup': args.save_backup,
+        'verbose': args.verbose
+    }
+
+    # Start batch translation for all target languages
+    translate_locale_dir_batches(
+        locale_dir=args.locale_dir,
+        target_langs=target_langs,
+        **translation_kwargs
+    )
 
 
 if __name__ == '__main__':
-    main()  # Execute main function when script is run directly
+    main()
