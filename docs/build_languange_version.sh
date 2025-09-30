@@ -1,139 +1,139 @@
 #!/bin/bash
-# 功能：在 source/build 下生成 en/zh_CN 中英文文档
-# 输出路径：
-#   - 翻译模板：source/build/gettext
-#   - 英文文档：source/build/html/en
-#   - 中文文档：source/build/html/zh_CN
+# Function: Generate English/Chinese (en/zh_CN) documentation under docs/source/build
+# Output Paths:
+#   - Translation templates: source/build/gettext
+#   - English documentation: source/build/html/en
+#   - Chinese documentation: source/build/html/zh_CN
 
-# ========================== 1. 核心路径配置（对齐 source/build）==========================
-# 脚本与 source 目录同级，所以 SOURCE_DIR 是 ./source
+# ========================== 1. Core Path Configuration (Aligned with source/build) ===========================
+# Script is located in the "docs" directory, so SCRIPT_DIR is ./docs
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-SOURCE_DIR="source"  # 源文件目录（存放 conf.py、index.rst）
-# 文档输出根目录：source/build（与 conf.py 中的 BUILDDIR 一致）
-BUILDDIR="build"
-# 翻译模板目录：source/build/gettext（与 conf.py 中的 gettext_output_dir 一致）
-POT_DIR="$SCRIPT_DIR/$SOURCE_DIR/$BUILDDIR/gettext"
-# HTML 文档根目录：source/build/html（后续分 en/zh_CN）
-HTML_ROOT="$SCRIPT_DIR/$SOURCE_DIR/$BUILDDIR/html"
-# 翻译文件目录（source/locales，存放 .po 翻译文件）
-LOCALE_DIR="$SCRIPT_DIR/$SOURCE_DIR/locale"
-# 自动翻译脚本路径（假设在 source 下，若不在需调整）
-TRANSLATOR_SCRIPT="$SCRIPT_DIR/$SOURCE_DIR/translator.py"
-# 支持的语言列表
+SOURCE_DIR="$SCRIPT_DIR/source"  # Source file directory: docs/source (Critical Fix!)
+# Documentation output root directory: source/build (matches BUILDDIR in conf.py)
+BUILDDIR="$SOURCE_DIR/build"
+# Translation template directory: source/build/gettext
+POT_DIR="$BUILDDIR/gettext"
+# HTML documentation root directory: source/build/html (subdirectories en/zh_CN will be created later)
+HTML_ROOT="$BUILDDIR/html"
+# Translation file directory (source/locales, stores .po translation files)
+LOCALE_DIR="$SOURCE_DIR/locale"
+# Auto-translation script path (assumed to be under docs/source; adjust if located elsewhere)
+TRANSLATOR_SCRIPT="$SOURCE_DIR/translator.py"
+# List of supported languages
 LANGUAGES=("zh_CN" "en")
 
-# ========================== 2. 工具函数（辅助检查和清理）==========================
-# 检查命令是否存在（如 sphinx-build、python3）
+# ========================== 2. Utility Functions (Unchanged) ===========================
+# Check if a command exists (e.g., sphinx-build, python3)
 check_command() {
     if ! command -v "$1" &> /dev/null; then
-        echo "❌ 错误：未找到命令 '$1'，请先安装（如 pip3 install sphinx sphinx-intl）"
+        echo "❌ Error: Command '$1' not found. Please install it first (e.g., pip3 install sphinx sphinx-intl)"
         exit 1
     fi
 }
 
-# 检查路径是否存在（如 source 目录、translator.py）
+# Check if a path exists (e.g., source directory, translator.py)
 check_path() {
     if [ ! -e "$1" ]; then
-        echo "❌ 错误：路径 '$1' 不存在，请检查项目结构！"
+        echo "❌ Error: Path '$1' does not exist. Please check your project structure!"
         exit 1
     fi
 }
 
-# 清理旧文档（避免旧内容干扰）
+# Clean up old documentation (avoids interference from outdated content)
 clean_old_doc() {
     local lang=$1
     local doc_path="${HTML_ROOT}/${lang}"
     if [ -d "$doc_path" ]; then
-        echo "🗑️  清理旧 ${lang} 文档：${doc_path}"
+        echo "🗑️ Cleaning up old ${lang} documentation: ${doc_path}"
         rm -rf "$doc_path"
     fi
 }
 
-# ========================== 3. 前置检查（确保环境和路径正常）==========================
-echo "🔍 正在检查环境和依赖..."
-# 检查核心命令
+# ========================== 3. Pre-checks (Fixed Path Validation) ===========================
+echo "🔍 Checking environment and dependencies..."
+# Check core commands required for documentation generation
 check_command "sphinx-build"
 check_command "sphinx-intl"
 check_command "python3"
-# 检查核心路径（确保 source 目录和翻译脚本存在
-# 自动创建输出目录（source/build、source/build/gettext、source/build/html）
-mkdir -p "$POT_DIR" || { echo "❌ 错误：无法创建翻译模板目录 $POT_DIR"; exit 1; }
-mkdir -p "$HTML_ROOT" || { echo "❌ 错误：无法创建 HTML 根目录 $HTML_ROOT"; exit 1; }
-echo "✅ 环境和依赖检查通过！输出根目录：${BUILDDIR}"
+# Check core paths: Ensure docs/source and conf.py exist (Critical Fix!)
+check_path "$SOURCE_DIR"          # Check if docs/source directory exists
+check_path "$SOURCE_DIR/conf.py"  # Check if docs/source/conf.py exists
+check_path "$TRANSLATOR_SCRIPT"   # Check if the auto-translation script exists
 
-# ========================== 4. 提取翻译模板（生成 .pot 文件到 source/build/gettext）==========================
-echo -e "\n📝 正在提取翻译模板（输出到 ${POT_DIR}）..."
-# 执行 sphinx-build 生成 .pot 模板（-b gettext 表示提取翻译模板）
+# Automatically create output directories if they don't exist
+mkdir -p "$POT_DIR" || { echo "❌ Error: Failed to create translation template directory $POT_DIR"; exit 1; }
+mkdir -p "$HTML_ROOT" || { echo "❌ Error: Failed to create HTML root directory $HTML_ROOT"; exit 1; }
+echo "✅ Environment and dependency checks passed! Output root directory: ${BUILDDIR}"
+
+# ========================== 4. Extract Translation Templates (Fixed Source Directory Path) ===========================
+echo -e "\n📝 Extracting translation templates (output to ${POT_DIR})..."
+# Source directory is docs/source ($SOURCE_DIR), not "source" in the root directory
 sphinx-build -b gettext "$SOURCE_DIR" "$POT_DIR"
 
-# 检查模板提取是否成功
+# Check if template extraction succeeded
 if [ $? -ne 0 ]; then
-    echo "❌ 错误：提取翻译模板失败，请检查 source 下的 .rst/.md 语法（如标题下划线、链接格式）！"
+    echo "❌ Error: Failed to extract translation templates. Please check .rst syntax in docs/source (e.g., heading underlines, link formats)!"
     exit 1
 fi
-echo "✅ 翻译模板提取完成！模板文件路径：${POT_DIR}"
+echo "✅ Translation template extraction completed! Template file path: ${POT_DIR}"
 
-# ========================== 5. 循环生成中英文文档（输出到 source/build/html）==========================
-echo -e "\n🏗️  开始生成中英文文档（输出到 ${HTML_ROOT}）..."
+# ========================== 5. Generate English/Chinese Documentation in a Loop (Logic Retained, Paths Fixed) ===========================
+echo -e "\n🏗️ Starting to generate English/Chinese documentation (output to ${HTML_ROOT})..."
 for lang in "${LANGUAGES[@]}"; do
-    # 语言名称映射（提升日志可读性）
-    lang_name=$( [ "$lang" = "en" ] && echo "英文" || echo "中文" )
-    # 当前语言的文档路径（source/build/html/en 或 source/build/html/zh_CN）
+    # Map language codes to readable names (improves log readability)
+    lang_name=$( [ "$lang" = "en" ] && echo "English" || echo "Chinese" )
+    # Documentation path for the current language (source/build/html/en or source/build/html/zh_CN)
     current_doc_path="${HTML_ROOT}/${lang}"
 
     echo -e "\n====================================================================="
-    echo "🌐 正在生成【${lang_name}】文档（最终路径：${current_doc_path}）"
+    echo "🌐 Generating [${lang_name}] documentation (Final path: ${current_doc_path})"
     echo "====================================================================="
 
-    # 步骤 1：清理旧文档
-    echo -e "\n1/4 🗑️  清理旧文档"
+    echo -e "\n1/4 🗑️ Cleaning up old documentation"
     clean_old_doc "$lang"
 
-    # 步骤 2：更新当前语言的翻译文件（生成 .po 文件到 source/locales）
-    echo -e "\n2/4 🔄 更新 ${lang_name} 翻译文件"
+    echo -e "\n2/4 🔄 Updating ${lang_name} translation files"
     sphinx-intl update -p "$POT_DIR" -l "$lang" -d "$LOCALE_DIR"
-    # 解释：-p 指定模板目录，-l 指定语言，-d 指定翻译文件输出目录（source/locales）
+    # Explanation: -p specifies the template directory, -l specifies the language, -d specifies the translation output directory (source/locales)
 
     if [ $? -ne 0 ]; then
-        echo "❌ 错误：更新 ${lang_name} 翻译文件失败！"
+        echo "❌ Error: Failed to update ${lang_name} translation files!"
         exit 1
     fi
-    echo "✅ ${lang_name} 翻译文件更新完成（路径：${LOCALE_DIR}/${lang}/LC_MESSAGES/）"
+    echo "✅ ${lang_name} translation files updated successfully (Path: ${LOCALE_DIR}/${lang}/LC_MESSAGES/)"
 
-    # 步骤 3：自动翻译（调用 translator.py 填充 .po 文件，若无此脚本可注释）
-    echo -e "\n3/4 🤖 自动翻译 ${lang_name} 内容"
+    echo -e "\n3/4 🤖 Auto-translating ${lang_name} content"
     python3 "$TRANSLATOR_SCRIPT" --locale-dir "$LOCALE_DIR" --target-langs "$lang" --batch-size 10 --verbose
 
     if [ $? -ne 0 ]; then
-        echo "❌ 错误：${lang_name} 自动翻译失败，请检查 translator.py！"
+        echo "❌ Error: Failed to auto-translate ${lang_name} content. Please check translator.py!"
         exit 1
     fi
-    echo "✅ ${lang_name} 自动翻译完成！"
+    echo "✅ ${lang_name} auto-translation completed!"
 
-    # 步骤 4：构建当前语言的 HTML 文档（输出到 source/build/html/[lang]）
-    echo -e "\n4/4 🚀 构建 ${lang_name} HTML 文档"
-    # 执行 sphinx-build，-D language="$lang" 指定当前语言
+    echo -e "\n4/4 🚀 Building ${lang_name} HTML documentation"
+    # Execute sphinx-build, -D language="$lang" specifies the current language
     sphinx-build -b html -D language="$lang" "$SOURCE_DIR" "$current_doc_path"
 
-    # 检查文档构建是否成功
+    # Check if documentation build succeeded
     if [ $? -ne 0 ]; then
-        echo "❌ 错误：构建 ${lang_name} 文档失败，请检查 source 下的源文件语法！"
+        echo "❌ Error: Failed to build ${lang_name} documentation. Please check the syntax of source files in docs/source!"
         exit 1
     fi
 
-    # 步骤 5：提示当前语言文档完成
-    echo -e "\n✅ 【${lang_name}】文档生成完成！"
-    echo "   📁 文档入口：${current_doc_path}/index.html"
-    echo "   💡 操作：双击上述文件，用浏览器打开即可浏览！"
+    # Notify completion of documentation for the current language
+    echo -e "\n✅ [${lang_name}] documentation generation completed!"
+    echo "   📁 Documentation entry point: ${current_doc_path}/index.html"
+    echo "   💡 Action: Double-click the above file and open it with a browser to view!"
 done
 
-# ========================== 6. 全流程完成提示==========================
+# ========================== 6. Completion Notification ===========================
 echo -e "\n"
 echo "====================================================================="
-echo "🎉 中英文文档全部生成完成！"
+echo "🎉 All English/Chinese documentation has been generated successfully!"
 echo "====================================================================="
-echo "📌 输出根目录：${BUILDDIR}"
-echo "📌 英文文档：${HTML_ROOT}/en/index.html"
-echo "📌 中文文档：${HTML_ROOT}/zh_CN/index.html"
-echo "💡 提示：若需重新生成，直接再次执行本脚本即可（会自动清理旧文档）"
+echo "📌 Output root directory: ${BUILDDIR}"
+echo "📌 English documentation: ${HTML_ROOT}/en/index.html"
+echo "📌 Chinese documentation: ${HTML_ROOT}/zh_CN/index.html"
+echo "💡 Tip: To regenerate documentation, simply run this script again (old files will be cleaned up automatically)"
 echo "====================================================================="
