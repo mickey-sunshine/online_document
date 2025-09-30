@@ -41,18 +41,15 @@ clean_old_doc() {
 
 # ========================== 3. Pre-checks (Optimized I/O) ===========================
 echo "🔍 Checking environment and dependencies..."
-# Check required core commands
 check_command "sphinx-build"
 check_command "sphinx-intl"
 check_command "python3"
 
-# Batch check required paths (reduces I/O operations)
 REQUIRED_PATHS=("$SOURCE_DIR" "$SOURCE_DIR/conf.py" "$TRANSLATOR_SCRIPT")
 for path in "${REQUIRED_PATHS[@]}"; do
     check_path "$path"
 done
 
-# Merge directory creation (reduces I/O operations)
 mkdir -p "$POT_DIR" "$HTML_ROOT" || { echo "❌ Error: Failed to create output directories"; exit 1; }
 echo "✅ Environment checks passed! Output root directory: ${BUILDDIR}"
 
@@ -66,10 +63,9 @@ if [ $? -ne 0 ]; then
 fi
 echo "✅ Translation templates extracted successfully: ${POT_DIR}"
 
-# ========================== 5. Generate Translations (Optimized for Speed) ===========================
-echo -e "\n🏗️ Starting translation generation (output to ${HTML_ROOT})..."
+# ========================== 5. Generate Translations and HTML ===========================
+echo -e "\n🏗️ Starting translation and HTML generation (output to ${HTML_ROOT})..."
 for lang in "${LANGUAGES[@]}"; do
-    # Set language name for user-friendly logs
     lang_name=$( [ "$lang" = "en" ] && echo "English" || echo "Chinese" )
     current_doc_path="${HTML_ROOT}/${lang}"
 
@@ -89,7 +85,6 @@ for lang in "${LANGUAGES[@]}"; do
     echo "✅ ${lang_name} translation files updated: ${LOCALE_DIR}/${lang}/LC_MESSAGES/"
 
     echo -e "\n3/4 🤖 Auto-translating ${lang_name} content"
-    # RTD-specific optimizations: larger batches, no backups, minimal logging
     if [ "$READTHEDOCS" = "True" ]; then
         python3 "$TRANSLATOR_SCRIPT" \
             --locale-dir "$LOCALE_DIR" \
@@ -100,29 +95,40 @@ for lang in "${LANGUAGES[@]}"; do
             --no-verbose \
             --no-backup
     else
-        # Local mode: smaller batches, keep backups, detailed logging (no extra backslash)
         python3 "$TRANSLATOR_SCRIPT" \
             --locale-dir "$LOCALE_DIR" \
             --target-langs "$lang" \
-            --batch-size 50 \
+            --batch-size 30 \
             --max-chars 8000 \
             --sleep 1.0
     fi
 
-    # Check if translation succeeded
     if [ $? -ne 0 ]; then
         echo "❌ Error: Failed to auto-translate ${lang_name} content!"
         exit 1
     fi
     echo "✅ ${lang_name} auto-translation completed successfully!"
 
-    echo -e "\n4/4 🚀 Skipping HTML build (handled by Read the Docs platform)"
-done  # Critical: Close the for loop to fix "unexpected end of file" error
+    echo -e "\n4/4 🚀 Building ${lang_name} HTML documentation"
+    # Core modification: Restore HTML build command, with RTD environment check to avoid duplicate builds
+    if [ "$READTHEDOCS" != "True" ]; then
+        # Local environment: Run sphinx-build to generate HTML
+        sphinx-build -b html -D language="$lang" "$SOURCE_DIR" "$current_doc_path"
+        if [ $? -ne 0 ]; then
+            echo "❌ Error: Failed to build ${lang_name} HTML documentation!"
+            exit 1
+        fi
+        echo "✅ ${lang_name} HTML documentation built: ${current_doc_path}/index.html"
+    else
+        # RTD environment: Skip build (handled automatically by the platform)
+        echo "ℹ️ Skipping HTML build (will be handled by Read the Docs)"
+    fi
+done
 
 # ========================== 6. Completion Notification ===========================
 echo -e "\n"
 echo "====================================================================="
-echo "🎉 All translations generated successfully!"
+echo "🎉 All documentation generated successfully!"
 echo "====================================================================="
 echo "📌 Output root directory: ${BUILDDIR}"
 echo "📌 English documentation: ${HTML_ROOT}/en/index.html"
