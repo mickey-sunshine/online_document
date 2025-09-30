@@ -5,136 +5,125 @@
 #   - English documentation: source/build/html/en
 #   - Chinese documentation: source/build/html/zh_CN
 
-# ========================== 1. Core Path Configuration (Aligned with source/build) ===========================
-# Script is located in the "docs" directory, so SCRIPT_DIR is ./docs
+# ========================== 1. Core Path Configuration ===========================
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-SOURCE_DIR="$SCRIPT_DIR/source"  # Source file directory: docs/source (Critical Fix!)
-# Documentation output root directory: source/build (matches BUILDDIR in conf.py)
-BUILDDIR="$SOURCE_DIR/build"
-# Translation template directory: source/build/gettext
-POT_DIR="$BUILDDIR/gettext"
-# HTML documentation root directory: source/build/html (subdirectories en/zh_CN will be created later)
-HTML_ROOT="$BUILDDIR/html"
-# Translation file directory (source/locales, stores .po translation files)
-LOCALE_DIR="$SOURCE_DIR/locale"
-# Auto-translation script path (assumed to be under docs/source; adjust if located elsewhere)
-TRANSLATOR_SCRIPT="$SOURCE_DIR/translator.py"
-# List of supported languages
-LANGUAGES=("zh_CN" "en")
+SOURCE_DIR="$SCRIPT_DIR/source"  # Source directory: docs/source
+BUILDDIR="$SOURCE_DIR/build"     # Output root: docs/source/build
+POT_DIR="$BUILDDIR/gettext"      # Translation templates
+HTML_ROOT="$BUILDDIR/html"       # HTML output root
+LOCALE_DIR="$SOURCE_DIR/locale"  # Translation files (.po)
+TRANSLATOR_SCRIPT="$SOURCE_DIR/translator.py"  # Translation script path
+LANGUAGES=("zh_CN" "en")         # Supported languages
 
-# ========================== 2. Utility Functions (Unchanged) ===========================
-# Check if a command exists (e.g., sphinx-build, python3)
+# ========================== 2. Utility Functions ===========================
 check_command() {
     if ! command -v "$1" &> /dev/null; then
-        echo "❌ Error: Command '$1' not found. Please install it first (e.g., pip3 install sphinx sphinx-intl)"
+        echo "❌ Error: Command '$1' not found. Install via: pip3 install sphinx sphinx-intl"
         exit 1
     fi
 }
 
-# Check if a path exists (e.g., source directory, translator.py)
 check_path() {
     if [ ! -e "$1" ]; then
-        echo "❌ Error: Path '$1' does not exist. Please check your project structure!"
+        echo "❌ Error: Path '$1' does not exist. Check project structure!"
         exit 1
     fi
 }
 
-# Clean up old documentation (avoids interference from outdated content)
 clean_old_doc() {
     local lang=$1
     local doc_path="${HTML_ROOT}/${lang}"
     if [ -d "$doc_path" ]; then
-        echo "🗑️ Cleaning up old ${lang} documentation: ${doc_path}"
+        echo "🗑️ Cleaning old ${lang} documentation: ${doc_path}"
         rm -rf "$doc_path"
     fi
 }
 
-# ========================== 3. Pre-checks (Fixed Path Validation) ===========================
+# ========================== 3. Pre-checks (Optimized I/O) ===========================
 echo "🔍 Checking environment and dependencies..."
-# Check core commands required for documentation generation
+# Check core commands
 check_command "sphinx-build"
 check_command "sphinx-intl"
 check_command "python3"
-# Check core paths: Ensure docs/source and conf.py exist (Critical Fix!)
-check_path "$SOURCE_DIR"          # Check if docs/source directory exists
-check_path "$SOURCE_DIR/conf.py"  # Check if docs/source/conf.py exists
-check_path "$TRANSLATOR_SCRIPT"   # Check if the auto-translation script exists
 
-# Automatically create output directories if they don't exist
-mkdir -p "$POT_DIR" || { echo "❌ Error: Failed to create translation template directory $POT_DIR"; exit 1; }
-mkdir -p "$HTML_ROOT" || { echo "❌ Error: Failed to create HTML root directory $HTML_ROOT"; exit 1; }
-echo "✅ Environment and dependency checks passed! Output root directory: ${BUILDDIR}"
+# Batch check required paths (reduce I/O)
+REQUIRED_PATHS=("$SOURCE_DIR" "$SOURCE_DIR/conf.py" "$TRANSLATOR_SCRIPT")
+for path in "${REQUIRED_PATHS[@]}"; do
+    check_path "$path"
+done
 
-# ========================== 4. Extract Translation Templates (Fixed Source Directory Path) ===========================
+# Merge directory creation (reduce I/O)
+mkdir -p "$POT_DIR" "$HTML_ROOT" || { echo "❌ Error: Failed to create output directories"; exit 1; }
+echo "✅ Environment checks passed! Output root: ${BUILDDIR}"
+
+# ========================== 4. Extract Translation Templates ===========================
 echo -e "\n📝 Extracting translation templates (output to ${POT_DIR})..."
-# Source directory is docs/source ($SOURCE_DIR), not "source" in the root directory
 sphinx-build -b gettext "$SOURCE_DIR" "$POT_DIR"
 
-# Check if template extraction succeeded
 if [ $? -ne 0 ]; then
-    echo "❌ Error: Failed to extract translation templates. Please check .rst syntax in docs/source (e.g., heading underlines, link formats)!"
+    echo "❌ Error: Failed to extract translation templates. Check .rst syntax!"
     exit 1
 fi
-echo "✅ Translation template extraction completed! Template file path: ${POT_DIR}"
+echo "✅ Translation templates extracted: ${POT_DIR}"
 
-# ========================== 5. Generate English/Chinese Documentation in a Loop (Logic Retained, Paths Fixed) ===========================
-echo -e "\n🏗️ Starting to generate English/Chinese documentation (output to ${HTML_ROOT})..."
+# ========================== 5. Generate Translations (Optimized for Speed) ===========================
+echo -e "\n🏗️ Starting translation generation (output to ${HTML_ROOT})..."
 for lang in "${LANGUAGES[@]}"; do
-    # Map language codes to readable names (improves log readability)
     lang_name=$( [ "$lang" = "en" ] && echo "English" || echo "Chinese" )
-    # Documentation path for the current language (source/build/html/en or source/build/html/zh_CN)
     current_doc_path="${HTML_ROOT}/${lang}"
 
     echo -e "\n====================================================================="
-    echo "🌐 Generating [${lang_name}] documentation (Final path: ${current_doc_path})"
+    echo "🌐 Processing [${lang_name}] (Final path: ${current_doc_path})"
     echo "====================================================================="
 
-    echo -e "\n1/4 🗑️ Cleaning up old documentation"
+    echo -e "\n1/4 🗑️ Cleaning old documentation"
     clean_old_doc "$lang"
 
     echo -e "\n2/4 🔄 Updating ${lang_name} translation files"
     sphinx-intl update -p "$POT_DIR" -l "$lang" -d "$LOCALE_DIR"
-    # Explanation: -p specifies the template directory, -l specifies the language, -d specifies the translation output directory (source/locales)
-
     if [ $? -ne 0 ]; then
         echo "❌ Error: Failed to update ${lang_name} translation files!"
         exit 1
     fi
-    echo "✅ ${lang_name} translation files updated successfully (Path: ${LOCALE_DIR}/${lang}/LC_MESSAGES/)"
+    echo "✅ ${lang_name} translation files updated: ${LOCALE_DIR}/${lang}/LC_MESSAGES/"
 
     echo -e "\n3/4 🤖 Auto-translating ${lang_name} content"
-    python3 "$TRANSLATOR_SCRIPT" --locale-dir "$LOCALE_DIR" --target-langs "$lang" --batch-size 30
+    # RTD-specific optimizations: larger batches, no backups, minimal logs
+    if [ "$READTHEDOCS" = "True" ]; then
+        python3 "$TRANSLATOR_SCRIPT" \
+            --locale-dir "$LOCALE_DIR" \
+            --target-langs "$lang" \
+            --batch-size 50 \
+            --max-chars 12000 \
+            --sleep 0.3 \
+            --no-verbose \
+            --no-backup
+    else
+        # Local mode: smaller batches, backups, detailed logs
+        python3 "$TRANSLATOR_SCRIPT" \
+            --locale-dir "$LOCALE_DIR" \
+            --target-langs "$lang" \
+            --batch-size 30 \
+            --max-chars 8000 \
+            --sleep 1.0 \
+            --verbose
+    fi
 
     if [ $? -ne 0 ]; then
-        echo "❌ Error: Failed to auto-translate ${lang_name} content. Please check translator.py!"
+        echo "❌ Error: Failed to auto-translate ${lang_name} content!"
         exit 1
     fi
     echo "✅ ${lang_name} auto-translation completed!"
 
-    # echo -e "\n4/4 🚀 Building ${lang_name} HTML documentation"
-    # # Execute sphinx-build, -D language="$lang" specifies the current language
-    # sphinx-build -b html -D language="$lang" "$SOURCE_DIR" "$current_doc_path"
-
-    # # Check if documentation build succeeded
-    # if [ $? -ne 0 ]; then
-    #     echo "❌ Error: Failed to build ${lang_name} documentation. Please check the syntax of source files in docs/source!"
-    #     exit 1
-    # fi
-
-    # # Notify completion of documentation for the current language
-    # echo -e "\n✅ [${lang_name}] documentation generation completed!"
-    # echo "   📁 Documentation entry point: ${current_doc_path}/index.html"
-    # echo "   💡 Action: Double-click the above file and open it with a browser to view!"
+    echo -e "\n4/4 🚀 Skipping HTML build (handled by Read the Docs)"
 done
-
 
 # ========================== 6. Completion Notification ===========================
 echo -e "\n"
 echo "====================================================================="
-echo "🎉 All English/Chinese documentation has been generated successfully!"
+echo "🎉 All translations generated successfully!"
 echo "====================================================================="
-echo "📌 Output root directory: ${BUILDDIR}"
-echo "📌 English documentation: ${HTML_ROOT}/en/index.html"
-echo "📌 Chinese documentation: ${HTML_ROOT}/zh_CN/index.html"
-echo "💡 Tip: To regenerate documentation, simply run this script again (old files will be cleaned up automatically)"
-echo "====================================================================="
+echo "📌 Output root: ${BUILDDIR}"
+echo "📌 English docs: ${HTML_ROOT}/en/index.html"
+echo "📌 Chinese docs: ${HTML_ROOT}/zh_CN/index.html"
+echo "====================================================================="ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
