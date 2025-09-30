@@ -4,6 +4,10 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.11"
+  jobs:
+    - name: run shell script
+      script:
+        - ./build_languange_version.sh
 
 sphinx:
   configuration: docs/source/conf.py
