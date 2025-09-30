@@ -1,22 +1,47 @@
+# .readthedocs.yaml - Configuration for Read the Docs (RTD) Builds
+# Core requirement: Version must be an integer (no quotes) to pass RTD validation
 version: 2
 
+# Build environment configuration
 build:
+  # Specify the operating system for the build (Ubuntu 22.04 is a stable, supported choice)
   os: ubuntu-22.04
+  # Define tools (e.g., Python) to be available in the build environment
   tools:
+    # Python version: Must be a string (with quotes) per RTD's validation rules
+    # Uses RTD's pre-installed Python 3.11 environment (avoids manual installation)
     python: "3.11"
+  # Job configuration: RTD only accepts PREDEFINED stage names (custom names like "run shell script" are invalid)
   jobs:
-    run shell script:
+    # "pre_build" stage: Executes scripts BEFORE Sphinx starts building the documentation
+    # Ideal for tasks like preparing translation files, setting up dependencies, or preprocessing sources
+    pre_build:
+      # List of shell commands to run in the pre_build stage
       script:
+        # Grant executable permission to the custom shell script (critical for avoiding "Permission denied" errors)
+        # RTD resets file permissions for repo files; explicit chmod is required even if set locally
+        - chmod +x ./build_languange_version.sh
+        # Execute the custom shell script (path is relative to the root of your GitHub repo)
         - ./build_languange_version.sh
 
+
+# Sphinx documentation builder configuration (for Python-based docs)
 sphinx:
+  # Path to your Sphinx configuration file (conf.py)
+  # Path is relative to the root of your GitHub repo; confirm this matches your project structure
   configuration: docs/source/conf.py
+  # Disable build failure on Sphinx warnings (set to "true" for stricter checks in production)
+  # Useful for avoiding false positives from non-critical warnings during development
   fail_on_warning: false
 
+# Define output formats for the documentation (RTD will generate these alongside HTML)
 formats:
-  - pdf
-  - epub
+  - pdf  # Generate a PDF version of the docs
+  - epub # Generate an EPUB version (for e-readers)
 
+# Python dependency installation (for packages required to build the docs)
 python:
   install:
+    # Install dependencies from a requirements.txt file (common for Sphinx extensions like sphinx-rtd-theme)
+    # Path is relative to the root of your GitHub repo; ensure this file exists and lists all needed packages
     - requirements: requirements.txt
