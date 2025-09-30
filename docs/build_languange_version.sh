@@ -127,6 +127,7 @@ for lang in "${LANGUAGES[@]}"; do
     echo "   💡 Action: Double-click the above file and open it with a browser to view!"
 done
 
+
 # ========================== 6. Completion Notification ===========================
 echo -e "\n"
 echo "====================================================================="
