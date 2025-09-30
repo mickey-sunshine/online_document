@@ -7,7 +7,7 @@
 
 # ========================== 1. 核心路径配置（对齐 source/build）==========================
 # 脚本与 source 目录同级，所以 SOURCE_DIR 是 ./source
-SOURCE_DIR="./source"  # 源文件目录（存放 conf.py、index.rst）
+SOURCE_DIR="source"  # 源文件目录（存放 conf.py、index.rst）
 # 文档输出根目录：source/build（与 conf.py 中的 BUILDDIR 一致）
 BUILDDIR="build"
 # 翻译模板目录：source/build/gettext（与 conf.py 中的 gettext_output_dir 一致）
