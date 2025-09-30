@@ -1,0 +1,207 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/file_formats/pdk_file.rst:4
+msgid "PDK File (.xml)"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:6
+msgid "The PDK file aims to provide a standard way for users to define the required PDK files for eFPGA development It is an interchangeable file between *Graphical User Interface* (GUI) and EDA engines. Users can use GUI to generate a PDK file or write their own PDK file. PDK files are loaded when creating or load a tapeout project (See details in :ref:`file_format_project_file`)"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:11
+msgid "An example of file is shown as follows."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:17
+msgid "Reserved Words"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:19
+msgid "The reserved words can be used in defining file paths"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:23
+msgid "The current working directory when running ArkAngel. This keyword will be replaced during runtime"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:27
+msgid "The root path which starting ArkAngel"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:30
+msgid "Time Stamps"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:34
+msgid "The author who creates the project file. Used by GUI."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:38
+msgid "The date when the project file is created for the first time. If this is a new project to create, the stamp will be overwritten by the actual creation date."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:42
+msgid "The date when the project file is modified for the last time."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:46
+msgid "The tool version when the project file should be used. This is to avoid mis-use of project files across different versions of ArkAngel."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:50
+msgid "General"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:52
+msgid "For each pdk, these are the general syntax"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:56
+msgid "A unique name of the PDK"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:60
+msgid "Specify the root path of the PDK files"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:64
+msgid "Specify the shrink factor, which is the scaling factor applied on eFPGA layout against the area number provided by the standard cells. The number can be found in the datasheet provided by the PDK vendor. If not provided, assume the post shrink factor is 1, indicating no scaling will be applied."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:66
+msgid "The shrink factor is applied to both height and width. For example, if a shrink factor of 0.9 is considered, the post-shrink layout will be 81% of the original one."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:71
+msgid "Standard Cells"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:73
+msgid "Standard cell library files can be defined under the node ``sclibs``. Each type of standard cell library has a dedicated node ``sclib``."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:78
+msgid "The unique name of the standard cell library. Used in the netlist synthesis, QoR extraction, *etc*."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:82
+msgid "The height of the standard cells in the library. The number can be found in the datasheet provided by the standard cell vendor. For example, a 7t standard cell is different in height than a 9t standard cell. Default unit is micrometer (:math:`{\\mu}m`)."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:86
+msgid "The *Contact Poly Pitch* (CPP) of the standard cells in the library. The number can be found in the datasheet provided by the standard cell vendor. Note that standard cells in different channel length may differ in CPP. Default unit is micrometer (:math:`{\\mu}m`)."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:90
+#: ../../source/manual/file_formats/pdk_file.rst:128
+msgid "Define the path to specific type of file"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:94
+#: ../../source/manual/file_formats/pdk_file.rst:132
+msgid "Can be one of the following:"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:96
+msgid "``lib``: Liberty file for timing models"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:97
+msgid "``gds``: Layout file in GDS format"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:98
+msgid "``cdl``: SPICE file in CDL format"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:99
+msgid "``lef``: Cell information"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:100
+msgid "``verilog``: Verilog netlists"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:104
+msgid "The process corner of the standard cell. Applicable to liberty files"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:108
+msgid "Nominal VDD of the standard cells. Applicable to liberty files"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:112
+msgid "Operating temperature of the standar cell. Applicable to liberty files"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:116
+msgid "Type of timing model used in the liberty file. Can be one of the following:"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:118
+msgid "``nldm``: The Non-Linear Delay Model"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:119
+msgid "``ccs``: Composite Current Source"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:122
+msgid "Tech files"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:124
+msgid "Technology files can be defined under the node ``techfile``."
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:134
+msgid "``tluplus``: TLU+ file"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:135
+msgid "``nxtgrd``: NXTGRD database for process RC characterization"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:136
+msgid "``empty_spice_subckt``: The empty spice models for GDS merge"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:137
+msgid "``innovus_lef``: The LEF file for innovus usage"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:138
+msgid "``redhawk_tech_file``: The tech file required for EM analysis"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:139
+msgid "``layer_map``: Metal layer map file required by physical design"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:140
+msgid "``gds_layer_map``: Metal layer map file required by physical design"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:144
+msgid "The metal stack associated to the tech file"
+msgstr ""
+
+#: ../../source/manual/file_formats/pdk_file.rst:148
+msgid "RC corner associated to the tech file"
+msgstr ""

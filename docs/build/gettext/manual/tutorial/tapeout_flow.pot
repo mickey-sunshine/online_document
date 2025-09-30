@@ -1,0 +1,212 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:4
+msgid "Tapeout Flow"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:6
+msgid "As shown in :numref:`fig_aaee_hardip_flow`,  ArkAngel provides a complete design flow to develop an eFPGA IP, starting from architecture exploration to layout generation. In addition to the final layout, the design flow covers all the aspects releated to the eFPGA IP, e.g., benchmarking, design verification, QoR back-annotation. To formalize the process, the tapeout flow consists of a number of steps:"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:10
+msgid "Pre-architecture Analysis"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:11
+msgid "Architecture Development"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:12
+#: ../../source/manual/tutorial/tapeout_flow.rst:83
+msgid "Netlist Development"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:13
+#: ../../source/manual/tutorial/tapeout_flow.rst:99
+msgid "Design Verification"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:14
+#: ../../source/manual/tutorial/tapeout_flow.rst:94
+msgid "Physical Design"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:16
+msgid "Each steps may contain a number of substeps, through which user can update intermediate results to achieve their design targets. This tutorial focuses on the principles of the steps and their relationship in the tapeout flow, while details in each step are covered in other tutorials."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:21
+msgid "Hard Ip flow"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:25
+msgid "Tapeout flow"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:28
+msgid "Pre-Arch Analysis"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:30
+msgid "The pre-architecture analysis aims to assist users to select a proper eFPGA architecture to start with, through formalized method and benchmarking data. The pre-arch analysis only requires users applications in HDL format."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:33
+msgid "Through pre-arch analysis, users can identify"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:35
+msgid "the best LUT sizes for their eFPGA architecture in terms of resource utilization"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:36
+msgid "the resource requirements on LUTs, FFs, DSPs *etc.* based on their applications"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:38
+msgid "The analyses help users to narrow down their selection on eFPGA architectures and then pick an eFPGA family to start with."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:41
+msgid "Arch Development"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:43
+msgid "When a specific eFPGA architecture is selected, users can finalize the architecture-level details by going through the architecture development step. During the process, users can learn and customize (or use the default settings provided)"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:46
+msgid "The number of unique tiles in the eFPGA, and their names"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:47
+msgid "The organization of configuration protocol, such as number of clocks, configuration time *etc.*"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:48
+msgid "The pin table of the eFPGA, including names, directionality and location of I/Os"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:50
+msgid "By the end of the step, a data pack of the eFPGA architecture will be produced, based on which the downstream steps can proceed."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:52
+msgid "Once this step is accomplished, the following details of architecture will be freezed:"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:54
+msgid "Resource capacity"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:55
+msgid "Array size"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:56
+msgid "I/O count, types and location"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:57
+msgid "Tile names"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:58
+msgid "Configuration protocol organization"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:61
+msgid "Arch Evaluation"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:63
+msgid "Once the architecture development is accomplished, user can run evaluation to estimate the QoR of their applications. During the process, QoR reports will be generated to provide"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:66
+msgid "Resource utilization"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:67
+msgid "Fmax at different corners"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:69
+msgid "Throughout the process, users can identify"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:71
+msgid "if eFPGA architecture can accomodate all the required applications"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:72
+msgid "if eFPGA performance is sufficient"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:74
+msgid "Note that architecture evaluation can be run after other steps to provide different levels of accurary."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:76
+msgid "After architecture development, this is a rough estimation on resource ultilization and Fmax. If resource limitation is seen, it is hard stop. Otherwise, the Fmax can be significantly improved (more than 2 times in some cases) during the netlist development and physical design. Recommend to re-run after the steps are accomplished."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:77
+msgid "After netlist development, this is a close-form estimation on resource utilization, Fmax and power estimation."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:78
+msgid "After physical design, this is an accurate analysis on resource utilization, Fmax and power estimation."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:80
+msgid "Note that this step is required before running any design verification."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:85
+msgid "After architecture development, users can develop and analyze the fabric netlists of the eFPGA, before starting physical design. During the process, users can"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:88
+msgid "generate fabric netlists of the eFPGA"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:89
+msgid "optimize the netlists through synthesis with customized (or default) strategies"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:90
+msgid "analyze the silicon area, segemental timing paths and power consumption of the eFPGA at a whole or breakdown"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:91
+msgid "back-annotate QoR to architecture, after which architecture evaluation can be more accurate"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:96
+msgid "Underconstruction"
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:101
+msgid "After netlist development and architecture evaluation, users can run design verification on rtl-level and gate-level netlists. After physical design, users can run design verification on post-layout netlists."
+msgstr ""
+
+#: ../../source/manual/tutorial/tapeout_flow.rst:104
+msgid "This step is to ensure that before tapeout if all the required applications can be functional and meet performance requirements."
+msgstr ""

@@ -1,0 +1,228 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>流片流程 &mdash; ArkAngel 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_static/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=867f8617" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34088549"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="项目创建" href="project_creation.html" />
+    <link rel="prev" title="教程" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ArkAngel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">用户手册</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compile/index.html">安装</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">教程</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">流片流程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pre-arch-analysis">架构前分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arch-development">架构开发</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arch-evaluation">架构评估</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#netlist-development">网表开发</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physical-design">物理设计</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#design-verification">设计验证</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project_creation.html">项目创建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pdk_import.html">导入PDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_import.html">基准导入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch_template_creation.html">创建架构模板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch_flow.html">架构开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netlist_flow.html">网表开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dv_flow.html">设计验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pd_flow.html">物理设计</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customize_io.html">定制输入输出</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">ArkAngel 命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../project_tree/index.html">项目组织结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">文件格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hdl_guide.html">HDL编码指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix/contact.html">联系方式</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ArkAngel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">&lt;no title&gt;</a></li>
+          <li class="breadcrumb-item"><a href="index.html">教程</a></li>
+      <li class="breadcrumb-item active">流片流程</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/manual/tutorial/tapeout_flow.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tapeout-flow">
+<span id="tutorial-tapeout-flow"></span><h1>流片流程<a class="headerlink" href="#tapeout-flow" title="Link to this heading"></a></h1>
+<p>如 <a class="reference internal" href="#fig-aaee-hardip-flow"><span class="std std-numref">图 1</span></a> 所示，ArkAngel 提供了一套完整的 eFPGA IP 开发流程，涵盖从架构探索到布局生成的全过程。除最终布局外，该流程还涉及 eFPGA IP 相关的所有方面，例如基准测试、设计验证、QoR 反标注。为规范流程，流片过程包含以下步骤：</p>
+<ul class="simple">
+<li><p>架构前分析</p></li>
+<li><p>架构开发</p></li>
+<li><p>网表开发</p></li>
+<li><p>设计验证</p></li>
+<li><p>物理设计</p></li>
+</ul>
+<p>每个步骤可能包含若干子步骤，用户可通过更新中间结果来实现设计目标。本教程重点阐述各步骤的原理及其在流片流程中的关联关系，具体操作细节将在其他教程中展开说明。</p>
+<figure class="align-default" id="id1">
+<span id="fig-aaee-hardip-flow"></span><a class="reference internal image-reference" href="../../_images/aaee_hardip_flow.png"><img alt="硬核 IP 流程" src="../../_images/aaee_hardip_flow.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">图 1 </span><span class="caption-text">流片流程</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="pre-arch-analysis">
+<h2>架构前分析<a class="headerlink" href="#pre-arch-analysis" title="Link to this heading"></a></h2>
+<p>架构前分析旨在通过规范化方法和基准测试数据，帮助用户选择合适的eFPGA架构作为起点。该分析仅需要用户提供HDL格式的应用程序。</p>
+<p>通过架构前分析，用户可以确定</p>
+<ul class="simple">
+<li><p>在资源利用率方面最适合其eFPGA架构的最佳LUT尺寸</p></li>
+<li><p>基于其应用程序对LUT、FF、DSP*等*资源的数量需求</p></li>
+</ul>
+<p>这些分析有助于用户缩小eFPGA架构的选择范围，进而选定一个eFPGA系列作为起点。</p>
+</section>
+<section id="arch-development">
+<h2>架构开发<a class="headerlink" href="#arch-development" title="Link to this heading"></a></h2>
+<p>选定具体eFPGA架构后，用户可通过架构开发步骤最终确定架构级细节。在此过程中，用户可以学习并自定义（或使用提供的默认设置）</p>
+<ul class="simple">
+<li><p>eFPGA中独特单元块的数量及其命名</p></li>
+<li><p>配置协议的组织结构，例如时钟数量、配置时间*等*</p></li>
+<li><p>eFPGA的引脚表，包括I/O的名称、方向性和位置</p></li>
+</ul>
+<p>此步骤完成后，将生成eFPGA架构的数据包，后续步骤可基于此数据包继续推进</p>
+<p>此步骤完成后，以下架构细节将被冻结：</p>
+<ul class="simple">
+<li><p>资源容量</p></li>
+<li><p>阵列尺寸</p></li>
+<li><p>I/O数量、类型与位置</p></li>
+<li><p>单元名称</p></li>
+<li><p>配置协议组织结构</p></li>
+</ul>
+</section>
+<section id="arch-evaluation">
+<h2>架构评估<a class="headerlink" href="#arch-evaluation" title="Link to this heading"></a></h2>
+<p>架构开发完成后，用户可运行评估以预估其应用的QoR。在此过程中，将生成QoR报告以提供</p>
+<ul class="simple">
+<li><p>资源利用率</p></li>
+<li><p>不同工艺角下的Fmax</p></li>
+</ul>
+<p>在整个过程中，用户可以识别</p>
+<ul class="simple">
+<li><p>eFPGA架构是否能容纳所有所需应用</p></li>
+<li><p>eFPGA性能是否足够</p></li>
+</ul>
+<p>请注意，架构评估可在其他步骤完成后运行，以提供不同级别的精度。</p>
+<ul class="simple">
+<li><p>架构开发完成后，可对资源利用率和Fmax进行粗略估算。若发现资源限制，则需立即停止。否则，在网表开发和物理设计阶段Fmax可显著提升（某些情况下可提升2倍以上）。建议在完成后续步骤后重新运行评估。</p></li>
+<li><p>网表开发完成后，可对资源利用率、Fmax和功耗进行闭合形式估算。</p></li>
+<li><p>物理设计完成后，可对资源利用率、Fmax和功耗进行精确分析。</p></li>
+</ul>
+<p>请注意，在执行任何设计验证之前必须完成此步骤。</p>
+</section>
+<section id="netlist-development">
+<h2>网表开发<a class="headerlink" href="#netlist-development" title="Link to this heading"></a></h2>
+<p>架构开发完成后，用户可在开始物理设计前开发并分析eFPGA的织物网表。在此过程中，用户可以</p>
+<ul class="simple">
+<li><p>生成eFPGA的织物网表</p></li>
+<li><p>通过定制化（或默认）综合策略优化网表</p></li>
+<li><p>整体或分项分析eFPGA的硅片面积、分段时序路径和功耗</p></li>
+<li><p>将QoR反标至架构，从而使架构评估更加精确</p></li>
+</ul>
+</section>
+<section id="physical-design">
+<h2>物理设计<a class="headerlink" href="#physical-design" title="Link to this heading"></a></h2>
+<p>建设中</p>
+</section>
+<section id="design-verification">
+<h2>设计验证<a class="headerlink" href="#design-verification" title="Link to this heading"></a></h2>
+<p>完成网表开发和架构评估后，用户可对RTL级和门级网表进行设计验证。物理设计完成后，可对布局后网表进行设计验证。</p>
+<p>此步骤旨在确保流片前所有所需应用均能正常工作并满足性能要求。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="教程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="project_creation.html" class="btn btn-neutral float-right" title="项目创建" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, RapidFlex。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

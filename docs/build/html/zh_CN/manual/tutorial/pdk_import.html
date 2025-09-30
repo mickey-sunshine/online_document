@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>导入PDK &mdash; ArkAngel 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_static/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=867f8617" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34088549"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="基准导入" href="benchmark_import.html" />
+    <link rel="prev" title="项目创建" href="project_creation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ArkAngel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">用户手册</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compile/index.html">安装</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tapeout_flow.html">流片流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_creation.html">项目创建</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">导入PDK</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-info">基础信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#std-cells">标准单元</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tech-files">工艺文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_import.html">基准导入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch_template_creation.html">创建架构模板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch_flow.html">架构开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="netlist_flow.html">网表开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dv_flow.html">设计验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pd_flow.html">物理设计</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customize_io.html">定制输入输出</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">ArkAngel 命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../project_tree/index.html">项目组织结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">文件格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hdl_guide.html">HDL编码指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix/contact.html">联系方式</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ArkAngel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">&lt;no title&gt;</a></li>
+          <li class="breadcrumb-item"><a href="index.html">教程</a></li>
+      <li class="breadcrumb-item active">导入PDK</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/manual/tutorial/pdk_import.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="import-a-pdk">
+<span id="tutorial-pdk-import"></span><h1>导入PDK<a class="headerlink" href="#import-a-pdk" title="Link to this heading"></a></h1>
+<p>ArkAngel在构建eFPGA IP时需要大量PDK文件。因此，所需的PDK文件需通过PDK配置文件进行注册（详见 <a class="reference internal" href="../file_formats/pdk_file.html#file-format-pdk-file"><span class="std std-ref">PDK文件 (.xml)</span></a>）。尽管ArkAngel已提供PDK配置文件示例，但每位用户的PDK安装方式可能不同。本教程将帮助无法使用现有示例的用户通过详细步骤创建自己的PDK配置文件。本教程以40nm PDK为例进行说明</p>
+<section id="basic-info">
+<h2>基础信息<a class="headerlink" href="#basic-info" title="Link to this heading"></a></h2>
+<p>在项目目录中选择合适位置创建新XML文件，例如 <code class="docutils literal notranslate"><span class="pre">my_pdk/pdk_config.xml</span></code>。该文件将作为流片项目中使用的PDK配置文件</p>
+<ul class="simple">
+<li><p>为PDK指定有意义的名称，例如 <code class="docutils literal notranslate"><span class="pre">name=&quot;s40ulp&quot;</span></code>，表示中芯国际40纳米超低功耗工艺</p></li>
+<li><p>填写作者信息和时间戳。这些内容仅用于记录，不设规则和完整性检查</p></li>
+<li><p>指定PDK安装的根目录。该根目录将在后续步骤中用于搜索所有PDK文件。建议使用绝对路径</p></li>
+</ul>
+<p>完成此步骤后，您的XML文件应类似如下所示</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pdk</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;s40ulp&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;stamp&gt;</span>
+<span class="w">    </span><span class="nt">&lt;author&gt;</span>RapidFlex<span class="nt">&lt;/author&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dates&gt;</span>
+<span class="w">      </span><span class="nt">&lt;created&gt;</span>Sat<span class="w"> </span>Dec<span class="w"> </span>31<span class="w"> </span>03:14:41<span class="w"> </span>PM<span class="w"> </span>PST<span class="w"> </span>2024<span class="nt">&lt;/created&gt;</span>
+<span class="w">      </span><span class="nt">&lt;last_modified&gt;</span>Sat<span class="w"> </span>Dec<span class="w"> </span>31<span class="w"> </span>03:14:41<span class="w"> </span>PM<span class="w"> </span>PST<span class="w"> </span>2024<span class="nt">&lt;/last_modified&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dates&gt;</span>
+<span class="w">    </span><span class="nt">&lt;tool_version&gt;</span>0.0.15-dev+023fa82<span class="nt">&lt;/tool_version&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/stamp&gt;</span>
+<span class="w">  </span><span class="nt">&lt;root&gt;</span>/eda/pdk/s40/s40ulp<span class="nt">&lt;/root&gt;</span>
+<span class="nt">&lt;/pdk&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="std-cells">
+<h2>标准单元<a class="headerlink" href="#std-cells" title="Link to this heading"></a></h2>
+<p>标准单元主要用于网表优化阶段。建议注册所有可能用于eFPGA布局的标准单元，以拓展优化设计空间。您可以在应用网表优化时通过ArkAngel选择首选标准单元</p>
+<p>每个标准单元库应赋予唯一名称，该名称将用于网表综合策略（详见 <a class="reference internal" href="../file_formats/synth_strategy_file.html#file-format-synth-strategy-file"><span class="std std-ref">综合策略文件 (.xml)</span></a>）。建议使用技术特征命名，例如 <code class="docutils literal notranslate"><span class="pre">uhdc40_rvt_v0.2</span></code>，其中 <code class="docutils literal notranslate"><span class="pre">uhdc40</span></code> 表示*超高压密度40纳米*，<code class="docutils literal notranslate"><span class="pre">rvt</span></code> 代表*常规电压阈值*，<code class="docutils literal notranslate"><span class="pre">v0.2</span></code> 为版本号。</p>
+<p>每个标准单元库需注册以下类型的文件</p>
+<ul class="simple">
+<li><p>Liberty时序文件。针对每个*工艺-电压-温度*（PVT）工作点，需提供Liberty时序文件路径。主要用于网表优化和物理设计流程。</p></li>
+<li><p>GDS文件，包含标准单元对应的GDS版图。主要用于物理设计流程</p></li>
+<li><p>CDL文件，包含标准单元对应的SPICE网表。主要用于物理设计流程</p></li>
+<li><p>LEF文件，包含标准单元对应的LEF信息。主要用于物理设计流程</p></li>
+<li><p>Verilog文件，包含标准单元对应的行为模型。主要用于设计验证流程</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>文件路径始终基于根路径，无需指定绝对路径</p>
+</div>
+<p>这些文件应可在PDK中轻松找到。若无法定位，请联系您的PDK供应商。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>若无需物理设计进行评估，则必须提供Liberty时序文件和Verilog文件。</p>
+</div>
+<p>完成此步骤后，您的 XML 文件可能如下所示（此示例中定义了 3 个标准单元库）</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pdk</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;s40ulp&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;stamp&gt;</span>
+<span class="w">    </span><span class="nt">&lt;author&gt;</span>RapidFlex<span class="nt">&lt;/author&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dates&gt;</span>
+<span class="w">      </span><span class="nt">&lt;created&gt;</span>Sat<span class="w"> </span>Dec<span class="w"> </span>31<span class="w"> </span>03:14:41<span class="w"> </span>PM<span class="w"> </span>PST<span class="w"> </span>2024<span class="nt">&lt;/created&gt;</span>
+<span class="w">      </span><span class="nt">&lt;last_modified&gt;</span>Sat<span class="w"> </span>Dec<span class="w"> </span>31<span class="w"> </span>03:14:41<span class="w"> </span>PM<span class="w"> </span>PST<span class="w"> </span>2024<span class="nt">&lt;/last_modified&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dates&gt;</span>
+<span class="w">    </span><span class="nt">&lt;tool_version&gt;</span>0.0.15-dev+023fa82<span class="nt">&lt;/tool_version&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/stamp&gt;</span>
+<span class="w">  </span><span class="nt">&lt;root&gt;</span>/eda/pdk/s40/s40ulp<span class="nt">&lt;/root&gt;</span>
+<span class="w">  </span><span class="nt">&lt;sclibs&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sclib</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uhdc40_hvt_v0.2&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.9&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/0.9v/scc40ulp_uhdc40_hvt_tt_v0p9_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.99&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;125&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/0.99v/scc40ulp_uhdc40_hvt_ffg_v0p99_125c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;ffg_ccs&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.99&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;125&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;ccs&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/0.99v/scc40ulp_uhdc40_hvt_ffg_v0p99_125c_ccs.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p0&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/1.0v/scc40ulp_uhdc40_hvt_tt_v1p0_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.1&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/1.1v/scc40ulp_uhdc40_hvt_tt_v1p1_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gds&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/gds/scc40ulp_uhdc40_hvt.gds<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;cdl&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/cdl/scc40ulp_uhdc40_hvt.cdl<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lef&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/lef/scc40ulp_uhdc40_hvt.lef<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;verilog&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/verilog/scc40ulp_uhdc40_hvt.v<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/sclib&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sclib</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uhdc40_lvt_v0.2&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.9&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/liberty/0.9v/scc40ulp_uhdc40_lvt_tt_v0p9_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p0&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/liberty/1.0v/scc40ulp_uhdc40_lvt_tt_v1p0_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.1&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/liberty/1.1v/scc40ulp_uhdc40_lvt_tt_v1p1_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gds&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/gds/scc40ulp_uhdc40_lvt.gds<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;cdl&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/cdl/scc40ulp_uhdc40_lvt.cdl<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lef&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/lef/scc40ulp_uhdc40_lvt.lef<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;verilog&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/verilog/scc40ulp_uhdc40_lvt.v<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/sclib&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sclib</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uhdc40_rvt_v0.2&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.9&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/0.9v/scc40ulp_uhdc40_rvt_tt_v0p9_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.99&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;125&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/0.99v/scc40ulp_uhdc40_rvt_ffg_v0p99_125c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;ffg_ccs&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.99&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;125&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;ccs&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/0.99v/scc40ulp_uhdc40_rvt_ffg_v0p99_125c_ccs.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p0&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/1.0v/scc40ulp_uhdc40_rvt_tt_v1p0_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.1&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/1.1v/scc40ulp_uhdc40_rvt_tt_v1p1_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gds&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/gds/scc40ulp_uhdc40_rvt.gds<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;cdl&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/cdl/scc40ulp_uhdc40_rvt.cdl<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lef&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/lef/scc40ulp_uhdc40_rvt.lef<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;verilog&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/verilog/scc40ulp_uhdc40_rvt.v<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/sclib&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/sclibs&gt;</span>
+<span class="nt">&lt;/pdk&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="tech-files">
+<h2>工艺文件<a class="headerlink" href="#tech-files" title="Link to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>若不执行物理设计流程，可在此章节设置虚拟文件</p>
+</div>
+<p>物理设计流程需要工艺文件。对于仅进行评估的用户，这些文件非必需</p>
+<p>包含以下文件类型</p>
+<ul class="simple">
+<li><p>对应所选金属堆叠和工艺角的 TLU+ 文件。多工艺角分析需定义所有选定工艺角。用于物理设计流程</p></li>
+<li><p>对应所选金属堆叠和工艺角的 NXTGRD 文件。多工艺角分析需定义所有选定工艺角。用于签核流程</p></li>
+<li><p>空 SPICE 子电路网表，用于签核流程中的*逻辑电路对比*（LVS）</p></li>
+<li><p>金属层的 LEF 文件，物理设计流程必需。需定义所选金属堆叠</p></li>
+<li><p>Synopsys RedHawk 进行电磁分析所需的工艺文件。需定义所选金属堆叠和工艺角</p></li>
+<li><p>物理设计流程所需的金属层映射文件</p></li>
+<li><p>为Synopsys ICC2构建的GDS层映射文件</p></li>
+</ul>
+<p>完成此步骤后，您的 XML 文件可能如下所示（此示例中定义了 3 个标准单元库）</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pdk</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;s40ulp&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;stamp&gt;</span>
+<span class="w">    </span><span class="nt">&lt;author&gt;</span>RapidFlex<span class="nt">&lt;/author&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dates&gt;</span>
+<span class="w">      </span><span class="nt">&lt;created&gt;</span>Sat<span class="w"> </span>Dec<span class="w"> </span>31<span class="w"> </span>03:14:41<span class="w"> </span>PM<span class="w"> </span>PST<span class="w"> </span>2024<span class="nt">&lt;/created&gt;</span>
+<span class="w">      </span><span class="nt">&lt;last_modified&gt;</span>Sat<span class="w"> </span>Dec<span class="w"> </span>31<span class="w"> </span>03:14:41<span class="w"> </span>PM<span class="w"> </span>PST<span class="w"> </span>2024<span class="nt">&lt;/last_modified&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dates&gt;</span>
+<span class="w">    </span><span class="nt">&lt;tool_version&gt;</span>0.0.15-dev+023fa82<span class="nt">&lt;/tool_version&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/stamp&gt;</span>
+<span class="w">  </span><span class="nt">&lt;root&gt;</span>/eda/pdk/s40/s40ulp<span class="nt">&lt;/root&gt;</span>
+<span class="w">  </span><span class="nt">&lt;sclibs&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sclib</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uhdc40_hvt_v0.2&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.9&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/0.9v/scc40ulp_uhdc40_hvt_tt_v0p9_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.99&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;125&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/0.99v/scc40ulp_uhdc40_hvt_ffg_v0p99_125c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;ffg_ccs&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.99&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;125&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;ccs&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/0.99v/scc40ulp_uhdc40_hvt_ffg_v0p99_125c_ccs.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p0&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/1.0v/scc40ulp_uhdc40_hvt_tt_v1p0_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.1&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/liberty/1.1v/scc40ulp_uhdc40_hvt_tt_v1p1_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gds&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/gds/scc40ulp_uhdc40_hvt.gds<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;cdl&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/cdl/scc40ulp_uhdc40_hvt.cdl<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lef&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/lef/scc40ulp_uhdc40_hvt.lef<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;verilog&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_HVT/V0p2/verilog/scc40ulp_uhdc40_hvt.v<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/sclib&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sclib</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uhdc40_lvt_v0.2&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.9&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/liberty/0.9v/scc40ulp_uhdc40_lvt_tt_v0p9_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p0&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/liberty/1.0v/scc40ulp_uhdc40_lvt_tt_v1p0_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.1&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/liberty/1.1v/scc40ulp_uhdc40_lvt_tt_v1p1_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gds&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/gds/scc40ulp_uhdc40_lvt.gds<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;cdl&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/cdl/scc40ulp_uhdc40_lvt.cdl<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lef&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/lef/scc40ulp_uhdc40_lvt.lef<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;verilog&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_LVT/V0p2/verilog/scc40ulp_uhdc40_lvt.v<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/sclib&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sclib</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uhdc40_rvt_v0.2&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.9&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/0.9v/scc40ulp_uhdc40_rvt_tt_v0p9_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.99&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;125&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/0.99v/scc40ulp_uhdc40_rvt_ffg_v0p99_125c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;ffg_ccs&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;ffg&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;0.99&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;125&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;ccs&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/0.99v/scc40ulp_uhdc40_rvt_ffg_v0p99_125c_ccs.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p0&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.0&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/1.0v/scc40ulp_uhdc40_rvt_tt_v1p0_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">tag=</span><span class="s">&quot;tt_v1p1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lib&quot;</span><span class="w"> </span><span class="na">process=</span><span class="s">&quot;tt&quot;</span><span class="w"> </span><span class="na">vdd=</span><span class="s">&quot;1.1&quot;</span><span class="w"> </span><span class="na">temp=</span><span class="s">&quot;25&quot;</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;nldm&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/liberty/1.1v/scc40ulp_uhdc40_rvt_tt_v1p1_25c_basic.db<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gds&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/gds/scc40ulp_uhdc40_rvt.gds<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;cdl&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/cdl/scc40ulp_uhdc40_rvt.cdl<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;lef&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/lef/scc40ulp_uhdc40_rvt.lef<span class="nt">&lt;/file&gt;</span>
+<span class="w">      </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;verilog&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_UHDC40_RVT_V0p2/verilog/scc40ulp_uhdc40_rvt.v<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/sclib&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/sclibs&gt;</span>
+<span class="w">  </span><span class="nt">&lt;techfile&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- TLU+ file require metal stack and corner --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;tluplus&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;typical&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_TF/V0p2/icc/tluplus/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_TYPICAL.tluplus<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;tluplus&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;cbest&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_TF/V0p2/icc/tluplus/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_CMIN.tluplus<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;tluplus&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;cworst&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_TF/V0p2/icc/tluplus/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_CMAX.tluplus<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;tluplus&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;rcbest&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_TF/V0p2/icc/tluplus/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_RCMIN.tluplus<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;tluplus&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;rcworst&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_TF/V0p2/icc/tluplus/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_RCMAX.tluplus<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- NXGRD file require metal stack and corner --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;nxtgrd&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;typical&quot;</span><span class="nt">&gt;</span>starRC/TD-LO40-XS-2091v0/SMIC_CCIStarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_V1.12_REV3_0/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1/NXTGRD/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_TYPICAL.nxtgrd<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;empty_spice_subckt&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="nt">&gt;</span>SPDK40LGULP_091125_OA_CDS_V1.12_REV4_0/smic40lgulp_091125_1P7M_6Ic_1TMc_ALPA1_oa_cds_v1.12_REV4_0/Calibre/LVS/empty_subckt.sp<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;innovus_lef&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_TF/V0p2/innovus/uhd/scc40n_1p7m_6ic_1mttc_alpa1.lef<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;redhawk_tech_file&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;typical&quot;</span><span class="nt">&gt;</span>SPDK40LGULP_091125_OA_CDS_V1.12_REV4_0/SMIC_Redhawk_PA_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_V1.10_REV1_0/Totem_40ULP_091125_1P7M_5Ic_1TMc_ALPA1_TYPICAL.tech<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;layer_map&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;typical&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_TF/V0p2/icc/tluplus/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1/StarRC_40ULP_091125_1P7M_6Ic_1TMc_ALPA1_cell.map<span class="nt">&lt;/file&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- The gds_layer_map file is generated from an EDA tool. Not an original file from PDK --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gds_layer_map&quot;</span><span class="w"> </span><span class="na">metal_stack=</span><span class="s">&quot;1p7m_6ic&quot;</span><span class="w"> </span><span class="na">corner=</span><span class="s">&quot;typical&quot;</span><span class="nt">&gt;</span>std_cell/SCC40ULP_TF/V0p2/icc/gdsInOutLayer.map<span class="nt">&lt;/file&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/techfile&gt;</span>
+<span class="nt">&lt;/pdk&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="project_creation.html" class="btn btn-neutral float-left" title="项目创建" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="benchmark_import.html" class="btn btn-neutral float-right" title="基准导入" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, RapidFlex。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

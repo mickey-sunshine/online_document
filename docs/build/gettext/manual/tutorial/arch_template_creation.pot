@@ -1,0 +1,479 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:4
+msgid "Create an Arch Template"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:6
+msgid "The architecture template contains a set of files that are required to"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:8
+msgid "describe, model and customize the eFPGA architecture with various options"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:9
+msgid "conduct performance evaluation on eFPGA architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:10
+msgid "generate gate-level netlists and perform QoR extraction"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:11
+msgid "implement physical designs"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:13
+msgid "This is an All-in-One package when an eFPGA architecture is released This section introduces the detailed content of the package A live example can be found at ``etc/device/ALKDL``"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:18
+msgid "Arch Description"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:20
+msgid "Architecture description files are required to model the eFPGA architecture. Currently, we need two fabrics defined for each eFPGA architecture, ``dp`` for design planning and ``ultimate`` for actual fabric. Some files are common between the fabrics while some are not."
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:24
+msgid "architecture description files  :widths: 50 20 30  :header-rows: 1"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:28
+#: ../../source/manual/tutorial/arch_template_creation.rst:57
+msgid "File Type"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:29
+#: ../../source/manual/tutorial/arch_template_creation.rst:58
+msgid "Example"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:30
+msgid "Notes"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:31
+msgid "VPR architecture description"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:32
+msgid "vpr_arch.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:33
+#: ../../source/manual/tutorial/arch_template_creation.rst:36
+msgid "Common"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:34
+msgid "OpenFPGA architecture description"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:35
+msgid "openfpga_arch.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:37
+msgid "OpenFPGA global network description"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:38
+msgid "openfpga_global_network.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:39
+msgid "Separated file"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:40
+msgid "architecture design variables"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:41
+msgid "arch_var.yml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:42
+msgid "Separated files"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:43
+msgid "architecture timing files"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:44
+msgid "arch_timing_tt_25C_v0p9.yml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:45
+msgid "Separated file for each corner"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:48
+msgid "OpenFPGA Settings"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:50
+msgid "The default setting files required to run various OpenFPGA flows. The default setting files are designed to be general-purpose so that most of benchmarks can pass OpenFPGA flows without human effort."
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:53
+#: ../../source/manual/tutorial/arch_template_creation.rst:87
+#: ../../source/manual/tutorial/arch_template_creation.rst:118
+msgid "OpenFPGA setting files"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:59
+msgid "Default VPR SDC"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:60
+msgid "vpr_dummy.sdc"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:61
+msgid "Default VPR place constraints"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:62
+msgid "fix_pins_dummy.place"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:63
+msgid "Default Pin Constraints for global signals"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:64
+msgid "pin_constraints_dummy.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:65
+msgid "Default Pin Constraints for single-clock design"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:66
+msgid "pcf_1clk_default.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:67
+msgid "Default Pin Constraints for data signals"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:68
+msgid "pcf_dummy.pcf"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:69
+msgid "Tile configuration"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:70
+msgid "tile_config.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:71
+msgid "Simulation settings"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:72
+msgid "efpga_fix_sim_openfpga.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:74
+msgid "Note that the default setting files do not guarantee best QoR. SDC or other design constraints are mostly required when"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:77
+msgid "QoR is a concern"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:78
+msgid "Benchmark have most than 1 clocks and resets"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:79
+msgid "Pin constraints are needed"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:82
+msgid "OpenFPGA Shell Scripts"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:84
+msgid "The OpenFPGA shell scripts are the template scripts used to run various OpenFPGA flows. Typically, the files are kept under a subdirectory ``openfpga_shell_script``"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:91
+#: ../../source/manual/tutorial/arch_template_creation.rst:122
+#: ../../source/manual/tutorial/arch_template_creation.rst:145
+#: ../../source/manual/tutorial/arch_template_creation.rst:179
+#: ../../source/manual/tutorial/arch_template_creation.rst:201
+msgid "File example"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:92
+#: ../../source/manual/tutorial/arch_template_creation.rst:123
+#: ../../source/manual/tutorial/arch_template_creation.rst:146
+msgid "Descriptin"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:93
+msgid "generate_bitstream.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:94
+msgid "Script to generate golden bitstream for a benchmark"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:95
+msgid "generate_base_bitstream.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:96
+msgid "Script to generate golden base bitstream file for an architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:97
+msgid "generate_device_data.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:98
+msgid "Script to generate device data caches for an architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:99
+msgid "generate_init_module_names.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:100
+msgid "Scripts to generate reference module names for an architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:101
+msgid "generate_init_fabric_key.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:102
+msgid "Scripts to generate reference fabric key for an architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:103
+msgid "generate_io_coordinate.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:104
+msgid "Scripts to generate I/O coordinates for an architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:105
+msgid "generate_fabric.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:106
+msgid "Scripts to generate RTL netlists for an architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:107
+msgid "generate_preconfig_testbench.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:108
+msgid "Scripts to generate preconfigured testbenches for a benchmark"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:109
+msgid "generate_full_testbench.openfpga"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:110
+msgid "Scripts to generate full testbenches for a benchmark"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:113
+msgid "Yosys Scripts"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:115
+msgid "Yosys scripts are the templates required to call yosys for specific purpose The files are typically kept under the subdirectory ``yosys_script``"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:124
+msgid "synth.ys"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:125
+msgid "Default script to perform synthesis on benchmarks"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:126
+msgid "sweep_k.ys"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:127
+msgid "The script to perform LUT size sweeping on benchmarks, to find best LUT sizes"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:131
+msgid "Custom Netlists"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:133
+msgid "The custom netlists include third-party RTL or gate-level netlists which are required by the eFPGA architecture. They could be a component like, programmable flip-flop, DSP *etc.*"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:136
+msgid "The third-party IPs are typically kept under the subdirectory ``ips``, as submodules To seamlessly integrate the third-party IP into eFPGA, wrappers are required in some cases, which are typically kept under the subdirectory ``custom_modules``"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:139
+msgid "Symbolic links of the verilog models of standard cells are required for efpga_circuits.v to perform RTL simulation"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:141
+#: ../../source/manual/tutorial/arch_template_creation.rst:175
+#: ../../source/manual/tutorial/arch_template_creation.rst:197
+msgid "Custom module files"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:147
+msgid "efpga_ccff.v"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:148
+msgid "Configuration Chain Flip-flops required by CCFF-based FPGA"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:149
+msgid "efpga_stdcell_wrapper.v"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:150
+msgid "Wrappers for standard cells so that OpenFPGA architecture description can be independent from PDK"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:151
+msgid "efpga_circuits.v"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:152
+msgid "A list of third-party files required to perform rtl-level simulation"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:153
+msgid "mmff_wrapper.v"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:154
+msgid "Wrapper for multi-mode flip-flop IP. Only needed when the IP is used in the eFPGA architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:155
+msgid "rf_pcounter_wrapper.v"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:156
+msgid "Wrapper for programmable counter IP. Only needed when the IP is used in the eFPGA architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:158
+msgid "Under the ``netlist_wrapper`` subdirectory, some gate-level netlists are required by eFPGA top-level netlists"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:160
+msgid "The ``netlist_wrapper`` may not be needed in future as the flow is improved."
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:163
+msgid "Netlist Makeup"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:165
+msgid "Netlist makeup is an optimization which is applied on the RTL netlists generated by OpenFPGA This is an optional step which can skipped for some eFPGA architecture The configuration files of netlist makeup are typically kept under ``netlist_makeup``"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:170
+msgid "Netlist Synthesis"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:172
+msgid "Fabric netlist synthesis recipes are different from one eFPGA architecture to another. The configuration files are typically kept under the subdirectory ``synth``"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:180
+#: ../../source/manual/tutorial/arch_template_creation.rst:202
+msgid "Description"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:181
+msgid "config/synth_strategies.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:182
+msgid "The default strategies to be applied for the eFPGA architecture"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:183
+msgid "sdc"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:184
+msgid "Contain all the SDC files required by the default strategy file"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:187
+msgid "QoR Extraction"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:189
+msgid "QoR extraction recipes are different from one eFPGA architecture to another. The configuration files are typically kept under the subdirectory ``qor_signoff``"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:193
+msgid "Flow Configuration"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:195
+msgid "The common utility to enable ArkAngel flow is typically kept under the subdirectory ``flow_conf``"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:203
+msgid "efpga_arch_template.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:204
+msgid "The template file required to create any ArkAngel project"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:205
+msgid "log_error_keywords.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:206
+msgid "The keywords to detect Yosys and OpenFPGA log errors"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:207
+msgid "openfpga_log_keywords.xml"
+msgstr ""
+
+#: ../../source/manual/tutorial/arch_template_creation.rst:208
+msgid "The keywords to extract performance metrics from OpenFPGA logs. These will be shown in architecture evaluation reports"
+msgstr ""

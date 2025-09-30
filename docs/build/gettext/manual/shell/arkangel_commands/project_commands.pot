@@ -1,0 +1,273 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:4
+msgid "Project Commands"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:7
+msgid "create_tapeout"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:9
+msgid "Create a new project based on a configuration file."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:11
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:26
+msgid "Only 1 project should be created or loaded in the session! Suggest to launch another ArkAngel session if you need to access another project!"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:15
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:30
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:49
+msgid "Specify the project configuration file to be used. For details about a project file, please refer to :ref:`file_format_project_file`."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:19
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:40
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:53
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:70
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:79
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:88
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:103
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:118
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:135
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:153
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:171
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:200
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:227
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:250
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:267
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:284
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:300
+msgid "Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:22
+msgid "load_tapeout"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:24
+msgid "Load an existing project based on a configuration file."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:34
+msgid "Disable all the validation on existing result files."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:36
+msgid "This may cause errors or extra effort in debugging during your development!"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:43
+msgid "save_tapeout"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:45
+msgid "Save the current project to a configuration file. If the same configuration file is provided when create or load the project. The project configuration file will be overwritten."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:56
+msgid "show_status"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:58
+msgid "Show the status of a given step in the development flow, including the status of substeps."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:62
+msgid "Specify the step name"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:66
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:99
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:114
+msgid "Specify the run id for the selected step. If not specified, consider the latest run."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:73
+msgid "show_dashboard"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:75
+msgid "Show the dashboard of the development flow. Note that only the latest run of major steps are shown. For detailed status, please use the ``show_status`` command."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:82
+msgid "report_corners"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:84
+msgid "Report all the available corners that are defined in the project"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:93
+msgid "report_module_names"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:95
+msgid "Report all the module names for a selected architecture development flow. Require the final module names are committed and passed all the checks."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:108
+msgid "report_io"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:110
+msgid "Report all the available I/O of the eFPGA that are defined in the project"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:121
+msgid "report_static_power"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:123
+msgid "Report the static power of an eFPGA fabric under a specific netlist development and a selected corner"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:127
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:145
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:163
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:180
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:215
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:259
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:276
+msgid "Specify the run id for the netlist development. If not specified, consider the latest run."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:131
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:149
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:184
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:263
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:280
+msgid "Specify the corner name to be considered. If not specified, the default corner will be considered. Use the keyword ``all`` to sweep all the available corners."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:139
+msgid "report_config_power"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:141
+msgid "Report the configuration power of an eFPGA fabric under a specific netlist development and a selected corner"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:157
+msgid "report_config_stats"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:159
+msgid "Report the estimated configuration time and detailed bitstream sizes of an eFPGA fabric under a specific netlist development"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:167
+msgid "Specify the frequency of programming clock to be considered when estimating the configuration time."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:174
+msgid "report_qor_scale"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:176
+msgid "Report the qor scale factors of an eFPGA fabric under a specific netlist development and a selected corner"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:188
+msgid "Specify the type of the qor scale factors to be extracted. Can be [ ``timing`` | ``leakage`` | ``power`` ]. If not specified, the default type ``timing`` will be considered."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:192
+msgid "Specify the output file name for the generated qor scale report. If not specified, qor scale factors will be printed on screen."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:196
+msgid "Specify the precision of the qor scale factors. If not specified, a default precision of ``2`` is used to round scale factor values."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:203
+msgid "export_netlist"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:205
+msgid "Export gate-level netlists and *Quality-of-Results* (QoR) reports in a package for external use."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:207
+msgid "Must have a successful run on netlist development!"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:211
+msgid "Specify the file path where the netlist package will be written to. Must end with ``.tar.gz``"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:219
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:246
+msgid "Force to overwrite existing package if possible. Ensure to save your existing packages before enable this option. By default, it is off."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:223
+msgid "Reduce error to warning. When enabled, the output netlists may not be correct. Be cautious when enable the option!"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:230
+msgid "export_arch"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:232
+msgid "Export architecture data in a package for external use."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:234
+msgid "Must have a successful run on architecture development!"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:238
+msgid "Specify the file path where the arch package will be written to. Must end with ``.tar.gz``"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:242
+msgid "Specify the run id for the architecture development. If not specified, consider the latest run."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:253
+msgid "backannotate"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:255
+msgid "Back-annotate the post-synthesis QoR results to FPGA architecture. Once the back-annotation is done, the architecture development flow should be re-run to initialize the database and evaluation flow should be re-run to compare the difference before and after back-annotation"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:270
+msgid "analyze_qor"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:272
+msgid "Analyze the Fmax from bitstream generation reports and generate a summary for all the benchmarks"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:290
+msgid "disable_benchmark"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:292
+msgid "Disable a selected benchmark during pre-arch analyses, architecture evaluation and design verification."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/project_commands.rst:296
+msgid "Specify the name of the benchmark to be disabled during pre-arch analyses, architecture evaluation and design verification."
+msgstr ""

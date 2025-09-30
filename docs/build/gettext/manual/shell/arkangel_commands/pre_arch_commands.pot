@@ -1,0 +1,201 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:4
+msgid "Pre-Arch Commands"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:7
+msgid "analyze_logic_resource"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:9
+msgid "Analyze the requirements on the number of logic resources, including LUTs, FFs, DSPs etc., for the given benchmarks and device family. This is to provide the guidelines when selecting and customize FPGA architectures."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:12
+msgid "Running the command will not create/modify any FPGA architecture, casting no impact on any steps in eFPGA development flow"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:17
+msgid "Specify the run id. Each run is independent from each other. If not specified, a default name will be provided."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:19
+msgid "If you specify an existing run, the data will be overwritten."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:23
+msgid "Specify the minimum number of inputs for LUT. This is used to sweep the LUT size and find the proper value.  By default, it is 4."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:27
+msgid "Specify the maximum number of inputs for LUT. This is used to sweep the LUT size and find the proper value.  By default, it is 7."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:31
+msgid "Specify the file path where the *Quality-of-Results* (QoR) should be written to. The file format is csv. See below for an example file which is outputted."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:33
+msgid "Example of pre-arch analysis QoR report file"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "Benchmark/Metrics"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "Suite"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "K"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "$lut"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "_fpga_adder"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "dff"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "dffns"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_cells"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_memories"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_memory_bits"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_port_bits"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_ports"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_processes"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_pub_wire_bits"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_pub_wires"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_wire_bits"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "num_wires"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "and2"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "checkin"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "4"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "1"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "0"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "3"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "5"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "6"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "and2_latch"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "2"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "counterdown16_1clk_negedge_async_resetp"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "ff"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "17"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "16"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "33"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "18"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "51"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/examples/pre_arch_qor.csv:1
+msgid "21"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/pre_arch_commands.rst:39
+msgid "Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is `0``, leading to minimum logging messages."
+msgstr ""

@@ -1,0 +1,257 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:4
+msgid "Qorso Strategy File (.xml)"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:6
+msgid "The qorso strategy file is designed to provide scalable and adaptive *Quality-of-Result Sign-Off* (Qorso) methodology across different FPGA architectures. The qorso strategy file is loaded when creating or load a tapeout project (See details in :ref:`file_format_arch_template_file`)"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:9
+msgid "An example of file is shown as follows."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:17
+msgid "Reserved Words"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:19
+msgid "The reserved words can be used in defining file paths"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:23
+msgid "The current working directory when running ArkAngel. This keyword will be replaced during runtime"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:27
+msgid "The root path which starting ArkAngel"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:30
+msgid "Global Variables"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:32
+msgid "Define all the global variables across all the Qorso strategies files that will be loaded. In the architecture template file, a number of Qorso strategies will be loaded. The global variables are shared among all the strategies in the same type."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:35
+msgid "There are two types of global variables"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:37
+msgid "``sweep`` where the variable in the given name will be swept from a starting value to an end value in a given step"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:38
+msgid "``constant`` where the variable will be a constant value"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:40
+msgid "Only numeric values are supported currently!"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:44
+msgid "Define the name of the variable, which should be unique. Once defined, the variable can be used as ``${<name>}`` in all the ``from_pins`` and ``to_pins`` definition. For example,"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:63
+msgid "Only 1 sweep variable is allowed for one strategy"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:67
+msgid "Define the starting value for a variable to sweep"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:71
+msgid "Define the ending value for a variable to sweep. The end value will be swepted when step is set to ``1``."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:75
+msgid "Define the step for a variable to sweep. Can be either positive or negative numbers. If not specified, the default step is ``1``"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:79
+msgid "Define the constant value of the variable"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:82
+msgid "Strategy"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:84
+msgid "A strategy can be applied to a number of designs whose name matches the pattern."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:88
+msgid "A unique name of the strategy"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:92
+msgid "Specify the type of the strategy. Can be [ ``timing`` | ``power`` ], each of which will require different set of syntax"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:97
+msgid "Summary"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:99
+msgid "The data to be collected from sign-off reports will be written to ``yaml`` and ``csv`` files This section defined the type of data to be collected"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:104
+msgid "For timing strategies, it can be [ ``required time`` | ``arrival time`` | ``slack`` ] For power strategies, it can be [ ``leak power`` | ``total power`` ]"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:109
+msgid "Only required by timing strategies, it can be [ ``Max`` | ``Min`` | ``Average`` ]"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:113
+msgid "Apply a scaling factor on the timing value that is extracted from reports. For example, a required time of 1ns is extracted from report, and a scaling factor of ``1.1`` is defined, the final timing value appears in the summary file will be ``1.1ns``. By default, the scaling factor is set to ``1.0``"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:117
+msgid "Define the human readable variable which will represent the extracted timing/power data in the resulting CSV summary file"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:121
+msgid "Define the architecture variable will represent the extracted timing/power data in the resulting YAML summary file."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:123
+msgid "The architecture variable must match the variable name in arch timing files! Otherwise, timing back-annotation may fail!"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:126
+msgid "Tasks"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:128
+msgid "Under a strategy, a number of tasks can be defined. Each task may be designed to extract a specific type of timing/power data. All the data of the tasks under the same strategy will be concluded in the summary files (CSV and YAML)"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:134
+msgid "Designs"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:136
+msgid "Multiple patterns can be defined under node ``designs``, in order to capture all the designs required."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:140
+msgid "Define the matching pattern (which can be a regular expression) for the type of tiles which the strategy should be applied to."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:143
+msgid "Path"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:147
+msgid "Specify the pins which are the starting points of the timing paths which the report timing task should consider. Users can define multiple pins as a list. For instance"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:157
+msgid "If pin is defined as ``[get_pins <pin_name>]``, the pin will be added to the group of starting points of the timing path."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:159
+msgid "If pin is defined without ``get_pins``, the pin existence will be checked, before being added to the group of starting points of the timing path. We also support bus definition in such case. For example, ``cellA/inputB[3:5]``. Each pin in the bus will pass through ``get_pins`` check and then be added to the group of starting points"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:163
+msgid "Can be [ ``rise`` | ``fall`` | ``both`` ]. Specify the edge type to be considered when analyzing the starting point of a timing path. Typically useful in clock paths. By default, it is ``both``, indicating both rising and falling edges should be considered."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:167
+msgid "Specify the pins which are the ending points of the timing paths which the report timing task should consider. The syntax is the same as ``from_pin``"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:171
+msgid "Can be [ ``rise`` | ``fall`` | ``both`` ]. Specify the edge type to be considered when analyzing the end point of a timing path. Typically useful in clock paths. By default, it is ``both``, indicating both rising and falling edges should be considered."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:175
+msgid "Specify the pins which are through points of the timing paths which the report timing task should consider. The syntax is the same as ``from_pin``"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:177
+msgid "The sequence of the through pins in the list matters! It determines the sequence of through points which PTPX will follow when analyzing a given timing path. For example, the following code forces a report timing task which starts from ``input_a`` and ends to ``input_b``, which should go through first either ``pin_c[0]`` or ``pin_c[1]``, and then ``pin_d``."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:194
+msgid "Specify the maximum delay between the starting points ``from_pin`` and ending points ``to_pin`` of the timing paths"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:198
+msgid "Specify the minimum delay between the starting points ``from_pin`` and ending points ``to_pin`` of the timing paths"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:202
+msgid "Specify the type of the timing paths which the report timing task should consider. Accept the following:"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:204
+msgid "``comb_max`` represents the maximum delay of a combinational timing path"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:205
+msgid "``comb_min`` represents the minimum delay of a combinational timing path"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:206
+msgid "``setup`` represents the setup-time of a in-reg or reg-to-reg timing path"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:207
+msgid "``hold`` represents the hold-time of a in-reg or reg-to-reg timing path"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:209
+msgid "When the delay type of setup or hold time is specified, users must provide the clock group related to the timing paths using the syntax ``clock_group``"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:213
+msgid "Specify the clocks related to the timing paths which the report timing task should consider"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:217
+msgid "Specify the number of worst-case paths to be reported. If set a number larger than 1, the timing report will include a number of paths. Use the timing summary task (see details in :ref:`file_format_task_file_timing_summary`) to extract the timing values for better data visibility"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:221
+msgid "Specify the maximum number of worst-case paths to be reported. If set a number larger than 1, the timing report will include a number of paths. Use the timing summary task (see details in :ref:`file_format_qorso_strategy_file_summary`) to extract the timing values for better data visibility"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:224
+msgid "SDC"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:226
+msgid "Specify a list of SDC files that the report timing task should consider. Currently, we support files whose names end with ``.tcl`` or ``.sdc``."
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:228
+msgid "Reserved words are applicable to file paths. See details in :ref:`file_format_synth_strategy_file_reserved_words`"
+msgstr ""
+
+#: ../../source/manual/file_formats/qorso_strategy_file.rst:230
+msgid "For example,"
+msgstr ""

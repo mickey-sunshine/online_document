@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/file_formats/pin_constraints_file.rst:4
+msgid "Pin Constraints File (.xml)"
+msgstr ""
+
+#: ../../source/manual/file_formats/pin_constraints_file.rst:6
+msgid "The *Pin Constraints File* (PCF) aims to create pin binding between an implementation and an FPGA fabric. It is a common file format used by FPGA vendors, for example, `QuickLogic <https://docs.verilogtorouting.org/en/latest/vpr/file_formats/#placement-file-format-place>`_."
+msgstr ""
+
+#: ../../source/manual/file_formats/pin_constraints_file.rst:9
+msgid "An example of design constraints is shown as follows."
+msgstr ""
+
+#: ../../source/manual/file_formats/pin_constraints_file.rst:22
+msgid "The pin name of the FPGA fabric to be constrained, which should be a valid pin defined in OpenFPGA architecture description. Explicit index is required, e.g., ``clk[1:1]``. Otherwise, default index ``0`` will be considered, e.g., ``clk`` will be translated as ``clk[0:0]``."
+msgstr ""
+
+#: ../../source/manual/file_formats/pin_constraints_file.rst:26
+msgid "The net name of the pin to be mapped, which should be consistent with net definition in your ``.blif`` file. The reserved word ``OPEN`` means that no net should be mapped to a given pin. Please ensure that it is not conflicted with any net names in your ``.blif`` file."
+msgstr ""
+
+#: ../../source/manual/file_formats/pin_constraints_file.rst:30
+msgid "The default value of a net to be constrained. This is mainly used when generating testbenches. Valid value is ``0`` or ``1``. If defined as ``1``, the net is be driven by the inversion of its stimuli."
+msgstr ""
+
+#: ../../source/manual/file_formats/pin_constraints_file.rst:32
+msgid "This feature is mainly used to generate the correct stimuli for some pin whose polarity can be configurable. For example, the ``Reset`` pin of an FPGA fabric may be active-low or active-high depending on its configuration."
+msgstr ""
+
+#: ../../source/manual/file_formats/pin_constraints_file.rst:34
+msgid "The default value in pin constraint file has a higher priority than the ``default_value`` syntax in the :ref:`circuit_library`."
+msgstr ""

@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ArkAngel 脚本格式 &mdash; ArkAngel 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_static/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=867f8617" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34088549"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="命令" href="arkangel_commands/index.html" />
+    <link rel="prev" title="启动 ArkAngel Shell" href="launch_arkangel_shell.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ArkAngel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">用户手册</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compile/index.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">教程</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ArkAngel 命令行界面</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="launch_arkangel_shell.html">启动 ArkAngel Shell</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ArkAngel 脚本格式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arkangel_commands/index.html">命令</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../project_tree/index.html">项目组织结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">文件格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hdl_guide.html">HDL编码指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix/contact.html">联系方式</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ArkAngel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">&lt;no title&gt;</a></li>
+          <li class="breadcrumb-item"><a href="index.html">ArkAngel 命令行界面</a></li>
+      <li class="breadcrumb-item active">ArkAngel 脚本格式</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/manual/shell/arkangel_script.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="arkangel-script-format">
+<span id="id1"></span><h1>ArkAngel 脚本格式<a class="headerlink" href="#arkangel-script-format" title="Link to this heading"></a></h1>
+<p>ArkAngel 接受一种简化的类 TCL 脚本格式</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-Comments">
+<span class="sig-name descname"><span class="pre">Comments</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-arg-Comments" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">#</span></code> 符号后的所有内容将被视为注释，注释不会被执行</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>注释可以添加在行内或作为新行，请参考以下示例</p>
+</div>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-Continued">
+<span class="sig-name descname"><span class="pre">Continued</span></span><span class="sig-prename descclassname"> <span class="pre">line</span></span><a class="headerlink" href="#cmdoption-arg-Continued" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>需要续行的语句应以 <code class="docutils literal notranslate"><span class="pre">\</span></code> 结尾，续行将被连接并作为单行执行</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>请确保保留必要的空格，否则可能导致命令解析器失败</p>
+</div>
+</dd></dl>
+
+<p>以下是一个示例</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new project</span>
+<span class="n">create_project</span> <span class="o">--</span><span class="n">config_file</span> <span class="n">example_prj</span><span class="o">.</span><span class="n">xml</span>
+
+<span class="c1"># Run synthesis</span>
+<span class="n">synth</span> <span class="o">--</span><span class="n">strategy_file</span> <span class="n">my_synth_strategy</span><span class="o">.</span><span class="n">xml</span>
+
+<span class="c1"># Run implementation</span>
+<span class="n">implement</span> \
+  <span class="o">--</span><span class="n">strategy_file</span> <span class="n">my_impl_strategy</span><span class="o">.</span><span class="n">xml</span>
+
+<span class="c1"># Run bitstream generation</span>
+<span class="n">bitgen</span> <span class="o">--</span><span class="n">strategy_file</span> <span class="n">my_bitgen_strategy</span><span class="o">.</span><span class="n">xml</span>
+
+<span class="c1"># Finish and exit</span>
+<span class="n">exit</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="launch_arkangel_shell.html" class="btn btn-neutral float-left" title="启动 ArkAngel Shell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="arkangel_commands/index.html" class="btn btn-neutral float-right" title="命令" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, RapidFlex。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

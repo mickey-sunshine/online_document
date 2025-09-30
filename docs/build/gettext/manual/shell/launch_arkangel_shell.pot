@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:4
+msgid "Launch ArkAngel Shell"
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:6
+msgid "ArkAngel employs a shell-like user interface, in order to integrate all the tools in a well-modularized way. To launch ArkAngel shell, users can choose two modes ``interactive`` or ``script``."
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:11
+msgid "Launch ArkAngel in interactive mode where users type-in command by command and get runtime results"
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:15
+msgid "Launch ArkAngel in script mode where users write commands in scripts and FPGA will execute them"
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:19
+msgid "Execute ArkAngel script in batch mode. This option is only valid for script mode."
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:21
+msgid "If in batch mode, ArkAngel will abort immediately when fatal errors occurred."
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:22
+msgid "If not in batch mode, ArkAngel will enter interactive mode when fatal errors occurred."
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:26
+msgid "Specify the root path where ArkAngel is installed. This is required."
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:30
+msgid "Specify the file path to the boot configuration for ArkAngel. This is required. See details in :ref:`file_format_boot_config_file`"
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:34
+msgid "Print version information of ArkAngel"
+msgstr ""
+
+#: ../../source/manual/shell/launch_arkangel_shell.rst:38
+msgid "Show the help desk"
+msgstr ""

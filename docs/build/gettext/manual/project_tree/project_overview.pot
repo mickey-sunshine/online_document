@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/project_tree/project_overview.rst:4
+msgid "Overview"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:6
+msgid "When an eFPGA tapeout project is created, a directory is created at designated location."
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:8
+msgid "For example, when you name the project to be ``alkaid_exto``, a directory ``alkaid_exto`` will be created. This is the workspace of the tapeout project."
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:11
+msgid "A tapeout project consists a number of sub-projects, each of which is a workspace for a specific objective. Note that the sub-projects are cross-linked to share data."
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:14
+msgid "``arch``: workspace for architecture development. See details in :ref:`manual_project_tree_arch`"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:15
+msgid "``bitstream``: workspace for golden bitstream and benchmarking results. See details in :ref:`manual_project_tree_bitstream`"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:16
+msgid "``netlist``: workspace for golden netlists, netlist synthesis and gate-level QoR extraction. See details in :ref:`manual_project_tree_netlist`"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:17
+msgid "``pd``: workspace for physical design, sign-off and layout-level QoR extraction. See details in :ref:`manual_project_tree_pd`"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:18
+msgid "``dv``: workspace for design verification across RTL-level, gate-level and post-layout. See details in :ref:`manual_project_tree_dv`"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:19
+msgid "``pre_arch_analysis``: workspace for running any analysis before selecting any architecture. See details in :ref:`manual_project_pre_arch`"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_overview.rst:21
+msgid "Take the example the project name to be ``alkiad_exto``, the sub-projects are organized as follows:"
+msgstr ""

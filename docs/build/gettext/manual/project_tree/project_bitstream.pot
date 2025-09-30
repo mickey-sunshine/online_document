@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/project_tree/project_bitstream.rst:4
+msgid "Bitstream"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:9
+msgid "Runs"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:11
+msgid "The workspace may contains a number of runs for benchmarking, each of which is based on a different version of architecture."
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:13
+msgid "For example, in the project ``alkaid_exto``, three runs ``iter0``, ``iter1`` and ``iter2`` are created by users."
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:22
+msgid "Note that the name of run can be customized by user. In practice, various names may be expected."
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:23
+msgid "However, each sub-directory under the arch workspace represents an independent run."
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:24
+msgid "There are no data dependencies between runs"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:29
+msgid "Workspace"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:31
+msgid "In each run, the workspace is organized as follows:"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:33
+msgid "Here, take the example of run ``iter0`` of project ``alkaid_exto``"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:45
+msgid "``arch`` is linked to a specific architecture run"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:46
+msgid "``openfpga_tasks`` contains a number of runtime directories, where architecture data is generated and analyzed. This directory does not contain golden copies."
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:47
+msgid "``bitstream`` is the golden copies of bitstreams, which is the data pack for the downstream development"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:48
+msgid "``vpr_results`` is the golden copies of VPR intermediate results, which is the data pack for the downstream development"
+msgstr ""
+
+#: ../../source/manual/project_tree/project_bitstream.rst:50
+msgid "Only ``ultimate`` fabric is considered to golden bitstream generation"
+msgstr ""

@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qorso策略文件（.xml） &mdash; ArkAngel 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_static/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=867f8617" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34088549"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="HDL编码指南" href="../hdl_guide.html" />
+    <link rel="prev" title="Ckbuf 单元映射文件 (.xml)" href="ckbuf_cell_map_file.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ArkAngel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">用户手册</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compile/index.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">ArkAngel 命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../project_tree/index.html">项目组织结构</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">文件格式</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project_file.html">项目文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch_template_file.html">架构模板文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pdk_file.html">PDK文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_file.html">基准文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boot_config_file.html">启动配置文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openfpga_stats_conf_file.html">统计配置文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log_check_conf_file.html">日志检查配置文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="synth_strategy_file.html">综合策略文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="floorplan_strategy_file.html">布局规划策略文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ckbuf_location_map_file.html">Ckbuf 位置映射文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pin_constraints_file.html">引脚约束文件 (.xml)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ckbuf_cell_map_file.html">Ckbuf 单元映射文件 (.xml)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Qorso策略文件（.xml）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reserved-words">保留字</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#global-variables">全局变量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#strategy">Strategy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#summary">摘要</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tasks">任务</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#designs">设计</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#path">路径</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdc">SDC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hdl_guide.html">HDL编码指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix/contact.html">联系方式</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ArkAngel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">&lt;no title&gt;</a></li>
+          <li class="breadcrumb-item"><a href="index.html">文件格式</a></li>
+      <li class="breadcrumb-item active">Qorso策略文件（.xml）</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/manual/file_formats/qorso_strategy_file.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="qorso-strategy-file-xml">
+<span id="file-format-qorso-strategy-file"></span><h1>Qorso策略文件（.xml）<a class="headerlink" href="#qorso-strategy-file-xml" title="Link to this heading"></a></h1>
+<p>qorso策略文件旨在为不同FPGA架构提供可扩展且自适应的*结果质量签收*（Qorso）方法。该文件在创建或加载流片项目时载入（详见 <a class="reference internal" href="arch_template_file.html#file-format-arch-template-file"><span class="std std-ref">架构模板文件 (.xml)</span></a>）</p>
+<p>文件示例如下所示</p>
+<section id="reserved-words">
+<span id="file-format-qorso-strategy-file-reserved-words"></span><h2>保留字<a class="headerlink" href="#reserved-words" title="Link to this heading"></a></h2>
+<p>保留字可用于定义文件路径</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-PWD">
+<span class="sig-name descname"><span class="pre">${PWD}</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-arg-PWD" title="Link to this definition"></a></dt>
+<dd><p>运行ArkAngel时的当前工作目录。该关键字将在运行时被替换</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-ROOT_PATH">
+<span class="sig-name descname"><span class="pre">${ROOT_PATH}</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-arg-ROOT_PATH" title="Link to this definition"></a></dt>
+<dd><p>启动ArkAngel的根路径</p>
+</dd></dl>
+
+</section>
+<section id="global-variables">
+<h2>全局变量<a class="headerlink" href="#global-variables" title="Link to this heading"></a></h2>
+<p>定义所有将被加载的Qorso策略文件中使用的全局变量。在架构模板文件中会加载多个Qorso策略，全局变量在同类型策略间共享</p>
+<p>全局变量分为两种类型</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sweep</span></code> where the variable in the given name will be swept from a starting value to an end value in a given step</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">constant</span></code> where the variable will be a constant value</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>Only numeric values are supported currently!</p>
+</div>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-arg-name" title="Link to this definition"></a></dt>
+<dd><p>Define the name of the variable, which should be unique. Once defined, the variable can be used as <code class="docutils literal notranslate"><span class="pre">${&lt;name&gt;}</span></code> in all the <code class="docutils literal notranslate"><span class="pre">from_pins</span></code> and <code class="docutils literal notranslate"><span class="pre">to_pins</span></code> definition. For example,</p>
+</dd></dl>
+
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;global_variables&gt;</span>
+<span class="w">  </span><span class="nt">&lt;sweep</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;idx&quot;</span><span class="w"> </span><span class="na">start=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">end=</span><span class="s">&quot;10&quot;</span><span class="w"> </span><span class="na">step=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;constant</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;idx_b&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;2&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/global_variables&gt;</span>
+<span class="nt">&lt;strategy</span><span class="w"> </span><span class="err">...</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;path</span><span class="w"> </span><span class="err">...</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;from_pins&gt;</span>
+<span class="w">      </span><span class="cm">&lt;!-- This will result in 10 tasks to be auto-generated --&gt;</span>
+<span class="w">      </span><span class="nt">&lt;pin&gt;</span>grid_*/fle_${idx}/*in*/<span class="nt">&lt;pin&gt;</span>
+<span class="w">      </span><span class="cm">&lt;!-- This will result in grid_*/fle_2/*out* to be generated.--&gt;</span>
+<span class="w">      </span><span class="nt">&lt;pin&gt;</span>grid_*/fle_${idx_b}/*out*/<span class="nt">&lt;pin&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/from_pins&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/path&gt;</span>
+<span class="nt">&lt;/strategy&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>Only 1 sweep variable is allowed for one strategy</p>
+</div>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;int&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-start" title="Link to this definition"></a></dt>
+<dd><p>Define the starting value for a variable to sweep</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-end">
+<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;int&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-end" title="Link to this definition"></a></dt>
+<dd><p>Define the ending value for a variable to sweep. The end value will be swepted when step is set to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;int&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-step" title="Link to this definition"></a></dt>
+<dd><p>Define the step for a variable to sweep. Can be either positive or negative numbers. If not specified, the default step is <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-value">
+<span class="sig-name descname"><span class="pre">value</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;int&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-value" title="Link to this definition"></a></dt>
+<dd><p>Define the constant value of the variable</p>
+</dd></dl>
+
+</section>
+<section id="strategy">
+<h2>Strategy<a class="headerlink" href="#strategy" title="Link to this heading"></a></h2>
+<p>策略可应用于多个名称匹配该模式的设计</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-0">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-0" title="Link to this definition"></a></dt>
+<dd><p>策略的唯一名称</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-type">
+<span class="sig-name descname"><span class="pre">type</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-type" title="Link to this definition"></a></dt>
+<dd><p>指定策略类型。可选值为 [ <code class="docutils literal notranslate"><span class="pre">timing</span></code> | <code class="docutils literal notranslate"><span class="pre">power</span></code> ]，每种类型需要不同的语法集</p>
+</dd></dl>
+
+<section id="summary">
+<span id="file-format-qorso-strategy-file-summary"></span><h3>摘要<a class="headerlink" href="#summary" title="Link to this heading"></a></h3>
+<p>从签核报告中收集的数据将写入 <code class="docutils literal notranslate"><span class="pre">yaml</span></code> 和 <code class="docutils literal notranslate"><span class="pre">csv</span></code> 文件，本节定义要收集的数据类型</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-timing_data">
+<span class="sig-name descname"><span class="pre">timing_data</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-timing_data" title="Link to this definition"></a></dt>
+<dd><p>时序策略可选 [ <code class="docutils literal notranslate"><span class="pre">required</span> <span class="pre">time</span></code> | <code class="docutils literal notranslate"><span class="pre">arrival</span> <span class="pre">time</span></code> | <code class="docutils literal notranslate"><span class="pre">slack</span></code> ]，功耗策略可选 [ <code class="docutils literal notranslate"><span class="pre">leak</span> <span class="pre">power</span></code> | <code class="docutils literal notranslate"><span class="pre">total</span> <span class="pre">power</span></code> ]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-data_type">
+<span class="sig-name descname"><span class="pre">data_type</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-data_type" title="Link to this definition"></a></dt>
+<dd><p>仅时序策略需要，可选 [ <code class="docutils literal notranslate"><span class="pre">Max</span></code> | <code class="docutils literal notranslate"><span class="pre">Min</span></code> | <code class="docutils literal notranslate"><span class="pre">Average</span></code> ]</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-scale_factor">
+<span class="sig-name descname"><span class="pre">scale_factor</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;float&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-scale_factor" title="Link to this definition"></a></dt>
+<dd><p>对从报告中提取的时序值应用缩放因子。例如：从报告中提取的需求时间为1ns，若定义缩放因子为 <code class="docutils literal notranslate"><span class="pre">1.1</span></code>，则摘要文件中最终显示的时序值为 <code class="docutils literal notranslate"><span class="pre">1.1ns</span></code>。默认缩放因子为 <code class="docutils literal notranslate"><span class="pre">1.0</span></code></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-variable">
+<span class="sig-name descname"><span class="pre">variable</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-variable" title="Link to this definition"></a></dt>
+<dd><p>定义在生成的CSV摘要文件中代表提取时序/功耗数据的可读变量</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-1">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-1" title="Link to this definition"></a></dt>
+<dd><p>定义在生成的YAML摘要文件中代表提取时序/功耗数据的架构变量</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>架构变量必须与架构时序文件中的变量名匹配！否则时序反标注可能失败！</p>
+</div>
+</section>
+<section id="tasks">
+<h3>任务<a class="headerlink" href="#tasks" title="Link to this heading"></a></h3>
+<p>在策略下可定义多个任务。每个任务可用于提取特定类型的时序/功耗数据。同一策略下所有任务的数据将汇总至摘要文件（CSV 和 YAML 格式）</p>
+</section>
+<section id="designs">
+<span id="file-format-qorso-strategy-file-design"></span><h3>设计<a class="headerlink" href="#designs" title="Link to this heading"></a></h3>
+<p>可在 <code class="docutils literal notranslate"><span class="pre">designs</span></code> 节点下定义多个模式，以捕获所有需要的设计</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-auto_infer_from_tile_type">
+<span class="sig-name descname"><span class="pre">auto_infer_from_tile_type</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-auto_infer_from_tile_type" title="Link to this definition"></a></dt>
+<dd><p>定义策略应应用到的瓦片类型匹配模式（支持正则表达式）</p>
+</dd></dl>
+
+</section>
+<section id="path">
+<h3>路径<a class="headerlink" href="#path" title="Link to this heading"></a></h3>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-from_pins">
+<span class="sig-name descname"><span class="pre">from_pins</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-from_pins" title="Link to this definition"></a></dt>
+<dd><p>指定时序路径的起始点引脚，报告时序任务将基于这些路径进行分析。用户可通过列表定义多个引脚，例如</p>
+</dd></dl>
+
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;from_pins&gt;</span>
+<span class="w">  </span><span class="nt">&lt;pin&gt;</span>[get_pins<span class="w"> </span>CellA/inputA*]<span class="nt">&lt;/pin&gt;</span>
+<span class="w">  </span><span class="nt">&lt;pin&gt;</span>CellA/inputB*<span class="nt">&lt;/pin&gt;</span>
+<span class="nt">&lt;/from_pins&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>若引脚定义为 <code class="docutils literal notranslate"><span class="pre">[get_pins</span> <span class="pre">&lt;引脚名称&gt;]</span></code>，该引脚将被添加至时序路径起始点组</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>若引脚定义未使用 <code class="docutils literal notranslate"><span class="pre">get_pins</span></code>，将在添加至时序路径起始点组前进行引脚存在性检查。此种情况下同时支持总线定义，例如 <code class="docutils literal notranslate"><span class="pre">cellA/inputB[3:5]</span></code>。总线中的每个引脚将通过 <code class="docutils literal notranslate"><span class="pre">get_pins</span></code> 检查后添加至起始点组</p>
+</div>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-from_edge">
+<span class="sig-name descname"><span class="pre">from_edge</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-from_edge" title="Link to this definition"></a></dt>
+<dd><p>可选值为 [ <code class="docutils literal notranslate"><span class="pre">rise</span></code> | <code class="docutils literal notranslate"><span class="pre">fall</span></code> | <code class="docutils literal notranslate"><span class="pre">both</span></code> ]。指定分析时序路径起点时应考虑的边沿类型，通常用于时钟路径。默认为 <code class="docutils literal notranslate"><span class="pre">both</span></code>，表示应同时考虑上升沿和下降沿。</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-to_pin">
+<span class="sig-name descname"><span class="pre">to_pin</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-to_pin" title="Link to this definition"></a></dt>
+<dd><p>指定报告时序任务应考虑的时序路径终点引脚。语法与 <code class="docutils literal notranslate"><span class="pre">from_pin</span></code> 相同。</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-to_edge">
+<span class="sig-name descname"><span class="pre">to_edge</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-to_edge" title="Link to this definition"></a></dt>
+<dd><p>可选值为 [ <code class="docutils literal notranslate"><span class="pre">rise</span></code> | <code class="docutils literal notranslate"><span class="pre">fall</span></code> | <code class="docutils literal notranslate"><span class="pre">both</span></code> ]。指定分析时序路径终点时应考虑的边沿类型，通常用于时钟路径。默认为 <code class="docutils literal notranslate"><span class="pre">both</span></code>，表示应同时考虑上升沿和下降沿。</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-through_pin">
+<span class="sig-name descname"><span class="pre">through_pin</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-through_pin" title="Link to this definition"></a></dt>
+<dd><p>指定报告时序任务应考虑的时序路径穿通点引脚。语法与 <code class="docutils literal notranslate"><span class="pre">from_pin</span></code> 相同。</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>穿通引脚在列表中的顺序至关重要！它决定了 PTPX 分析给定时序路径时应遵循的穿通点序列。例如，以下代码强制报告时序任务从 <code class="docutils literal notranslate"><span class="pre">input_a</span></code> 开始，到 <code class="docutils literal notranslate"><span class="pre">input_b</span></code> 结束，且需先经过 <code class="docutils literal notranslate"><span class="pre">pin_c[0]</span></code> 或 <code class="docutils literal notranslate"><span class="pre">pin_c[1]</span></code>，再经过 <code class="docutils literal notranslate"><span class="pre">pin_d</span></code>。</p>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">&lt;from_pins&gt;</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;pin&gt;[get_pins input_a]&lt;/pin&gt;</span>
+<span class="l l-Scalar l-Scalar-Plain">&lt;/from_pins&gt;</span>
+<span class="l l-Scalar l-Scalar-Plain">&lt;to_pins&gt;</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;pin&gt;[get_pins input_b]&lt;/pin&gt;</span>
+<span class="l l-Scalar l-Scalar-Plain">&lt;/to_pins&gt;</span>
+<span class="l l-Scalar l-Scalar-Plain">&lt;through_pins&gt;</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;pin&gt;[get_pins pin_c[0:1]]&lt;/pin&gt;</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">&lt;pin&gt;[get_pins pin_d]&lt;/pin&gt;</span>
+<span class="l l-Scalar l-Scalar-Plain">&lt;/through_pins&gt;</span>
+</pre></div>
+</div>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-max_delay">
+<span class="sig-name descname"><span class="pre">max_delay</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;float&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-max_delay" title="Link to this definition"></a></dt>
+<dd><p>指定时序路径起点 <code class="docutils literal notranslate"><span class="pre">from_pin</span></code> 与终点 <code class="docutils literal notranslate"><span class="pre">to_pin</span></code> 之间的最大延迟。</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-min_delay">
+<span class="sig-name descname"><span class="pre">min_delay</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;float&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-min_delay" title="Link to this definition"></a></dt>
+<dd><p>指定时序路径起点 <code class="docutils literal notranslate"><span class="pre">from_pin</span></code> 与终点 <code class="docutils literal notranslate"><span class="pre">to_pin</span></code> 之间的最小延迟。</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-delay_type">
+<span class="sig-name descname"><span class="pre">delay_type</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-delay_type" title="Link to this definition"></a></dt>
+<dd><p>指定报告时序任务应考虑的时序路径类型。支持以下取值：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">comb_max</span></code> 表示组合时序路径的最大延迟</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">comb_min</span></code> 表示组合时序路径的最小延迟</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup</span></code> 表示寄存器内部或寄存器到寄存器时序路径的建立时间</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hold</span></code> 表示寄存器内部或寄存器到寄存器时序路径的保持时间</p></li>
+</ul>
+<p>当指定建立时间或保持时间的延迟类型时，用户必须使用 <code class="docutils literal notranslate"><span class="pre">clock_group</span></code> 语法提供与时序路径相关的时钟组</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-clock_group">
+<span class="sig-name descname"><span class="pre">clock_group</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;string&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-clock_group" title="Link to this definition"></a></dt>
+<dd><p>指定时序报告任务应考虑的时序路径相关时钟</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-nworst">
+<span class="sig-name descname"><span class="pre">nworst</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;int&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-nworst" title="Link to this definition"></a></dt>
+<dd><p>指定要报告的最差路径数量。若设置大于1的数值，时序报告将包含多条路径。使用时序摘要任务（详见 <span class="xref std std-ref">file_format_task_file_timing_summary</span>）提取时序值以获得更好的数据可视性</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-max_paths">
+<span class="sig-name descname"><span class="pre">max_paths</span></span><span class="sig-prename descclassname"><span class="pre">=&quot;&lt;int&gt;&quot;</span></span><a class="headerlink" href="#cmdoption-arg-max_paths" title="Link to this definition"></a></dt>
+<dd><p>指定要报告的最差路径最大数量。若设置大于1的数值，时序报告将包含多条路径。使用时序摘要任务（详见 <a class="reference internal" href="#file-format-qorso-strategy-file-summary"><span class="std std-ref">摘要</span></a>）提取时序值以获得更好的数据可视性</p>
+</dd></dl>
+
+</section>
+<section id="sdc">
+<h3>SDC<a class="headerlink" href="#sdc" title="Link to this heading"></a></h3>
+<p>指定时序报告任务应考虑的SDC文件列表。当前支持文件名以 <code class="docutils literal notranslate"><span class="pre">.tcl</span></code> 或 <code class="docutils literal notranslate"><span class="pre">.sdc</span></code> 结尾的文件</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>保留字适用于文件路径。详见 <a class="reference internal" href="synth_strategy_file.html#file-format-synth-strategy-file-reserved-words"><span class="std std-ref">保留字</span></a></p>
+</div>
+<p>例如：</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;sdc&gt;</span>
+<span class="w">  </span><span class="nt">&lt;file&gt;</span>${ROOT_PATH}/sdc/common/constants.tcl<span class="nt">&lt;/file&gt;</span>
+<span class="w">  </span><span class="nt">&lt;file&gt;</span>${ROOT_PATH}/sdc/common/dont_use_cell.tcl<span class="nt">&lt;/file&gt;</span>
+<span class="w">  </span><span class="nt">&lt;file&gt;</span>${ROOT_PATH}/sdc/io/area_dchain.tcl<span class="nt">&lt;/file&gt;</span>
+<span class="w">  </span><span class="nt">&lt;file&gt;</span>${ROOT_PATH}/sdc/io/timing.tcl<span class="nt">&lt;/file&gt;</span>
+<span class="w">  </span><span class="nt">&lt;file&gt;</span>${ROOT_PATH}/sdc/io/power.tcl<span class="nt">&lt;/file&gt;</span>
+<span class="nt">&lt;/sdc&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="ckbuf_cell_map_file.html" class="btn btn-neutral float-left" title="Ckbuf 单元映射文件 (.xml)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../hdl_guide.html" class="btn btn-neutral float-right" title="HDL编码指南" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, RapidFlex。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

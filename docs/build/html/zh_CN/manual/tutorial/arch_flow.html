@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>架构开发 &mdash; ArkAngel 1.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_static/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=867f8617" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34088549"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="网表开发" href="netlist_flow.html" />
+    <link rel="prev" title="创建架构模板" href="arch_template_creation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ArkAngel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">用户手册</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compile/index.html">安装</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tapeout_flow.html">流片流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_creation.html">项目创建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pdk_import.html">导入PDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_import.html">基准导入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch_template_creation.html">创建架构模板</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">架构开发</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#initialization">初始化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-names">模块命名</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fabric-key">Fabric Key</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pin-table">引脚表</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="netlist_flow.html">网表开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dv_flow.html">设计验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pd_flow.html">物理设计</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customize_io.html">定制输入输出</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">ArkAngel 命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../project_tree/index.html">项目组织结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">文件格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hdl_guide.html">HDL编码指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix/contact.html">联系方式</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ArkAngel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">&lt;no title&gt;</a></li>
+          <li class="breadcrumb-item"><a href="index.html">教程</a></li>
+      <li class="breadcrumb-item active">架构开发</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/manual/tutorial/arch_flow.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="arch-development">
+<span id="tutorial-arch-flow"></span><h1>架构开发<a class="headerlink" href="#arch-development" title="Link to this heading"></a></h1>
+<p>架构开发流程包含一系列步骤，用于整合所有架构级细节：</p>
+<ul class="simple">
+<li><p>初始化</p></li>
+<li><p>模块名称</p></li>
+<li><p>结构密钥</p></li>
+<li><p>引脚表</p></li>
+</ul>
+<p>在每个步骤中，用户可访问并检查现有各项内容，并基于默认设置自定义选择，如 <a class="reference internal" href="#fig-aaee-arch-dev-flow"><span class="std std-numref">图 2</span></a> 所示</p>
+<figure class="align-default" id="id1">
+<span id="fig-aaee-arch-dev-flow"></span><a class="reference internal image-reference" href="../../_images/aaee_arch_dev_flow.png"><img alt="架构开发流程" src="../../_images/aaee_arch_dev_flow.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">图 2 </span><span class="caption-text">架构开发流程</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="initialization">
+<h2>初始化<a class="headerlink" href="#initialization" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>初始化运行时间可能需要几分钟完成，因为需要缓存所有工作象限</p>
+</div>
+<p>此步骤通常会对选定架构执行全面初始化，并缓存常用数据。完成后，用户可获取芯片单元数量及其初始命名。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a project. See details in dedicated tutorial</span>
+<span class="c1"># Perform initialization</span>
+<span class="n">create_arch</span>
+<span class="c1"># Once initialization is complete, use the following command to check the initial nameing of tiles</span>
+<span class="n">report_reference_module_names</span>
+<span class="c1"># You may also use the following command to check the raw file</span>
+<span class="n">show_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">init_module_names</span>
+</pre></div>
+</div>
+<p>您可查看参考模块名称摘要以辅助自定义配置。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Default</span> <span class="n">Name</span>  <span class="n">Type</span>                    <span class="n">Count</span>
+<span class="n">tile_14_</span>      <span class="n">EMPTY</span>                   <span class="mi">1</span>
+<span class="n">tile_7_</span>       <span class="n">io_bottomL_bottom</span>       <span class="mi">15</span>
+<span class="n">tile_11_</span>      <span class="n">io_bottomL_bottom</span>       <span class="mi">1</span>
+<span class="n">tile_0_</span>       <span class="n">EMPTY</span>                   <span class="mi">1</span>
+<span class="n">tile_4_</span>       <span class="n">io_leftL_left</span>           <span class="mi">1</span>
+<span class="n">tile_2_</span>       <span class="n">io_leftL_left</span>           <span class="mi">1</span>
+<span class="n">tile_3_</span>       <span class="n">io_leftL_left</span>           <span class="mi">1</span>
+<span class="n">tile_1_</span>       <span class="n">io_leftL_left</span>           <span class="mi">4</span>
+<span class="n">tile_5_</span>       <span class="n">io_leftL_left</span>           <span class="mi">1</span>
+<span class="n">tile_15_</span>      <span class="n">io_rightL_right</span>         <span class="mi">7</span>
+<span class="n">tile_16_</span>      <span class="n">io_rightL_right</span>         <span class="mi">1</span>
+<span class="n">tile_8_</span>       <span class="n">clb</span>                     <span class="mi">105</span>
+<span class="n">tile_12_</span>      <span class="n">clb</span>                     <span class="mi">7</span>
+<span class="n">tile_13_</span>      <span class="n">clb</span>                     <span class="mi">1</span>
+<span class="n">tile_9_</span>       <span class="n">clb</span>                     <span class="mi">15</span>
+<span class="n">tile_6_</span>       <span class="n">EMPTY</span>                   <span class="mi">1</span>
+<span class="n">tile_10_</span>      <span class="n">io_topL_top</span>             <span class="mi">16</span>
+</pre></div>
+</div>
+<p>当用户通过编写模块命名文件自定义名称时（详见 <span class="xref std std-ref">file_formats_module_naming_file</span>），默认名称对应语法 <code class="docutils literal notranslate"><span class="pre">default</span></code> 的内容。用户只需通过语法 <code class="docutils literal notranslate"><span class="pre">given</span></code> 设置最终命名。以下例为例，每个芯片单元可通过编写文件实现自定义命名。若需保留默认名称（如 <code class="docutils literal notranslate"><span class="pre">tile_1_</span></code>），可删除对应行。</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;module_names&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_0_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;left_bottom_tile&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_1_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;left_tile_main&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_2_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;left_tile_clock_below&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_3_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;left_tile_clock_out&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_4_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;left_tile_clock_above&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_5_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;left_tile_sub&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_6_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;top_left_tile&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_7_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;bottom_tile&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_8_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;tile_main&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_9_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;tile_sub&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_10_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;top_tile&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_11_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;bottom_tile_right_edge&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_12_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;tile_right_edge_main&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_13_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;tile_right_edge_sub&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_14_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;bottom_right_tile&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_15_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;right_tile_main&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;module_name</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;tile_16_&quot;</span><span class="w"> </span><span class="na">given=</span><span class="s">&quot;right_tile_sub&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/module_names&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="module-names">
+<h2>模块命名<a class="headerlink" href="#module-names" title="Link to this heading"></a></h2>
+<p>此步骤允许用户对芯片单元名称进行自定义，这将影响下游流程。完成后，配置协议的初始组织结构（Fabric Key）将可供用户使用。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># You may specify the path to your module_names.xml</span>
+<span class="n">set_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">module_names</span> <span class="o">--</span><span class="n">file</span> <span class="o">../</span><span class="n">config</span><span class="o">/</span><span class="n">craft_files</span><span class="o">/</span><span class="n">module_names</span><span class="o">.</span><span class="n">xml</span>
+<span class="c1"># Check the resulting module names</span>
+<span class="n">show_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">module_names</span>
+<span class="c1"># Use the following command to check your reference fabric key</span>
+<span class="n">show_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">reference_fabric_key</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>若不愿自行定制，可使用内置模块命名规则。</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use the default than a hand-crafted file</span>
+<span class="n">set_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">module_names</span>
+<span class="c1"># Check the resulting module names</span>
+<span class="n">show_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">module_names</span>
+<span class="c1"># Use the following command to check your reference fabric key</span>
+<span class="n">show_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">reference_fabric_key</span>
+</pre></div>
+</div>
+</section>
+<section id="fabric-key">
+<h2>Fabric Key<a class="headerlink" href="#fabric-key" title="Link to this heading"></a></h2>
+<p>此步骤允许用户在配置协议上下文中自定义芯片单元的连接方式。完成后，配置协议的初始引脚表将可供用户使用。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>初始引脚表提交后，即可使用 <code class="docutils literal notranslate"><span class="pre">report_module_names</span></code> 命令。</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Commit your fabric key file. You may specify the path to your fabric key file</span>
+<span class="n">set_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">crafted_fabric_key</span> <span class="o">--</span><span class="n">file</span> <span class="o">../</span><span class="n">config</span><span class="o">/</span><span class="n">craft_files</span><span class="o">/</span><span class="n">crafted_fabric_key</span><span class="o">.</span><span class="n">xml</span>
+<span class="c1"># Check the final fabric key file</span>
+<span class="n">show_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">fabric_key</span>
+<span class="c1"># Validate your final module names</span>
+<span class="n">report_module_names</span>
+</pre></div>
+</div>
+<p>编写 Fabric Key 文件时（若不采用默认文件），仅需填写语法 <code class="docutils literal notranslate"><span class="pre">alias</span></code> 与 <a href="#id1"><span class="problematic" id="id2">``</span></a>id``（详见 <span class="xref std std-ref">file_formats_fabric_key</span>）。例如：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">fabric_key</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">module</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;fpga_top&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">region</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_1__4_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_1__3_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;2&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_1__2_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;3&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_1__1_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;4&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_1__0_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;5&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_0__0_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;6&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_0__1_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;7&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_0__2_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;8&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_0__3_&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">key</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;9&quot;</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;tile_0__4_&quot;</span><span class="o">/&gt;</span>
+    <span class="o">&lt;/</span><span class="n">region</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">fabric_key</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>ArkAngel 可自动填充其余所需数据（通过命令 <code class="docutils literal notranslate"><span class="pre">show_arch</span></code> 查看结果时）</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>若不想自行定制，可使用内置架构核心</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># use the default</span>
+<span class="n">set_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">crafted_fabric_key</span>
+<span class="c1"># Check the final fabric key file</span>
+<span class="n">show_arch</span> <span class="o">--</span><span class="nb">type</span> <span class="n">fabric_key</span>
+<span class="c1"># Validate your final module names</span>
+<span class="n">report_module_names</span>
+</pre></div>
+</div>
+<p>可查看模块名称摘要以验证定制内容</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Final</span> <span class="n">Name</span>                    <span class="n">Default</span> <span class="n">Name</span>    <span class="n">Type</span>                    <span class="n">Count</span>
+<span class="n">bottom_right_tile</span>             <span class="n">tile_14_</span>        <span class="n">EMPTY</span>                   <span class="mi">1</span>
+<span class="n">bottom_tile</span>                   <span class="n">tile_7_</span>         <span class="n">io_bottomL_bottom</span>       <span class="mi">15</span>
+<span class="n">bottom_tile_right_edge</span>        <span class="n">tile_11_</span>        <span class="n">io_bottomL_bottom</span>       <span class="mi">1</span>
+<span class="n">left_bottom_tile</span>              <span class="n">tile_0_</span>         <span class="n">EMPTY</span>                   <span class="mi">1</span>
+<span class="n">left_tile_clock_above</span>         <span class="n">tile_4_</span>         <span class="n">io_leftL_left</span>           <span class="mi">1</span>
+<span class="n">left_tile_clock_below</span>         <span class="n">tile_2_</span>         <span class="n">io_leftL_left</span>           <span class="mi">1</span>
+<span class="n">left_tile_clock_out</span>           <span class="n">tile_3_</span>         <span class="n">io_leftL_left</span>           <span class="mi">1</span>
+<span class="n">left_tile_main</span>                <span class="n">tile_1_</span>         <span class="n">io_leftL_left</span>           <span class="mi">4</span>
+<span class="n">left_tile_sub</span>                 <span class="n">tile_5_</span>         <span class="n">io_leftL_left</span>           <span class="mi">1</span>
+<span class="n">right_tile_main</span>               <span class="n">tile_15_</span>        <span class="n">io_rightL_right</span>         <span class="mi">7</span>
+<span class="n">right_tile_sub</span>                <span class="n">tile_16_</span>        <span class="n">io_rightL_right</span>         <span class="mi">1</span>
+<span class="n">tile_main</span>                     <span class="n">tile_8_</span>         <span class="n">clb</span>                     <span class="mi">105</span>
+<span class="n">tile_right_edge_main</span>          <span class="n">tile_12_</span>        <span class="n">clb</span>                     <span class="mi">7</span>
+<span class="n">tile_right_edge_sub</span>           <span class="n">tile_13_</span>        <span class="n">clb</span>                     <span class="mi">1</span>
+<span class="n">tile_sub</span>                      <span class="n">tile_9_</span>         <span class="n">clb</span>                     <span class="mi">15</span>
+<span class="n">top_left_tile</span>                 <span class="n">tile_6_</span>         <span class="n">EMPTY</span>                   <span class="mi">1</span>
+<span class="n">top_tile</span>                      <span class="n">tile_10_</span>        <span class="n">io_topL_top</span>             <span class="mi">16</span>
+</pre></div>
+</div>
+</section>
+<section id="pin-table">
+<h2>引脚表<a class="headerlink" href="#pin-table" title="Link to this heading"></a></h2>
+<p>本步骤允许用户通过提供 I/O 命名规则来自定义 I/O 名称。此步骤完成后，架构包即可用于下游开发</p>
+<p>注意 I/O 命名规则适用于两种架构核心：<code class="docutils literal notranslate"><span class="pre">dp</span></code> 用于设计规划，<code class="docutils literal notranslate"><span class="pre">ultimate</span></code> 为实际物理架构</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### Pin table generation for dp fabric</span>
+<span class="n">set_arch</span> <span class="o">--</span><span class="n">fabric</span> <span class="n">dp</span> <span class="o">--</span><span class="nb">type</span> <span class="n">io_pin_table_naming_rules</span> <span class="o">--</span><span class="n">file</span> <span class="o">../</span><span class="n">config</span><span class="o">/</span><span class="n">craft_files</span><span class="o">/</span><span class="n">dp_pin_table_naming_rules</span><span class="o">.</span><span class="n">xml</span>
+<span class="c1">### Pin table generation for ultimate fabric</span>
+<span class="n">set_arch</span> <span class="o">--</span><span class="n">fabric</span> <span class="n">ultimate</span> <span class="o">--</span><span class="nb">type</span> <span class="n">io_pin_table_naming_rules</span> <span class="o">--</span><span class="n">file</span> <span class="o">../</span><span class="n">config</span><span class="o">/</span><span class="n">craft_files</span><span class="o">/</span><span class="n">ultimate_pin_table_naming_rules</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>若不想自行定制，可使用内置命名规则</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### Pin table generation for dp fabric, use default</span>
+<span class="n">set_arch</span> <span class="o">--</span><span class="n">fabric</span> <span class="n">dp</span> <span class="o">--</span><span class="nb">type</span> <span class="n">io_pin_table_naming_rules</span>
+<span class="c1">### Pin table generation for ultimate fabric, use default</span>
+<span class="n">set_arch</span> <span class="o">--</span><span class="n">fabric</span> <span class="n">ultimate</span> <span class="o">--</span><span class="nb">type</span> <span class="n">io_pin_table_naming_rules</span>
+</pre></div>
+</div>
+<p>以下列命名规则为例：顶部边界定义在坐标 (1,7) 至 (6,7) 的单元范围内。因此顶部 I/O 索引将从 <code class="docutils literal notranslate"><span class="pre">tile_1__7_</span></code> 开始至 <code class="docutils literal notranslate"><span class="pre">tile_6__7_</span></code>。例如 <code class="docutils literal notranslate"><span class="pre">tile_1__7_</span></code> 中的首个 I/O 引脚将被命名为 <code class="docutils literal notranslate"><span class="pre">TOP_0_IN[0]</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pin_table_naming_rules</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">side_rule</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;TOP&quot;</span> <span class="n">startx</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">endx</span><span class="o">=</span><span class="s2">&quot;6&quot;</span> <span class="n">starty</span><span class="o">=</span><span class="s2">&quot;7&quot;</span> <span class="n">endy</span><span class="o">=</span><span class="s2">&quot;7&quot;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">side_rule</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;RIGHT&quot;</span> <span class="n">startx</span><span class="o">=</span><span class="s2">&quot;7&quot;</span> <span class="n">endx</span><span class="o">=</span><span class="s2">&quot;7&quot;</span> <span class="n">starty</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">endy</span><span class="o">=</span><span class="s2">&quot;6&quot;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">side_rule</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;BOTTOM&quot;</span> <span class="n">startx</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">endx</span><span class="o">=</span><span class="s2">&quot;6&quot;</span> <span class="n">starty</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">endy</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">side_rule</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;LEFT&quot;</span> <span class="n">startx</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">endx</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">starty</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">endy</span><span class="o">=</span><span class="s2">&quot;6&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;/</span><span class="n">pin_table_naming_rules</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="arch_template_creation.html" class="btn btn-neutral float-left" title="创建架构模板" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="netlist_flow.html" class="btn btn-neutral float-right" title="网表开发" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, RapidFlex。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

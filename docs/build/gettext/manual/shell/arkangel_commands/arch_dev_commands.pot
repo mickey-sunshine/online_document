@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:4
+msgid "Arch Development Commands"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:7
+msgid "create_arch"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:9
+msgid "Create a new architecture as the starting point of architecture development. This is the first step for users to start with an architecture templates. Before running the ``setup_arch``, architecture configuration commands can be applied"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:13
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:34
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:63
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:82
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:105
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:124
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:144
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:174
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:203
+msgid "Specify the run id. Each run is independent from each other. If not specified, a default name will be provided."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:15
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:36
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:65
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:84
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:107
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:126
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:146
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:176
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:205
+msgid "If you specify an existing run, the data will be overwritten."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:19
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:52
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:73
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:96
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:115
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:134
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:150
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:180
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:213
+msgid "Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:24
+msgid "set_io_num"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:26
+msgid "Specify the number of I/O, either input or output, on a given side of the eFPGA."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:28
+msgid "Due the architecture constraints, the actual number of I/O may be larger than the wanted. Use the command :ref:`arkangel_project_commands_report_io` to get the actual I/O arrangment"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:30
+msgid "This command cannot remove all the I/Os on a given side. Use command :ref:`arkangel_arch_dev_commands_remove_io`"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:40
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:69
+msgid "Specify the side where the I/O number constraints should be applied. Can be [ ``top`` | ``right`` | ``bottom`` | ``left`` ]"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:44
+msgid "Specify the type of the I/Os where the I/O number constraints should be applied. Can be [ ``input`` | ``output`` ]"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:48
+msgid "Specify the number of I/Os on the selected side and type"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:57
+msgid "remove_io"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:59
+msgid "Remove all the I/Os in any available types on a given side of the eFPGA."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:76
+msgid "set_core_dimension"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:78
+msgid "Specify the height and width of the core fabric on a given side of the eFPGA, excluding the I/O rows and columns"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:88
+msgid "Specify the number of rows in the core fabric, excluding I/Os"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:92
+msgid "Specify the number of columns in the core fabric, excluding I/Os"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:99
+msgid "set_num_prog_clock"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:101
+msgid "Specify the number of programming clocks to be used in the eFPGA"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:111
+msgid "Specify the number of programming clocks in the core fabric"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:118
+msgid "set_num_config_region"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:120
+msgid "Specify the number of configurable regions to be used in the eFPGA. The number of programming clocks will control a number of configurable regions. When the number of configurable regions is bigger than the number of programming clocks. Configurable regions will be evenly assigned to each programming clock"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:130
+msgid "Specify the number of configurable regions in the core fabric"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:138
+msgid "setup_arch"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:140
+msgid "Setup a new architecture with detailed data modeling, being ready for downstream development."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:153
+msgid "show_arch"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:155
+msgid "Show the details of a given aspect of an eFPGA architecture. Due to the large data, only the file location will be shown"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:159
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:189
+msgid "Can be the following:"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:161
+msgid "``init_module_names`` : the initial names of each unique modules in the eFPGA architecture. This is the reference for users to customize module names"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:162
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:191
+msgid "``module_names``: check the final names for each unique modules in the eFPGA architecture"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:163
+msgid "``reference_fabric_key`` : the initial fabric key generated for the eFPGA architecture. This is the reference for users to customzie"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:164
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:192
+msgid "``crafted_fabric_key`` : the hand-crafted fabric key provided by user"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:165
+msgid "``fabric_key`` : the final fabric key file which is adapted from the hand-crafted fabric key, which will be applied to the eFPGA architecture"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:166
+msgid "``arch_floorplan`` : the illustrative figure showing an early-stage floorplanning for the eFPGA architecture. Detailed floorplanning is available after netlist development is completed"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:170
+msgid "Specify the name of the eFPGA fabric, whose details will be shown. If not specified, the ``ultimate`` fabric will be considered. See details in :ref:`manual_project_tree_arch_workspace`` for defintion of fabrics."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:183
+msgid "set_arch"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:185
+msgid "Add or update a customized file to the eFPGA architecture. The added file will be sanitized and applied to the architecture database."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:193
+msgid "``io_pin_table_naming_rules``: the naming rules for eFPGA I/O pins"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:197
+msgid "Specify the name of the eFPGA fabric, whose details will be shown. If not specified, both ``dp`` and ``ultimate`` fabrics will be impacted. See details in :ref:`manual_project_tree_arch_workspace` for defintion of fabrics."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:199
+msgid "When the type of ``io_pin_table_naming_rules``, user must specify the fabric name and ensure both ``dp`` and ``ultimate`` fabrics are covered."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/arch_dev_commands.rst:209
+msgid "Specify the path to the handcrafted file. If not specifed, the default/reference file will be used."
+msgstr ""

@@ -1,0 +1,45 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/shell/arkangel_commands/basic_commands.rst:4
+msgid "Basic Commands"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/basic_commands.rst:7
+msgid "version"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/basic_commands.rst:9
+msgid "Show ArkAngel version information"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/basic_commands.rst:12
+msgid "help"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/basic_commands.rst:14
+msgid "Show help desk to list all the available commands"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/basic_commands.rst:17
+msgid "exit"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/basic_commands.rst:19
+msgid "Exit ArkAngel shell"
+msgstr ""

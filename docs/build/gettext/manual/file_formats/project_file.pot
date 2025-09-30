@@ -1,0 +1,149 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/file_formats/project_file.rst:4
+msgid "Project File (.xml)"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:6
+msgid "The project file aims to provide a standard way for users to create a project and include design files. It is an interchangeable file between *Graphical User Interface* (GUI) and EDA engines. Users can use GUI to generate a project file or write their own project file. EDA engine accepts only project files when create, load and save project-related information."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:11
+msgid "An example of file is shown as follows."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:17
+msgid "Reserved Words"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:19
+msgid "The reserved words can be used in defining file paths"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:23
+msgid "The current working directory when running ArkAngel. This keyword will be replaced during runtime"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:27
+msgid "The root path which starting ArkAngel"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:30
+msgid "General Syntax"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:34
+msgid "A unique name of the project, impacting the naming of files/directories in the assoicated workspace (See details in :ref:`manual_project_tree_overview`)"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:38
+msgid "The family name of the architecture. This will impact the synthesis strategy, optimization strategies and EDA scripts during the EFPGA development"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:42
+msgid "Specify the root directory where the project directory will be created and runtime results will be placed."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:44
+msgid "Suggest to use the directory where the project file is placed!"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:47
+msgid "Time Stamps"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:51
+msgid "The author who creates the project file. Used by GUI."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:55
+msgid "The date when the project file is created for the first time. If this is a new project to create, the stamp will be overwritten by the actual creation date."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:59
+msgid "The date when the project file is modified for the last time."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:63
+msgid "The tool version when the project file should be used. This is to avoid mis-use of project files across different versions of ArkAngel."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:66
+msgid "PDK Configuration"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:68
+msgid "Specify the path to the PDK configuration file. See details in :ref:`file_format_pdk_file`"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:71
+msgid "Benchmark Sets"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:73
+msgid "Specify the path to the benchmark configuration file. See details in :ref:`file_format_benchmark_file`"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:75
+msgid "Multiple benchmark files can be defined."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:79
+msgid "The default benchmark to be applied when running benchmark-independent development process. Must be a valid name among the benchmarks. The selected benchmark must have a post-synthesis netlist"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:83
+msgid "Specify the list of benchmark names that should be disabled for architecture evaluation and design verification. Note that the benchmark names should be valid ones defined in the benchmark files."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:85
+msgid "Use the syntax ``disabled`` in the project file results in the same impact as running command ``disable_benchmark`` (See details in :ref:`arkangel_project_commands_disable_benchmark`)"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:90
+msgid "Corner Map"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:92
+msgid "User-defined corners can be defined under the node ``corner_map``."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:96
+msgid "Default name of the corner to be considered when not specified by user during the development flow. If not specified, the default corner will follow the default corner of built-in corners. See details in :ref:`file_format_arch_template_file_builtin_corner_map`"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:100
+msgid "The unique name of the corner. User can overwrite any built-in corner with the same name."
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:104
+msgid "The corner name of a standard cell library. See details in :ref:`file_format_pdk_file`"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:108
+msgid "The corner name to be used when naming SPEF files"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:113
+msgid "Arch Template"
+msgstr ""
+
+#: ../../source/manual/file_formats/project_file.rst:115
+msgid "Define the file path to the architecture template (See details in :ref:`file_format_arch_template_file`)"
+msgstr ""

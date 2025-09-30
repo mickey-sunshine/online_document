@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, RapidFlex
+# This file is distributed under the same license as the ArkAngel package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ArkAngel 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 09:49+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:4
+msgid "Design Verification Commands"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:7
+msgid "setup_design_verification"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:9
+msgid "Setup design verification for selected golden bitstream and netlists"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:13
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:66
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:117
+msgid "Specify the run id. Each run is independent from each other. If not specified, a default name will be provided."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:15
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:68
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:119
+msgid "If you specify an existing run, the data will be overwritten."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:19
+msgid "Specify the corner defined through project file. If not specified, use the default corner. Use the keyword ``all`` to sweep all the available corners."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:21
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:74
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:125
+msgid "Expect long runtime and high-usage on computing resource when you choose to sweep all the corners"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:25
+msgid "Specify the run id of architecture evaluation. See details in :ref:`arkangel_arch_eval_commands`. Note that the architecture evaluation should be finished successfully. If not specifed, the latest run will be automatically consideried."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:29
+msgid "Specify the run id of netlist development. See details in :ref:`arkangel_netlist_dev_commands`. Note that the netlist development should be finished successfully. If not specifed, the latest run will be automatically consideried."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:33
+msgid "For gate-level design verification, this is not required."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:35
+msgid "Specify the run id of physical design. See details in :ref:`arkangel_netlist_dev_commands`. Note that the physical design should be finished successfully. If not specifed, the latest run will be automatically consideried."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:39
+msgid "Specify the max. number of jobs to be applied on synthesis"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:43
+msgid "This is ONLY for debugging use"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:45
+msgid "When enabled, only scripts of netlist synthesis and analyze will be generated. Third party tool will not be run"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:49
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:82
+msgid "Specify the time (in sec.) to wait before starting a new thread (when --jobs > 2). By default, it is 1 sec."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:53
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:86
+msgid "Specify the time (in sec.) to wait before starting a new thread for simulation (when --jobs > 2). By default, it is 1 sec."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:57
+msgid "Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is `0``, leading to minimum logging messages."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:60
+msgid "run_preconfigured_simulation"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:62
+msgid "Run preconfigured simulation based on the selected netlists and benchmarks"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:72
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:123
+msgid "Specify the corner defined through project file. If not specified, use the default corner.  Use the keyword ``all`` to sweep all the available corners."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:78
+msgid "Specify the max. number of jobs to be applied on simulations"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:90
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:127
+msgid "Specify the time (in sec.) to wait before starting a new thread for checking simulation logs (when --jobs > 2)"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:94
+msgid "Specify the simulator to be used when running simulation. Available options are [ ``vcs`` | ``modelsim`` | ``questa`` | ``ncsim`` ]. By default, vcs is considered"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:98
+msgid "Specify the type of netlist to be considered when running simulation. Available options are [ ``rtl`` | ``gl`` | ``pl`` ]. By default, ``rtl`` is considered"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:102
+msgid "Specify if the waveform file should be outputted when running simulation. Available options are [ none | fsdb | vcd ]. By default is none, implicating no waveform files are outputted."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:106
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:143
+msgid "Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:109
+msgid "run_benchmark_simulation"
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:111
+msgid "Run benchmark simulation based on the selected benchmark and its netlists that are generated during bitstream generation stages."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:113
+msgid "The concepts of rtl, post_synth and post_implementation are applicable to benchmark netlists only, representing the types of netlists during HDL-to-Bitstream stages. It differs from the fabric netlist mentioned in command ``run_preconfigured_simulation``."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:131
+msgid "Specify the simulator to be used when running simulation. Available options are [ ``vcs`` | ``modelsim`` | ``icarus`` ]. By default, ``vcs`` is considered."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:135
+msgid "Specify the name of the benchmark to be used for application simulation."
+msgstr ""
+
+#: ../../source/manual/shell/arkangel_commands/dv_commands.rst:139
+msgid "Specify the type of simulation to be considered. Available options are [ ``rtl`` | ``post_synth`` | ``post_implementation`` ]."
+msgstr ""

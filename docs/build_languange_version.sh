@@ -103,7 +103,7 @@ for lang in "${LANGUAGES[@]}"; do
 
     # 步骤 3：自动翻译（调用 translator.py 填充 .po 文件，若无此脚本可注释）
     echo -e "\n3/4 🤖 自动翻译 ${lang_name} 内容"
-    python3 "$TRANSLATOR_SCRIPT" --locale-dir "$LOCALE_DIR" --target-langs "$lang" --batch-size 10
+    python3 "$TRANSLATOR_SCRIPT" --locale-dir "$LOCALE_DIR" --target-langs "$lang" --batch-size 10 --verbose
 
     if [ $? -ne 0 ]; then
         echo "❌ 错误：${lang_name} 自动翻译失败，请检查 translator.py！"
