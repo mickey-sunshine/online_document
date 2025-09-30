@@ -5,7 +5,7 @@ build:
   tools:
     python: "3.11"
   jobs:
-    - name: run shell script
+    run shell script:
       script:
         - ./build_languange_version.sh
 
