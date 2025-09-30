@@ -17,8 +17,8 @@ build:
     # "pre_build" stage: Runs BEFORE Sphinx builds the docs
     # Use this for pre-build tasks (e.g., setting up scripts, compiling translations)
     pre_build:
-      - chmod +x ./build_languange_version.sh  # Grant executable permission (avoids "Permission denied")
-      - ./build_languange_version.sh           # Execute custom shell script (path relative to repo root)
+      - chmod +x docs/build_languange_version.sh  # Grant executable permission (avoids "Permission denied")
+      - docs/build_languange_version.sh           # Execute custom shell script (path relative to repo root)
     # Optional: Uncomment for post-build tasks (runs AFTER docs are built)
     # post_build:
     #   - echo "Build complete! Running cleanup..."
