@@ -7,17 +7,18 @@
 
 # ========================== 1. 核心路径配置（对齐 source/build）==========================
 # 脚本与 source 目录同级，所以 SOURCE_DIR 是 ./source
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 SOURCE_DIR="source"  # 源文件目录（存放 conf.py、index.rst）
 # 文档输出根目录：source/build（与 conf.py 中的 BUILDDIR 一致）
 BUILDDIR="build"
 # 翻译模板目录：source/build/gettext（与 conf.py 中的 gettext_output_dir 一致）
-POT_DIR="${BUILDDIR}/gettext"
+POT_DIR="$SCRIPT_DIR/SOURCE/$BUILDDIR/gettext"
 # HTML 文档根目录：source/build/html（后续分 en/zh_CN）
-HTML_ROOT="${BUILDDIR}/html"
+HTML_ROOT="$SCRIPT_DIR/SOURCE/$BUILDDIR/html"
 # 翻译文件目录（source/locales，存放 .po 翻译文件）
-LOCALE_DIR="${SOURCE_DIR}/locale"
+LOCALE_DIR="$SCRIPT_DIR/SOURCE/locale"
 # 自动翻译脚本路径（假设在 source 下，若不在需调整）
-TRANSLATOR_SCRIPT="${SOURCE_DIR}/translator.py"
+TRANSLATOR_SCRIPT="$SCRIPT_DIR/SOURCE/translator.py"
 # 支持的语言列表
 LANGUAGES=("zh_CN" "en")
 
