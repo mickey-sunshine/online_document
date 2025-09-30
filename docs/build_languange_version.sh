@@ -104,7 +104,7 @@ for lang in "${LANGUAGES[@]}"; do
         python3 "$TRANSLATOR_SCRIPT" \
             --locale-dir "$LOCALE_DIR" \
             --target-langs "$lang" \
-            --batch-size 30 \
+            --batch-size 50 \
             --max-chars 8000 \
             --sleep 1.0
     fi
