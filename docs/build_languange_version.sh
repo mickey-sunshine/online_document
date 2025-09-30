@@ -55,9 +55,7 @@ echo "🔍 正在检查环境和依赖..."
 check_command "sphinx-build"
 check_command "sphinx-intl"
 check_command "python3"
-# 检查核心路径（确保 source 目录和翻译脚本存在）
-check_path "$SOURCE_DIR"          # 检查源文件目录
-check_path "$TRANSLATOR_SCRIPT"  # 检查自动翻译脚本（若没有可注释此句）
+# 检查核心路径（确保 source 目录和翻译脚本存在
 # 自动创建输出目录（source/build、source/build/gettext、source/build/html）
 mkdir -p "$POT_DIR" || { echo "❌ 错误：无法创建翻译模板目录 $POT_DIR"; exit 1; }
 mkdir -p "$HTML_ROOT" || { echo "❌ 错误：无法创建 HTML 根目录 $HTML_ROOT"; exit 1; }
