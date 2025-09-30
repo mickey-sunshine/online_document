@@ -89,7 +89,7 @@ for lang in "${LANGUAGES[@]}"; do
         python3 "$TRANSLATOR_SCRIPT" \
             --locale-dir "$LOCALE_DIR" \
             --target-langs "$lang" \
-            --batch-size 20 \
+            --batch-size 10 \
             --max-chars 12000 \
             --sleep 0.3 \
             --no-backup
@@ -97,7 +97,7 @@ for lang in "${LANGUAGES[@]}"; do
         python3 "$TRANSLATOR_SCRIPT" \
             --locale-dir "$LOCALE_DIR" \
             --target-langs "$lang" \
-            --batch-size 20 \
+            --batch-size 10 \
             --max-chars 8000 \
             --sleep 1.0
     fi
