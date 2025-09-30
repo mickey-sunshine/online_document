@@ -103,7 +103,7 @@ for lang in "${LANGUAGES[@]}"; do
     echo "✅ ${lang_name} translation files updated successfully (Path: ${LOCALE_DIR}/${lang}/LC_MESSAGES/)"
 
     echo -e "\n3/4 🤖 Auto-translating ${lang_name} content"
-    python3 "$TRANSLATOR_SCRIPT" --locale-dir "$LOCALE_DIR" --target-langs "$lang" --batch-size 10 --verbose
+    python3 "$TRANSLATOR_SCRIPT" --locale-dir "$LOCALE_DIR" --target-langs "$lang" --batch-size 30
 
     if [ $? -ne 0 ]; then
         echo "❌ Error: Failed to auto-translate ${lang_name} content. Please check translator.py!"
@@ -111,20 +111,20 @@ for lang in "${LANGUAGES[@]}"; do
     fi
     echo "✅ ${lang_name} auto-translation completed!"
 
-    echo -e "\n4/4 🚀 Building ${lang_name} HTML documentation"
-    # Execute sphinx-build, -D language="$lang" specifies the current language
-    sphinx-build -b html -D language="$lang" "$SOURCE_DIR" "$current_doc_path"
+    # echo -e "\n4/4 🚀 Building ${lang_name} HTML documentation"
+    # # Execute sphinx-build, -D language="$lang" specifies the current language
+    # sphinx-build -b html -D language="$lang" "$SOURCE_DIR" "$current_doc_path"
 
-    # Check if documentation build succeeded
-    if [ $? -ne 0 ]; then
-        echo "❌ Error: Failed to build ${lang_name} documentation. Please check the syntax of source files in docs/source!"
-        exit 1
-    fi
+    # # Check if documentation build succeeded
+    # if [ $? -ne 0 ]; then
+    #     echo "❌ Error: Failed to build ${lang_name} documentation. Please check the syntax of source files in docs/source!"
+    #     exit 1
+    # fi
 
-    # Notify completion of documentation for the current language
-    echo -e "\n✅ [${lang_name}] documentation generation completed!"
-    echo "   📁 Documentation entry point: ${current_doc_path}/index.html"
-    echo "   💡 Action: Double-click the above file and open it with a browser to view!"
+    # # Notify completion of documentation for the current language
+    # echo -e "\n✅ [${lang_name}] documentation generation completed!"
+    # echo "   📁 Documentation entry point: ${current_doc_path}/index.html"
+    # echo "   💡 Action: Double-click the above file and open it with a browser to view!"
 done
 
 
