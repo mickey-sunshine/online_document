@@ -41,6 +41,8 @@ html_output_dir = os.path.join(BUILDDIR, 'html')
 latex_output_dir = os.path.join(BUILDDIR, 'latex')
 gettext_output_dir = os.path.join(BUILDDIR, 'gettext')
 
+
+
 project = u'ArkAngel'
 copyright = u'2025, RapidFlex'
 author = u'RapidFlex'

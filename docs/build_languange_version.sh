@@ -6,6 +6,7 @@
 #   - Chinese documentation: source/build/html/zh_CN
 
 # ========================== 1. Core Path Configuration ===========================
+date "+%Y-%m-%d %H:%M:%S"
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 SOURCE_DIR="$SCRIPT_DIR/source"  # Source directory: docs/source
 BUILDDIR="$SOURCE_DIR/build"     # Output root directory: docs/source/build
@@ -13,7 +14,7 @@ POT_DIR="$BUILDDIR/gettext"      # Directory for translation templates
 HTML_ROOT="$BUILDDIR/html"       # Root directory for HTML output
 LOCALE_DIR="$SOURCE_DIR/locale"  # Directory for translation files (.po)
 TRANSLATOR_SCRIPT="$SOURCE_DIR/translator.py"  # Path to the translation script
-LANGUAGES=("zh_CN" "en")         # List of supported languages
+LANGUAGES=("en" "zh_CN")         # List of supported languages
 
 # ========================== 2. Utility Functions ===========================
 check_command() {
@@ -133,3 +134,4 @@ echo " Output root directory: ${BUILDDIR}"
 echo " English documentation: ${HTML_ROOT}/en/index.html"
 echo " Chinese documentation: ${HTML_ROOT}/zh_CN/index.html"
 echo "====================================================================="
+date "+%Y-%m-%d %H:%M:%S"
