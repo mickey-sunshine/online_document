@@ -58,5 +58,3 @@ sphinxcontrib-bibtex
 openai
 
 polib
-# For transfer .po to .mo
-msgfmt

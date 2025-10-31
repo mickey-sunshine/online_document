@@ -1,45 +1,25 @@
-# .readthedocs.yaml - Fixed Configuration for Read the Docs
-# Critical Note: RTD's `build.jobs.<stage>` expects a LIST of commands (not a dict with `script` key)
-# This is the root cause of the "Expected a list, got type dict" error
+# .readthedocs.yml
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+# Required configuration file version
 version: 2
 
-# Build environment setup
+# Specify docker image for building the doc
 build:
-  # Operating system for the build (Ubuntu 22.04 is RTD's supported stable image)
   os: ubuntu-22.04
-  # Pre-installed tools (Python version must be a string for RTD validation)
   tools:
-    python: "3.11"
-  # Job configuration: 
-  # - <stage_name> (e.g., pre_build) must be a LIST of shell commands directly
-  # - NO `script` key allowed here—this is a common RTD config pitfall
-  jobs:
-    # "pre_build" stage: Runs BEFORE Sphinx builds the docs
-    # Use this for pre-build tasks (e.g., setting up scripts, compiling translations)
-    pre_build:
-      - chmod +x docs/build_languange_version.sh  # Grant executable permission (avoids "Permission denied")
-      - docs/build_languange_version.sh           # Execute custom shell script (path relative to repo root)
-    # Optional: Uncomment for post-build tasks (runs AFTER docs are built)
-    # post_build:
-    #   - echo "Build complete! Running cleanup..."
-    #   - ./path/to/cleanup_script.sh
+    python: "3.7"
 
-# Sphinx documentation builder settings
+# Build documentation in the docs/ directory with Sphinx
 sphinx:
-  # Path to Sphinx config file (conf.py) — relative to repo root
-  # Verify this path matches your project structure (e.g., docs/source/conf.py)
+  builder: dirhtml
   configuration: docs/source/conf.py
-  # Disable build failure on non-critical Sphinx warnings (set to true for production strictness)
-  fail_on_warning: false
 
-# Output formats to generate (beyond default HTML)
-formats:
-  - pdf   # Generate PDF documentation
-  - epub  # Generate EPUB for e-readers
+# Optionally build your docs in additional formats such as PDF and ePub
+formats: all
 
-# Python dependency installation (for Sphinx extensions, etc.)
+# Optionally set the version of Python and requirements required to build your docs
 python:
   install:
-    # Install dependencies from requirements.txt (lists packages like sphinx-rtd-theme)
-    # Ensure this file exists and includes all required Python packages
     - requirements: requirements.txt
