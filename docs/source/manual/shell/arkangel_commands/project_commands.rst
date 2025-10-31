@@ -78,6 +78,12 @@ Show the dashboard of the development flow. Note that only the latest run of maj
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
 
+.. option:: --file <string>
+
+  Specify the output file name for the generated dashboard logs. If not specified, the logs will be printed on screen.
+
+.. _arkangel_project_commands_report_corners:
+
 report_corners
 ~~~~~~~~~~~~~~
 
@@ -86,6 +92,10 @@ Report all the available corners that are defined in the project
 .. option:: --verbosity <int>
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
+
+.. option:: --file <string>
+
+  Specify the output file name for the generated corner report. If not specified, corner report will be printed on screen.
 
 .. _arkangel_project_commands_report_module_names:
 
@@ -117,6 +127,11 @@ Report all the available I/O of the eFPGA that are defined in the project
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
 
+.. option:: --file <string>
+
+  Specify the output file name for the generated io report. If not specified,  io report will be printed on screen.
+
+
 report_static_power
 ~~~~~~~~~~~~~~~~~~~
 
@@ -134,6 +149,9 @@ Report the static power of an eFPGA fabric under a specific netlist development 
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
 
+.. option:: --file <string>
+
+  Specify the output file name for the generated static power report. If not specified, static power report will be printed on screen.
 
 report_config_power
 ~~~~~~~~~~~~~~~~~~~
@@ -152,6 +170,10 @@ Report the configuration power of an eFPGA fabric under a specific netlist devel
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
 
+.. option:: --file <string>
+
+  Specify the output file name for the generated configuration power report. If not specified, configuration power report will be printed on screen.
+
 
 report_config_stats
 ~~~~~~~~~~~~~~~~~~~
@@ -169,6 +191,14 @@ Report the estimated configuration time and detailed bitstream sizes of an eFPGA
 .. option:: --verbosity <int>
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
+
+.. option:: --file <string>
+
+  Specify the output file name for the generated configuration statistics report. If not specified, configuration statistics report will be printed on screen.
+
+.. option:: --precision <int>
+
+  Specify the precision of the values in configuration statistics report. If not specified, a default precision of ``6`` is used to round the values.
 
 report_qor_scale
 ~~~~~~~~~~~~~~~~
@@ -283,6 +313,13 @@ Analyze the Fmax from bitstream generation reports and generate a summary for al
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
 
+.. option:: --file <string>
+
+  Specify the output file name for the generated qor report. If not specified, qor report will be printed on screen.
+
+.. option:: --precision <int>
+
+  Specify the precision of the values of Fmax in qor report. If not specified, a default precision of ``6`` is used to round the values.
 
 .. _arkangel_project_commands_disable_benchmark:
 
@@ -294,6 +331,23 @@ Disable a selected benchmark during pre-arch analyses, architecture evaluation a
 .. option:: --name <string>
 
   Specify the name of the benchmark to be disabled during pre-arch analyses, architecture evaluation and design verification.
+
+.. option:: --verbosity <int>
+
+  Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
+
+.. _arkangel_project_commands_disable_corner:
+
+disable_corner
+~~~~~~~~~~~~~~
+
+Disable a selected corner. Availble corners can be checked using command :ref:`arkangel_project_commands_report_corners`
+
+.. note:: Disabling the default corner is prohibited and will trigger an error.
+
+.. option:: --name <string>
+
+  Specify the name of the corner to be disabled.
 
 .. option:: --verbosity <int>
 

@@ -56,6 +56,8 @@ Setup design verification for selected golden bitstream and netlists
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is `0``, leading to minimum logging messages.
 
+.. _arkangel_dv_commands_run_preconfig_sim:
+
 run_preconfigured_simulation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

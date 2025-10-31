@@ -1,0 +1,49 @@
+# Create a new tapeout project
+create_tapeout --config_file project.xml
+
+# Run arch development process
+## Create a new run for the arch, files can be found under <proj_name>_arch/iter0
+## where device data of the selected architecture will be generated
+## including initial module names
+create_arch #--verbosity 1 
+## Customize I/O numbers
+set_io_num --side top --type input --num 6 --verbosity 1
+set_io_num --side top --type output --num 4 --verbosity 1
+set_io_num --side left --type input --num 12 --verbosity 1
+set_io_num --side left --type output --num 16 --verbosity 1
+set_io_num --side right --type input --num 10 --verbosity 1
+set_io_num --side right --type output --num 8 --verbosity 1
+set_io_num --side bottom --type input --num 7 --verbosity 1
+set_io_num --side bottom --type output --num 6 --verbosity 1
+## Validate all the architecture-level customization
+setup_arch #--verbosity 1 
+## Check the status of current arch 
+show_status --step arch #--verbosity 1  
+## Customize module names
+## Print the initial module names without any customization 
+show_arch --type init_module_names #--verbosity 1 
+set_arch --type module_names # Use default rather than a hand-crafted file
+show_arch --type module_names #--verbosity 1 
+## Customize fabric key
+## Use the initial fabric key as a reference to craft your own key
+## The hand-crafted fabric key will be converted to a final version for EDA usage 
+show_arch --type reference_fabric_key #--verbosity 1 
+set_arch --type crafted_fabric_key # Use default rather than a hand-crafted file
+show_arch --type crafted_fabric_key #--verbosity 1 
+show_arch --type fabric_key #--verbosity 1 
+### Pin table generation
+set_arch --fabric dp --type io_pin_table_naming_rules # Use default rather than a hand-crafted file
+set_arch --fabric ultimate --type io_pin_table_naming_rules # Use default rather than a hand-crafted file
+## Check architecture development status
+show_status --step arch #--verbosity 1
+
+### Run arch validation
+eval_arch --corner tt_25C_v1p0 #--verbosity 1
+
+report_io
+
+# Show a dashboard
+show_dashboard
+
+# Finish and exit
+exit

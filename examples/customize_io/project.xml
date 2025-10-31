@@ -8,7 +8,7 @@
      - ${PROJ_PATH} represents the absolute path of the home directory of the project as defined by syntax 'path'
      - ${ROOT_PATH} represents the absolute path of Arkangel installed binaries
   -->
-<tapeout name="alkaid_ex" family="alkaidL" path="${PWD}/alkaid_exto">
+<tapeout name="alkaid_ex" family="alkaidC" path="${PWD}/alkaid_exto">
   <stamp>
     <author>RapidFlex</author>
     <dates>
@@ -18,21 +18,17 @@
     <tool_version>0.0.15-dev+023fa82</tool_version>
   </stamp>
   <!-- Specify the PDK configuration file -->
-  <pdk>${ROOT_PATH}/etc/pdk_config/s40ulp.xml</pdk>
+  <pdk>${ROOT_PATH}/etc/pdk_config/s40ulp_dryrun.xml</pdk>
   <!-- Specify the benchmark configuration files
        The default benchmark is the one will be used for all the flows except benchmarking
     -->
   <benchmarks default="and2">
     <file>${ROOT_PATH}/etc/benchmark_config/checkin.xml</file>
-    <file>${ROOT_PATH}/etc/benchmark_config/counter.xml</file>
+    <file>${ROOT_PATH}/etc/benchmark_config/ff.xml</file>
   </benchmarks>
-  <!-- Define your custom corner if it does not exist in the built-in corner.
-       User may select to overwrite the default corner here
-       User may define any duplicated corner in the same name as built-in corners, the user-defined one has a higher priority
-    -->
-  <corner_map default="tt_25C_v0p9">
+  <corner_map default="tt_25C_v1p1">
   </corner_map>
-  <arch_template_file>${ROOT_PATH}/etc/device/ALKDL/flow_conf/efpga_arch_template.xml</arch_template_file>
+  <arch_template_file>${ROOT_PATH}/etc/device/ALKDC/flow_conf/efpga_arch_template.xml</arch_template_file>
   <!-- Record each run and the status
        frozen means a protected run where no changes are allowed unless user flips the flag
        failed runs will block the downstream steps

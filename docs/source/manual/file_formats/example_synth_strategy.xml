@@ -1,1 +1,95 @@
-../../../../etc/device/ALKDL/synth/config/synth_strategies.xml
+<?xml version="1.0"?>
+<synth_strategies>
+  <strategy name="cb" default="true">
+    <designs>
+      <pattern>cbx*</pattern>
+      <pattern>cby*</pattern>
+    </designs>
+    <target_lib>
+      <lib>uhdc40_hvt_v0.2</lib>
+      <lib>uhdc40_lvt_v0.2</lib>
+      <lib>uhdc40_rvt_v0.2</lib>
+    </target_lib>
+    <compile type="ultra" optimization="area" effort="high"/>
+    <sdc>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/constants.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/dont_use_cell.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/cb/area.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/cb/timing.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/cb/power.tcl</file>
+    </sdc>
+  </strategy>
+  <strategy name="sb">
+    <designs>
+      <pattern>sb*</pattern>
+    </designs>
+    <target_lib>
+      <lib>uhdc40_hvt_v0.2</lib>
+      <lib>uhdc40_lvt_v0.2</lib>
+      <lib>uhdc40_rvt_v0.2</lib>
+    </target_lib>
+    <compile type="ultra" optimization="area" effort="high"/>
+    <sdc>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/constants.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/dont_use_cell.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/sb/area.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/sb/timing.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/sb/power.tcl</file>
+    </sdc>
+  </strategy>
+  <strategy name="clb">
+    <designs>
+      <pattern>grid_clb</pattern>
+    </designs>
+    <target_lib>
+      <lib>uhdc40_hvt_v0.2</lib>
+      <lib>uhdc40_lvt_v0.2</lib>
+      <lib>uhdc40_rvt_v0.2</lib>
+    </target_lib>
+    <compile type="ultra" optimization="area" effort="high"/>
+    <sdc>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/constants.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/dont_use_cell.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/clb/area.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/clb/timing.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/clb/power.tcl</file>
+    </sdc>
+  </strategy>
+  <strategy name="io">
+    <designs>
+      <pattern>grid_io_topL_top</pattern>
+      <pattern>grid_io_rightL_right</pattern>
+      <pattern>grid_io_leftL_left</pattern>
+    </designs>
+    <target_lib>
+      <lib>uhdc40_hvt_v0.2</lib>
+      <lib>uhdc40_lvt_v0.2</lib>
+      <lib>uhdc40_rvt_v0.2</lib>
+    </target_lib>
+    <compile type="ultra" optimization="area" effort="high"/>
+    <sdc>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/constants.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/dont_use_cell.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/io/area.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/io/timing.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/io/power.tcl</file>
+    </sdc>
+  </strategy>
+  <strategy name="io_dchain">
+    <designs>
+      <pattern>grid_io_bottomL_bottom</pattern>
+    </designs>
+    <target_lib>
+      <lib>uhdc40_hvt_v0.2</lib>
+      <lib>uhdc40_rvt_v0.2</lib>
+    </target_lib>
+    <compile type="ultra" optimization="area" effort="high"/>
+    <sdc>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/constants.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/common/dont_use_cell.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/io/area_dchain.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/io/timing.tcl</file>
+      <file>${ROOT_PATH}/etc/device/ALKDC/synth/sdc/io/power.tcl</file>
+    </sdc>
+  </strategy>
+</synth_strategies>

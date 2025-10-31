@@ -1,1 +1,15 @@
-../../../../etc/device/ALKDL/flow_conf/log_error_keywords.xml
+<?xml version="1.0"?>
+<keywords>
+  <keyword name="Regular error" ignore_case="true">
+    <regex>^Error</regex>
+  </keyword>
+  <keyword name="Failures" ignore_case="true">
+    <regex>^Fail [^0]</regex>
+  </keyword>
+  <keyword name="SegFault">
+    <regex>^Segmentation fault</regex>
+  </keyword>
+  <keyword name="Assertation">
+    <regex>^Asseration.*failed</regex>
+  </keyword>
+</keywords>

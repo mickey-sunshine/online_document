@@ -1,1 +1,36 @@
-../../../../etc/boot_config/build.xml
+<?xml version="1.0"?>
+<!-- Just an example, may not work in practical cases! -->
+<!-- A number of suite with unique name can be defined.
+     Each suite contains a number of benchmarks.
+     Each benchmark requires a list of files
+     Reserved keywords when defining the paths include: 
+     - ${PWD} represents the absolute path where Arkangel is called
+     - ${PROJ_PATH} represents the absolute path of the home directory of the project as defined by syntax 'path'
+     - ${ROOT_PATH} represents the absolute path of Arkangel installed binaries
+ -->
+<boot_config>
+  <stamp>
+    <author>RapidFlex</author>
+    <dates>
+      <created>Sat Dec 31 03:14:41 PM PST 2022</created>
+      <last_modified>Sat Dec 31 03:14:41 PM PST 2022</last_modified>
+    </dates>
+    <tool_version>0.0.15-dev+023fa82</tool_version>
+  </stamp>
+  <boot_type>build</boot_type>
+  <bin_relpaths>
+    <file type="openfpga">${ROOT_PATH}/build/libs/OpenFPGA/openfpga/openfpga</file>
+    <file type="fabric_key_assistant">${ROOT_PATH}/build/libs/OpenFPGA/libs/libfabrickey/fabric_key_assistant</file>
+    <file type="pin_table_generator">${ROOT_PATH}/etc/utils/pin_table_gen/pin_table_generator.py</file>
+    <file type="netlist_makeup">${ROOT_PATH}/etc/utils/netlist_makeup/netlist_makeup.py</file>
+    <file type="ccff_makeup">${ROOT_PATH}/etc/utils/netlist_makeup/ccff_makeup.py</file>
+    <file type="netlist_synthesis">${ROOT_PATH}/etc/utils/snps_dc_utils/scripts/run_dc_task.py</file>
+    <file type="frontend">${ROOT_PATH}/build/libs/arkangel_frontend/yosys/bin/yosys</file>
+    <file type="qorso">${ROOT_PATH}/etc/utils/ptpx_utils/scripts/run_ptpx_task.py</file>
+    <file type="bus_group_generator">${ROOT_PATH}/etc/utils/bus_group_gen/bus_group_gen.py</file>
+    <file type="cocotb_util">${ROOT_PATH}/etc/utils/cocotb_utils/scripts/run_cocotb_task.py</file>
+    <file type="cocotb_application_sim_util">${ROOT_PATH}/etc/utils/cocotb_utils/scripts/convert_cocotb_makefile_application_simulation.py</file>
+    <file type="cocotb_force_bitstream">${ROOT_PATH}/etc/utils/cocotb_utils/scripts/cocotb_force_bitstream.py</file>
+    <file type="cocotb_makefile_inc">${ROOT_PATH}/etc/utils/cocotb_makeinc/makefile_vcs.inc</file>
+  </bin_relpaths>
+</boot_config>

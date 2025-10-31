@@ -1,1 +1,301 @@
-../../../../etc/device/ALKDL/flow_conf/efpga_arch_template.xml
+<?xml version="1.0"?>
+<efpga_arch_template>
+  <flow_settings>
+    <synth>
+      <pdk name="s40ulp">
+        <sdc>${ROOT_PATH}/etc/device/ALKDL/synth/sdc</sdc>
+        <strategy>${ROOT_PATH}/etc/device/ALKDL/synth/config/s40ulp_synth_strategies.xml</strategy>
+        <ccff_max_fanout>33</ccff_max_fanout>
+      </pdk>
+      <pdk name="t22ulp">
+        <sdc>${ROOT_PATH}/etc/device/ALKDL/synth/sdc</sdc>
+        <strategy>${ROOT_PATH}/etc/device/ALKDL/synth/config/t22ulp_synth_strategies.xml</strategy>
+        <ccff_max_fanout>33</ccff_max_fanout>
+      </pdk>
+      <pdk name="s180bcd">
+        <sdc>${ROOT_PATH}/etc/device/ALKDL/synth/sdc</sdc>
+        <strategy>${ROOT_PATH}/etc/device/ALKDL/synth/config/s180bcd_synth_strategies.xml</strategy>
+        <ccff_max_fanout>33</ccff_max_fanout>
+      </pdk>
+    </synth>
+    <floorplan>
+      <pdk name="s40ulp">
+        <strategy>${ROOT_PATH}/etc/device/ALKDL/floorplan/s40ulp_floorplan_strategy.xml</strategy>
+      </pdk>
+      <pdk name="t22ulp">
+        <strategy>${ROOT_PATH}/etc/device/ALKDL/floorplan/t22ulp_floorplan_strategy.xml</strategy>
+      </pdk>
+      <pdk name="s180bcd">
+        <strategy>${ROOT_PATH}/etc/device/ALKDL/floorplan/s180bcd_floorplan_strategy.xml</strategy>
+      </pdk>
+    </floorplan>
+    <qorso>
+      <task name="leakage" type="leakage">
+        <pdk name="s40ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s40ulp/leakage.xml</config>
+        </pdk>
+        <pdk name="t22ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/t22ulp/leakage.xml</config>
+        </pdk>
+        <pdk name="s180bcd">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s180bcd/leakage.xml</config>
+        </pdk>
+      </task>
+      <task name="power_config" type="config_power">
+        <pdk name="s40ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s40ulp/config_power.xml</config>
+        </pdk>
+        <pdk name="t22ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/t22ulp/config_power.xml</config>
+        </pdk>
+        <pdk name="s180bcd">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s180bcd/config_power.xml</config>
+        </pdk>
+      </task>
+      <task name="timing_clb" type="timing">
+        <pdk name="s40ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s40ulp/timing_clb.xml</config>
+        </pdk>
+        <pdk name="t22ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/t22ulp/timing_clb.xml</config>
+        </pdk>
+        <pdk name="s180bcd">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s180bcd/timing_clb.xml</config>
+        </pdk>
+      </task>
+      <task name="timing_io" type="timing">
+        <pdk name="s40ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s40ulp/timing_io.xml</config>
+        </pdk>
+        <pdk name="t22ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/t22ulp/timing_io.xml</config>
+        </pdk>
+        <pdk name="s180bcd">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s180bcd/timing_io.xml</config>
+        </pdk>
+      </task>
+      <!--
+      <task name="timing_gclk" type="timing">
+        <sdc hard_copy="true">${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_gclk/sdc</sdc>
+        <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/timing_gclk.yaml</config>
+      </task>
+        -->
+      <task name="timing_cb" type="timing">
+        <pdk name="s40ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s40ulp/timing_cb.xml</config>
+        </pdk>
+        <pdk name="t22ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/t22ulp/timing_cb.xml</config>
+        </pdk>
+        <pdk name="s180bcd">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s180bcd/timing_cb.xml</config>
+        </pdk>
+      </task>
+      <task name="timing_sb" type="timing">
+        <pdk name="s40ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s40ulp/timing_sb.xml</config>
+        </pdk>
+        <pdk name="t22ulp">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/t22ulp/timing_sb.xml</config>
+        </pdk>
+        <pdk name="s180bcd">
+          <config>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/strategy/s180bcd/timing_sb.xml</config>
+        </pdk>
+      </task>
+    </qorso>
+  </flow_settings>
+  <builtin_corner_map>
+    <pdk name="s40ulp" default="tt_25C_v1p1">
+      <corner name="tt_25C_v1p1">
+        <sclib>tt_v1p1</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+      <corner name="tt_25C_v0p9">
+        <sclib>tt</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+      <corner name="tt_25C_v1p0">
+        <sclib>tt_v1p0</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+      <corner name="ffg_25C_v1p1">
+        <sclib>ffg</sclib>
+        <spef>rcb_125c</spef>
+      </corner>
+      <corner name="ffg_ccs_25C_v1p1">
+        <sclib>ffg_ccs</sclib>
+        <spef>rcb_125c</spef>
+      </corner>
+    </pdk>
+    <pdk name="t22ulp" default="tt_25C_v0p9">
+      <corner name="tt_25C_v0p9">
+        <sclib>tt_0.9v_25c_ccs</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+      <!--  Keep this corner disabled due to issues on timing extraction
+      <corner name="ffg_125C_v0p99">
+        <sclib>ffg_0.99v_125c_ccs</sclib>
+        <spef>cn_25c</spef>
+      </corner> -->
+      <corner name="ffg_0C_v0p99">
+        <sclib>ffg_0.99v_0c_ccs</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+      <corner name="ffg_m40C_v0p99">
+        <sclib>ffg_0.99v_m40c_ccs</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+      <corner name="ssg_125C_v0p81">
+        <sclib>ssg_0.81v_125c_ccs</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+      <corner name="ssg_0C_v0p81">
+        <sclib>ssg_0.81v_0c_ccs</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+      <corner name="ssg_m40C_v0p81">
+        <sclib>ssg_0.81v_m40c_ccs</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+    </pdk>
+    <pdk name="s180bcd" default="tt_25C_v1p8">
+      <corner name="tt_25C_v1p8">
+        <sclib>tt_1.8v_25c</sclib>
+        <spef>cn_25c</spef>
+      </corner>
+    </pdk>
+  </builtin_corner_map>
+  <arch_template route_chan_width="64">
+    <arch_generator>
+      <file type="build">${ROOT_PATH}/build/etc/device/ALKDL/utils/alkaidl_arch_tmpl_gen</file>
+      <file type="install">${ROOT_PATH}/etc/arch_gen/alkaidl_arch_tmpl_gen</file>
+    </arch_generator>
+    <io_settings>
+      <num_io_per_tile name="NUM_LEFT_PI_PER_TILE" type="input" side="left" msb="MSB_LEFT_PI_PER_TILE"/>
+      <num_io_per_tile name="NUM_LEFT_PO_PER_TILE" type="output" side="left" msb="MSB_LEFT_PO_PER_TILE"/>
+      <num_io_per_tile name="NUM_LEFT_PO_CKO_PER_TILE" type="output" side="left" max="1" msb="MSB_LEFT_PO_CKO_PER_TILE"/>
+      <num_io_per_tile name="NUM_RIGHT_PI_PER_TILE" type="input" side="right" msb="MSB_RIGHT_PI_PER_TILE"/>
+      <num_io_per_tile name="NUM_RIGHT_PO_PER_TILE" type="output" side="right" msb="MSB_RIGHT_PO_PER_TILE"/>
+      <num_io_per_tile name="NUM_RIGHT_PO_CKO_PER_TILE" type="output" side="right" max="1" msb="MSB_RIGHT_PO_CKO_PER_TILE"/>
+      <num_io_per_tile name="NUM_TOP_PI_PER_TILE" type="input" side="top" msb="MSB_TOP_PI_PER_TILE"/>
+      <num_io_per_tile name="NUM_TOP_PO_PER_TILE" type="output" side="top" msb="MSB_TOP_PO_PER_TILE"/>
+      <num_io_per_tile name="NUM_TOP_PO_CKO_PER_TILE" type="output" side="top" max="1" msb="MSB_TOP_PO_CKO_PER_TILE"/>
+      <num_io_per_tile name="NUM_BOTTOM_PI_PDC_ECB_PER_TILE" type="input" side="bottom" max="1"/>
+      <num_io_per_tile name="NUM_BOTTOM_PI_PER_TILE" type="input" side="bottom" msb="MSB_BOTTOM_PI_PER_TILE"/>
+      <num_io_per_tile name="NUM_BOTTOM_PO_PER_TILE" type="output" side="bottom" msb="MSB_BOTTOM_PO_PER_TILE"/>
+      <num_io_per_tile name="NUM_BOTTOM_PO_CKO_PER_TILE" type="output" side="bottom" max="1"/>
+      <io_type name="TOP_IO_TYPE" side="top"/>
+      <io_type name="RIGHT_IO_TYPE" side="right"/>
+      <io_type name="BOTTOM_IO_TYPE" side="bottom"/>
+      <io_type name="LEFT_IO_TYPE" side="left"/>
+    </io_settings>
+    <yosys_error_conf>${ROOT_PATH}/etc/device/ALKDL/flow_conf/log_error_keywords.xml</yosys_error_conf>
+    <openfpga_error_conf>${ROOT_PATH}/etc/device/ALKDL/flow_conf/log_error_keywords.xml</openfpga_error_conf>
+    <openfpga_stats_conf>${ROOT_PATH}/etc/device/ALKDL/flow_conf/openfpga_log_keywords.xml</openfpga_stats_conf>
+    <!-- Only applicable to ultimate fabric -->
+    <arch_timing pdk_template="t22ulp" file_template="tt_25C_v0p9">
+      <pdk name="s40ulp">
+        <file type="tt_25C_v1p1">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/s40ulp_timing/arch_timing_tt_25C_v1p1.yml</file>
+        <file type="tt_25C_v0p9">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/s40ulp_timing/arch_timing_tt_25C_v0p9.yml</file>
+        <file type="tt_25C_v1p0">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/s40ulp_timing/arch_timing_tt_25C_v1p0.yml</file>
+        <file type="ffg_25C_v1p1">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/s40ulp_timing/arch_timing_ffg_25C_v1p1.yml</file>
+        <file type="ffg_ccs_25C_v1p1">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/s40ulp_timing/arch_timing_ffg_ccs_25C_v1p1.yml</file>
+      </pdk>
+      <pdk name="t22ulp">
+        <file type="tt_25C_v0p9">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/t22ulp_timing/arch_timing_tt_25C_v0p9.yml</file>
+        <file type="ffg_125C_v0p99">${ROOT_PATH}/etc/device/ALKDC6/arch/ultimate/t22ulp_timing/arch_timing_ffg_125C_v0p99.yaml</file>
+        <file type="ffg_0C_v0p99">${ROOT_PATH}/etc/device/ALKDC6/arch/ultimate/t22ulp_timing/arch_timing_ffg_0C_v0p99.yaml</file>
+        <file type="ffg_m40C_v0p99">${ROOT_PATH}/etc/device/ALKDC6/arch/ultimate/t22ulp_timing/arch_timing_ffg_m40C_v0p99.yaml</file>
+        <file type="ssg_125C_v0p81">${ROOT_PATH}/etc/device/ALKDC6/arch/ultimate/t22ulp_timing/arch_timing_ssg_125C_v0p81.yaml</file>
+        <file type="ssg_0C_v0p81">${ROOT_PATH}/etc/device/ALKDC6/arch/ultimate/t22ulp_timing/arch_timing_ssg_0C_v0p81.yaml</file>
+        <file type="ssg_m40C_v0p81">${ROOT_PATH}/etc/device/ALKDC6/arch/ultimate/t22ulp_timing/arch_timing_ssg_m40C_v0p81.yaml</file>
+      </pdk>
+      <pdk name="s180bcd">
+        <file type="tt_25C_v1p8">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/s180bcd_timing/arch_timing_tt_25C_v1p8.yml</file>
+      </pdk>
+    </arch_timing>
+    <dp>
+      <file type="vpr_arch">${ROOT_PATH}/etc/device/ALKDL/arch/dp/vpr_arch.xml</file>
+      <file type="openfpga_arch">${ROOT_PATH}/etc/device/ALKDL/arch/dp/openfpga_arch.xml</file>
+      <file type="openfpga_global_network_arch">${ROOT_PATH}/etc/device/ALKDL/arch/dp/openfpga_global_network.xml</file>
+      <file type="openfpga_clock_buffer_location_map">${ROOT_PATH}/etc/device/ALKDL/arch/dp/ckbuf_loc_map.xml</file>
+      <file type="design_variables">${ROOT_PATH}/etc/device/ALKDL/arch/dp/arch_var.yml</file>
+    </dp>
+    <ultimate>
+      <file type="vpr_arch">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/vpr_arch.xml</file>
+      <file type="openfpga_arch">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/openfpga_arch.xml</file>
+      <file type="openfpga_global_network_arch">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/openfpga_global_network.xml</file>
+      <file type="openfpga_clock_buffer_location_map">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/ckbuf_loc_map.xml</file>
+      <file type="design_variables">${ROOT_PATH}/etc/device/ALKDL/arch/ultimate/arch_var.yml</file>
+    </ultimate>
+    <netlist_flags>
+      <pdk name="s40ulp">
+        <flag name="S40ULP_7T">1</flag>
+      </pdk>
+      <pdk name="t22ulp">
+        <flag name="T22ULP">1</flag>
+      </pdk>
+      <pdk name="s180bcd">
+        <flag name="S180BCD_6T">1</flag>
+      </pdk>
+    </netlist_flags>
+    <ips>
+      <!-- IP MMFF -->
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_mmff/rtl/dff.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_mmff/rtl/ff_peripheral.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_mmff/rtl/mmffisc2.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_mmff/rtl/mmffosc2.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_mmff/rtl/scff.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_mmff/rtl/mmff.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_mmff/rtl/mmff_clk_ctrl.v</file>
+      <!-- IP PIO -->
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_pio/rtl/pdelay_chain_tree/delay_cell.v</file>
+      <file type="ip_rtl" default_nettype="wire">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_pio/rtl/pdelay_chain_tree/pdelay_chain_tree.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_pio/rtl/pinput_dchain_extmode.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_pio/rtl/pinput_extmode.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_pio/rtl/pinput.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/ips/tsmc22ulp_pio/rtl/poutput.v</file>
+      <!-- Std cell / IP wrappers -->
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/custom_modules/efpga_ccff.v</file>
+      <file type="ip_rtl" default_nettype="wire">${ROOT_PATH}/etc/device/ALKDL/custom_modules/efpga_stdcell_wrapper.v</file>
+      <file type="ip_rtl">${ROOT_PATH}/etc/device/ALKDL/custom_modules/mmff_wrapper.v</file>
+      <!-- Gate-level IP will be copied to gate-level without any optimization -->
+      <file type="ip_gl">${ROOT_PATH}/etc/device/ALKDL/netlist_wrapper/direct_interc.v</file>
+    </ips>
+    <openfpga_settings>
+      <file type="openfpga_sim_setting">${ROOT_PATH}/etc/device/ALKDL/openfpga_settings/efpga_fix_sim_openfpga.xml</file>
+      <file type="openfpga_ckbuf_cell_map">${ROOT_PATH}/etc/device/ALKDL/openfpga_settings/clk_cell_map.xml</file>
+      <file type="openfpga_bitstream_setting">${ROOT_PATH}/etc/device/ALKDL/openfpga_settings/bitstream_settings.xml</file>
+      <file type="tile_config">${ROOT_PATH}/etc/device/ALKDL/openfpga_settings/tile_config.xml</file>
+      <file type="gclk_pcf">${ROOT_PATH}/etc/device/ALKDL/openfpga_settings/pin_constraints_dummy.xml</file>
+      <file type="vpr_sdc">${ROOT_PATH}/etc/device/ALKDL/openfpga_settings/vpr_dummy.sdc</file>
+      <file type="pcf">${ROOT_PATH}/etc/device/ALKDL/openfpga_settings/pcf_dummy.pcf</file>
+    </openfpga_settings>
+    <openfpga_shell_scripts>
+      <file type="generate_bitstream">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_bitstream.openfpga</file>
+      <file type="generate_base_bitstream">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_bitstream_base.openfpga</file>
+      <file type="generate_device_data">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_device_data.openfpga</file>
+      <file type="generate_init_module_names">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_init_module_names.openfpga</file>
+      <file type="generate_init_fabric_key">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_init_fabric_key.openfpga</file>
+      <file type="generate_io_coordinate">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_io_coordinate.openfpga</file>
+      <file type="generate_fabric">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_fabric.openfpga</file>
+      <file type="generate_preconfig_testbench">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_preconfig_testbench.openfpga</file>
+      <file type="generate_full_testbench">${ROOT_PATH}/etc/device/ALKDL/openfpga_shell_script/generate_full_testbench.openfpga</file>
+    </openfpga_shell_scripts>
+    <yosys_scripts>
+      <file type="synthesis">${ROOT_PATH}/etc/device/ALKDL/yosys_script/synth.ys</file>
+      <file type="sweep_k">${ROOT_PATH}/etc/device/ALKDL/yosys_script/sweep_k.ys</file>
+    </yosys_scripts>
+    <netlist_makeup_key root="${ROOT_PATH}/etc/device/ALKDL/netlist_makeup">
+      <pdk name="s40ulp">
+        <ccff_makeup_buf_config>s40ulp_ccff_makeup_buf_config.yaml</ccff_makeup_buf_config>
+      </pdk>
+      <pdk name="t22ulp">
+        <ccff_makeup_buf_config>t22ulp_ccff_makeup_buf_config.yaml</ccff_makeup_buf_config>
+      </pdk>
+      <pdk name="s180bcd">
+        <ccff_makeup_buf_config>s180bcd_ccff_makeup_buf_config.yaml</ccff_makeup_buf_config>
+      </pdk>
+    </netlist_makeup_key>
+  </arch_template>
+</efpga_arch_template>

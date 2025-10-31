@@ -1,1 +1,310 @@
-../../../../etc/device/ALKDL/qor_signoff/strategy/timing_clb.xml
+<?xml version="1.0"?>
+<!--
+  Define a number of strategies, each of which represents how to extract one or a few timing/power variables required by the architecture in the purpose of back-annotation 
+  Qorso strategies can be defined through multiple files and aggregated together by parser 
+-->
+<qorso_strategies>
+  <!-- Internal variables which can replace the timing paths etc
+    Allow 1 variable to be sweeped. Other has to be constant
+    Variable in ${<name>} will be replaced
+    -->
+  <global_variables>
+    <sweep name="fle_idx_cin2cout" start="1" end="10" step="1"/>
+    <!--constant name="j" value="2"-->
+  </global_variables>
+  <!-- Each strategy should have a unique name and a specific type: [timing | power ] -->
+  <strategy name="clb_ff_t_setup" type="timing">
+    <!-- Begin of FF setup time strategy -->
+    <!-- The variable names to appear in the timing YAML file and how the timing data should be extracted -->
+    <summary timing_data="required time" data_type="Max" scale_factor="1.0">
+      <variable name="FF_T_SETUP">ff t_setup</variable>
+      <!-- Human readable name -->
+    </summary>
+    <!-- A timing variable may result from a number of tasks, each of which is designed to extract a specific group of timing paths -->
+    <task name="module_clb_clk2ff">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="1" max_paths="1000">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*clk*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/*ff*/CP*]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_remove_xbar_disable_timing.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_carry_disable_timing.tcl</file>
+      </sdc>
+    </task>
+  </strategy>
+  <!-- End of FF setup time strategy -->
+  <strategy name="lut4_delay" type="timing">
+    <!-- Begin of LUT4 in-to-out timing strategy -->
+    <!-- The variable names to appear in the timing YAML file and how the timing data should be extracted -->
+    <summary timing_data="arrival time" data_type="Max" scale_factor="1.69">
+      <variable name="LUT4_DELAY">in-&gt;lut4.out</variable>
+    </summary>
+    <!-- A timing variable may result from a number of tasks, each of which is designed to extract a specific group of timing paths -->
+    <task name="module_clb_lut4">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/fle_in*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/*frac_logic*/frac_logic_out[1]]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_remove_xbar_disable_timing.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_conkt_lut2fleout.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_carry_disable_timing.tcl</file>
+      </sdc>
+    </task>
+  </strategy>
+  <!-- End of LUT4 in-to-out timing strategy -->
+  <strategy name="lut5_delay" type="timing">
+    <!-- Begin of LUT5 in-to-out timing strategy -->
+    <!-- The variable names to appear in the timing YAML file and how the timing data should be extracted -->
+    <summary timing_data="arrival time" data_type="Max" scale_factor="1.57">
+      <variable name="LUT5_DELAY">in-&gt;lut5.out</variable>
+    </summary>
+    <!-- A timing variable may result from a number of tasks, each of which is designed to extract a specific group of timing paths -->
+    <task name="module_clb_lut5">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/fle_in*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/*frac_logic*/frac_logic_out[0]]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_remove_xbar_disable_timing.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_conkt_lut2fleout.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_carry_disable_timing.tcl</file>
+      </sdc>
+    </task>
+  </strategy>
+  <!-- End of LUT4 in-to-out timing strategy -->
+  <strategy name="lut_out0_to_ff_d_delay" type="timing">
+    <!-- Begin of LUT5 in-to-out timing strategy -->
+    <!-- The variable names to appear in the timing YAML file and how the timing data should be extracted -->
+    <summary timing_data="arrival time" data_type="Max" scale_factor="1.62">
+      <variable name="LUT_OUT_TO_FF_D_DELAY">lut.out-&gt;ff.D</variable>
+    </summary>
+    <!-- A timing variable may result from a number of tasks, each of which is designed to extract a specific group of timing paths -->
+    <task name="module_clb_lut2ff">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/fle_in*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/*frac_logic*/frac_logic_out[0]]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_remove_xbar_disable_timing.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_conkt_lut2fleout.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_carry_disable_timing.tcl</file>
+      </sdc>
+    </task>
+  </strategy>
+  <!-- End of LUT4 in-to-out timing strategy -->
+  <strategy name="lut_out_to_fle_out_delay" type="timing">
+    <!-- Begin of LUT4/5 out-to-FLE output timing strategy -->
+    <!-- The variable names to appear in the timing YAML file and how the timing data should be extracted -->
+    <summary timing_data="arrival time" data_type="Max" scale_factor="2.24">
+      <variable name="LUT4_OUT_TO_FLE_OUT_DELAY">lut4.out-&gt;le.out</variable>
+      <variable name="LUT5_OUT_TO_FLE_OUT_DELAY">lut5.out-&gt;le.out</variable>
+    </summary>
+    <!-- A timing variable may result from a number of tasks, each of which is designed to extract a specific group of timing paths -->
+    <task name="module_clb_lut2leout">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/*frac_logic*/frac_logic_out*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/*fle_out*]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_xbar_disable_timing.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_carry_disable_timing.tcl</file>
+      </sdc>
+    </task>
+    <task name="module_clb_ff2leout">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/*ff*/*/Q*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle*/*fle_out*]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_xbar_disable_timing.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_carry_disable_timing.tcl</file>
+      </sdc>
+    </task>
+  </strategy>
+  <!-- End of LUT4/5 out-to-FLE output timing strategy -->
+  <strategy name="cin_to_cout_delay" type="timing">
+    <!-- Begin of carry input to carry output for each fle timing strategy -->
+    <!-- The variable names to appear in the timing YAML file and how the timing data should be extracted -->
+    <summary timing_data="arrival time" data_type="Max" scale_factor="2.24">
+      <variable name="ADDER_C2C_DELAY">le.cin-&gt;le.cout</variable>
+    </summary>
+    <!-- A timing variable may result from a number of tasks, each of which is designed to extract a specific group of timing paths -->
+    <task name="module_clb_first_fle_cin2out">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*cin*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle_0*/fle_cout*]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_xbar_disable_timing.tcl</file>
+      </sdc>
+    </task>
+    <task name="module_clb_last_fle_cin2out">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle_11*/fle_cin*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*cout*]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_xbar_disable_timing.tcl</file>
+      </sdc>
+    </task>
+    <task name="module_clb_fle1_cin2out" replace_variable="true">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle_${fle_idx_cin2cout}*/fle_cin*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*fle_${fle_idx_cin2cout}*/fle_cout*]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_xbar_disable_timing.tcl</file>
+      </sdc>
+    </task>
+  </strategy>
+  <!-- End of carry input-to-output for each FLE timing strategy -->
+  <strategy name="clb_clk_mux" type="timing">
+    <!-- Begin of carry input to carry output for each fle timing strategy -->
+    <!-- The variable names to appear in the timing YAML file and how the timing data should be extracted -->
+    <summary timing_data="required time" data_type="Max" scale_factor="1.95">
+      <variable name="CLB_CLK_MUX">clb clk mux</variable>
+    </summary>
+    <!-- A timing variable may result from a number of tasks, each of which is designed to extract a specific group of timing paths -->
+    <task name="module_clb_clk_mux">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins cby_*__*_/chan*_in*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*pin_clk*]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_remove_xbar_disable_timing.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_carry_disable_timing.tcl</file>
+      </sdc>
+    </task>
+  </strategy>
+  <!-- End of carry input-to-output for each FLE timing strategy -->
+  <strategy name="clb_rst_mux" type="timing">
+    <!-- Begin of carry input to carry output for each fle timing strategy -->
+    <!-- The variable names to appear in the timing YAML file and how the timing data should be extracted -->
+    <summary timing_data="required time" data_type="Max" scale_factor="2.00">
+      <variable name="CLB_RST_MUX">clb rst mux</variable>
+    </summary>
+    <!-- A timing variable may result from a number of tasks, each of which is designed to extract a specific group of timing paths -->
+    <task name="module_clb_rst_mux">
+      <!-- Multiple designs can be specified to improve the coverage of timing extraction 
+           The designs can be infered from tiles with a given type. In the following example, all the tile whose types are grid_clb will be added to the design list
+        -->
+      <designs auto_infer_from_tile_type="clb">
+      </designs>
+      <path max_delay="0" min_delay="100" delay_type="comb_max" clock_group="CLK0" nworst="100" max_paths="100">
+        <from_pins>
+          <pin>[get_pins cby_*__*_/chan*_in*]</pin>
+        </from_pins>
+        <to_pins>
+          <pin>[get_pins grid_clb_*__*_/*pin_reset*]</pin>
+        </to_pins>
+      </path>
+      <sdc>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_disable_timing.sdc</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_remove_xbar_disable_timing.tcl</file>
+        <file>${ROOT_PATH}/etc/device/ALKDL/qor_signoff/timing_clb/sdc/tile_carry_disable_timing.tcl</file>
+      </sdc>
+    </task>
+  </strategy>
+  <!-- End of carry input-to-output for each FLE timing strategy -->
+</qorso_strategies>

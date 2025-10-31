@@ -1,1 +1,18 @@
-../../../../etc/device/ALKDL/flow_conf/openfpga_log_keywords.xml
+<?xml version="1.0"?>
+<keywords>
+  <keyword name="total_wire_length" type="int">
+    <regex>Total wirelength: ;([0-9]+);</regex>
+  </keyword>
+  <keyword name="packing_time" type="float">
+    <regex>Packing took ([0-9.]+) seconds</regex>
+  </keyword>
+  <keyword name="placement_time" type="float">
+    <regex>Placement took ([0-9.]+) seconds</regex>
+  </keyword>
+  <keyword name="routing_time" type="float">
+    <regex>Routing took ([0-9.]+) seconds</regex>
+  </keyword>
+  <keyword name="critical_path" type="scientific" data_type="critical_path_delay">
+    <regex>Final critical path delay \(least slack\): ([0-9.]+) ([a-z])s</regex>
+  </keyword>
+</keywords>

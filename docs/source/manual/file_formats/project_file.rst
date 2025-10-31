@@ -107,6 +107,13 @@ User-defined corners can be defined under the node ``corner_map``.
 
   The corner name to be used when naming SPEF files
 
+.. option:: disabled="<string>"
+
+  Specify the list of corner names that should be disabled. 
+
+.. note:: Use the syntax ``disabled`` in the project file results in the same impact as running command ``disable_corner`` (See details in :ref:`arkangel_project_commands_disable_corner`)
+
+
 .. _file_format_project_file_arch_template:
 
 Arch Template
