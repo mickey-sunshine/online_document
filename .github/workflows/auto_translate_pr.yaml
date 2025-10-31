@@ -1,0 +1,64 @@
+name: Auto-generate Translation PR
+
+# Trigger conditions: Activates when there's a push to the main branch (including PR merges)
+on:
+  push:
+    branches: [ "main" ]
+    # branch:
+    #   - "**"
+  # Optional: Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  build-and-translate:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0  # Fetch full history for diff comparison
+
+      - name: Set up environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.7"  # Match version in .readthedocs.yml
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Install documentation and translation dependencies
+          pip install -r requirements.txt 
+
+      - name: Run Read the Docs pre-build steps
+        run: |
+          # Reuse pre_build logic from .readthedocs.yml
+          chmod +x docs/build_languange_version.sh
+          docs/build_languange_version.sh
+
+      - name: Check for translation changes
+        id: check_diff
+        run: |
+          # Check for differences between translated files and main branch
+          git add docs/source/locale/  # Replace with actual translation file directory
+          if git diff --staged --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            # Commit changes to temporary branch
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+            git commit -m "Auto-generate translations from main"
+          fi
+
+      - name: Create translation PR if changes exist
+        if: steps.check_diff.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: auto-translation-updates  # Source branch for PR1
+          base: main  # Target branch is main
+          title: "Auto-translated content (PR1)"
+          body: |
+            This PR contains auto-generated translations from the latest main branch.
+            Please review and modify as needed.
+          commit-message: "Auto-update translations"
