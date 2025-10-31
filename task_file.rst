@@ -186,3 +186,62 @@ Each task should constain the following information.
   .. note:: Only applicable to ``report_power``
 
   Specify if the power report should include block-level details, i.e., breakdown.
+
+Subblock Tasks
+---------------
+.. option:: subblock="<string>"
+
+  .. note:: Subblock-related tasks should be defined under the ``subblock`` section.
+
+.. option:: name="<string>"
+
+  Specify the unique name for this subblock task. A subblock task can be considered as a unique subblock recipe, that are applicable to a number of designs (see definition in ``current_design``). The name and current design name will be used to create runtime directory.
+
+.. option:: pattern="<string>"
+
+  Can be [True|False].Specify the pattern to match the subblocks. For example, If the pattern is "apple", the tool will search for and read the design named "apple" in the netlist as the top-level of the current subblock. Special patterns also exist and require special handling.
+
+.. option:: flatten="<string>"
+
+  Can be [True|False].The synthesis order of user-provided subblocks. If this field is filled in, the subblock will start only after the tasks of other subblocks listed in "depends" are completed.
+
+.. option:: compile="<string>"
+
+  Specify options when compile the design using DC
+
+  .. note:: When not specified, this is an analyze flow!
+
+.. option:: type="<string>"
+
+  Can be [ultra|regular]. Define the compilation command to be used when running synthesis. ``Ultra`` indicates to use the ``compile_ultra`` command, while ``regular`` indicates to use the widely used ``compile``.
+
+.. option:: optimize="<string>"
+
+  Can be [area|timing|power|balanced]. Define the optimization objective when compile the design. Only applicable when regular compilation type is applied.
+
+.. option:: effort="<string>"
+
+  Can be [high|low]. Define the level of optimization effort to be applied. Only applicable when optimization objective is specified. 
+
+.. option:: target_library_option="<bool>"
+
+  Can be [use|dont_use]. Specify whether to use the target library when optimization should utilize. 
+
+.. option:: target_library_subset="<list>"
+
+  Can be [use|dont_use]. Specify whether to use the target library when optimization should utilize.
+
+.. option:: sdc: 
+
+  Specify a list of SDC files that the report timing task should consider
+  Currently, we support files whose names end with ``.tcl`` or ``.sdc``.
+  For example,
+
+.. code-block:: yaml
+  
+  sdc:
+    - "./sdc/pi_ff.tcl"
+
+.. option:: rename_prefix="<bool>"
+
+  Can be [True|False]. Specify whether to add a prefix to all the module and net names in the synthesized subblock netlist, to avoid name conflicts when integrating back to the top-level netlist. For example, ``subblock1_``.
