@@ -4,8 +4,6 @@ name: Auto-generate Translation PR
 on:
   push:
     branches: [ "main" ]
-    # branch:
-    #   - "**"
   # Optional: Allow manual trigger
   workflow_dispatch:
 
@@ -26,6 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt install -y gettext
           python -m pip install --upgrade pip
           # Install documentation and translation dependencies
           pip install -r requirements.txt 
