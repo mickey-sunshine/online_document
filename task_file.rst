@@ -203,9 +203,10 @@ Subblock Tasks
 
 .. option:: flatten="<string>"
 
-  Can be [True|False].The synthesis order of user-provided subblocks. If this field is filled in, the subblock will start only after the tasks of other subblocks listed in "depends" are completed.
+  Can be [True|False].The synthesis order of user-provided subblocks.
 
 .. option:: compile="<string>"
+  .. note:: This is optional
 
   Specify options when compile the design using DC
 
@@ -224,14 +225,17 @@ Subblock Tasks
   Can be [high|low]. Define the level of optimization effort to be applied. Only applicable when optimization objective is specified. 
 
 .. option:: target_library_option="<bool>"
+  .. note:: This is optional
 
   Can be [use|dont_use]. Specify whether to use the target library when optimization should utilize. 
 
 .. option:: target_library_subset="<list>"
+  .. note:: This is optional
 
   Can be [use|dont_use]. Specify whether to use the target library when optimization should utilize.
 
 .. option:: sdc: 
+  .. note:: This is optional
 
   Specify a list of SDC files that the report timing task should consider
   Currently, we support files whose names end with ``.tcl`` or ``.sdc``.
@@ -243,5 +247,6 @@ Subblock Tasks
     - "./sdc/pi_ff.tcl"
 
 .. option:: rename_prefix="<bool>"
+  .. note:: This is optional
 
   Can be [True|False]. Specify whether to add a prefix to all the module and net names in the synthesized subblock netlist, to avoid name conflicts when integrating back to the top-level netlist. For example, ``subblock1_``.
