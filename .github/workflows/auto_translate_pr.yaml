@@ -3,7 +3,7 @@ name: Auto-generate Translation PR
 # Trigger conditions: Activates when there's a push to the main branch (including PR merges)
 on:
   push:
-    branches: [ "main" ]
+    branches: "**"
   # Optional: Allow manual trigger
   workflow_dispatch:
 
