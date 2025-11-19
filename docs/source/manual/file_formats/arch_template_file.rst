@@ -280,6 +280,7 @@ Yosys scripts can be defined under the node ``yosys_scripts``. These are scripts
 
   - ``synthesis``: Script to generate golden bitstream for a benchmark
   - ``sweep_k``: Script to sweep various number of LUT size for a pre-arch analysis
+  - ``rewrite``: Script to rewrite post-synth Verilog in plain format, for bus group generation.
 
 Netlist Makeup
 --------------

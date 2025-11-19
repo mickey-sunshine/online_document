@@ -95,6 +95,44 @@ Specify the height and width of the core fabric on a given side of the eFPGA, ex
 
   Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
 
+set_num_clock
+~~~~~~~~~~~~~
+
+Specify the number of operating clocks (available for user logic) to be used in the eFPGA
+
+.. option:: --run <string>
+
+  Specify the run id. Each run is independent from each other. If not specified, a default name will be provided. 
+
+  .. note:: If you specify an existing run, the data will be overwritten.
+
+.. option:: --num <int>
+
+  Specify the number of clocks in the core fabric
+
+.. option:: --verbosity <int>
+
+  Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
+
+set_num_reset
+~~~~~~~~~~~~~
+
+Specify the number of operating resets (available for user logic) to be used in the eFPGA
+
+.. option:: --run <string>
+
+  Specify the run id. Each run is independent from each other. If not specified, a default name will be provided. 
+
+  .. note:: If you specify an existing run, the data will be overwritten.
+
+.. option:: --num <int>
+
+  Specify the number of resets in the core fabric
+
+.. option:: --verbosity <int>
+
+  Control the verbosity of the messages. For debugging usage, recommend to set to ``1``. By default, it is ``0``, leading to minimum logging messages.
+
 set_num_prog_clock
 ~~~~~~~~~~~~~~~~~~
 

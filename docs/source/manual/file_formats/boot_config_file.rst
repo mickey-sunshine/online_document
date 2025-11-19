@@ -75,6 +75,7 @@ Binary path for each third-party tool can be defined under the node ``bin_relpat
   - ``ccff_makeup``: The python script of configuration-chain makeup, used during netlist development
   - ``netlist_synthesis``: The python script of fabric netlist synthesis, used during netlist development
   - ``frontend``: The binary of ArkAngel frontend
+  - ``frontend_cell_lib``: The root path to all the cell libraries of ArkAngel frontend
   - ``qorso``: The python script of Quality-of-Result Sign-off 
   - ``bus_group_generator``: The python script to generate bus group file
   - ``cocotb_util``: The python script to run cocotb tasks

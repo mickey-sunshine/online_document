@@ -29,7 +29,7 @@ Registers must be explicitly declared.
 
 .. code-block::
 
-  # reg must be explicitly defined 
+  // reg must be explicitly defined 
   module test (
       input  wire a,  // wire can be explicitly defined
       input       b,  // wire can be implicitly defined
@@ -41,7 +41,7 @@ alternatively,
 
 .. code-block::
 
-  # the following also works 
+  // the following also works 
   module test (
       a,
       b,
@@ -81,7 +81,7 @@ Registers **must have a reset signal**.
 
 .. code-block:: 
 
-    # registers must have a reset signal 
+    // registers must have a reset signal 
     reg state_c, state_n;
 
     // correct case: include reset
@@ -227,7 +227,7 @@ Avoid using ``always @(*)`` blocks. Instead, provide explicit sensitivity lists.
 
 .. code-block::
 
-  # Avoid to use always @(*) even for combinatorial blocks
+  // Avoid to use always @(*) even for combinatorial blocks
   always @(posedge clk or negedge rst) begin
     if (rst == 1'b0) begin
       result <= 0;
@@ -236,6 +236,29 @@ Avoid using ``always @(*)`` blocks. Instead, provide explicit sensitivity lists.
     end
   end
 
+Location Constraints
+--------------------
+
+User can define location constraints through the following parameters when instanciate primitives:
+
+- ``FPGA_LOC_X`` define the x coordinate. Please ensure the number is in the range of the FPGA fabric width. Otherwise, placement may fail. Refer to your device datasheet to valid range.
+- ``FPGA_LOC_Y`` define the y coordinate. Please ensure the number is in the range of the FPGA fabric height. Otherwise, placement may fail. Refer to your device datasheet to valid range.
+- ``FPGA_LOC_Z`` define the z coordinate. Please ensure the number is in the range of the capacity of (x, y) defined through ``FPGA_LOC_X`` and ``FPGA_LOC_Y``. Otherwise, placement may fail. Refer to your device datasheet to valid range.
+
+.. warning:: Use real number. Integer will not work!
+
+.. code-block::
+
+  // Constrain the primitive to be mapped to (x=3, y=2, z=1)
+  pcounter32 pcnt #(
+    .FPGA_LOC_X(3.0), 
+    .FPGA_LOC_Y(2.0), 
+    .FPGA_LOC_Z(1.0)
+  ) ( 
+    .clk_i(ck),
+    .rst_i(rst),
+    .q_o(out)
+  );
 
 Other Rules
 -----------

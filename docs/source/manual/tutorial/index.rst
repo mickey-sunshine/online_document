@@ -11,20 +11,20 @@ ArkAngel is a multi-objective EDA framework. This section showcases the commonly
 
    tapeout_flow
 
-   project_creation
+..   project_creation
 
    pdk_import
 
-   benchmark_import
+..   benchmark_import
 
-   arch_template_creation
+..  arch_template_creation
 
    arch_flow
 
-   netlist_flow
+..   netlist_flow
 
-   dv_flow
+..  dv_flow
 
-   pd_flow
+..   pd_flow
 
-   customize_io
+..   customize_io

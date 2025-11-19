@@ -93,7 +93,7 @@ During the process, users can
 Physical Design
 ```````````````
 
-Underconstruction
+After netlist development, users can run physical design flow on the gate-level netlists.
 
 Design Verification
 ```````````````````
