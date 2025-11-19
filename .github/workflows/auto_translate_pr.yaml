@@ -3,7 +3,7 @@ name: Auto-generate Translation PR
 # Trigger conditions: Activates when there's a push to the main branch (including PR merges)
 on:
   push:
-    branches: [ "main" ]
+    branches: "**"
   # Optional: Allow manual trigger
   workflow_dispatch:
 
@@ -22,26 +22,25 @@ jobs:
         with:
           python-version: "3.7"  # Match version in .readthedocs.yml
 
-      - name: Install dependencies
+      - name: Run translation steps in Docker container
         run: |
-          sudo apt install -y gettext
-          python -m pip install --upgrade pip
-          # Install documentation and translation dependencies
-          pip install -r requirements.txt 
-
-      - name: Run Read the Docs pre-build steps
-        run: |
-          # Reuse pre_build logic from .readthedocs.yml
-          chmod +x docs/build_languange_version.sh
-          docs/build_languange_version.sh
+          docker run --rm -v $PWD:/workspace -w /workspace ubuntu:22.04 \
+            bash -c "
+            apt-get update && \
+            apt-get install -y gettext python3 python3-pip && \
+            pip3 install -r requirements.txt && \
+            chmod +x docs/build_languange_version.sh && \
+            docs/build_languange_version.sh
+            "
 
       - name: Check for translation changes
         id: check_diff
         run: |
           # Check for differences between translated files and main branch
           git add docs/source/locale/  # Replace with actual translation file directory
-          if git diff --staged --quiet; then
+          if git diff --cached --quiet docs/source/locale/zh-CN/**/*.po; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
+            git reset -- docs/source/locale/zh-CN/
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
             # Commit changes to temporary branch
@@ -56,7 +55,7 @@ jobs:
         with:
           branch: auto-translation-updates  # Source branch for PR1
           base: main  # Target branch is main
-          title: "Auto-translated content (PR1)"
+          title: "Auto-translated content update"
           body: |
             This PR contains auto-generated translations from the latest main branch.
             Please review and modify as needed.
