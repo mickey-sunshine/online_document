@@ -1,0 +1,164 @@
+te_tapeout --config_file ./config/project.xml
+### checkin
+# disable_benchmark --name and2_or2
+# disable_benchmark --name local_clk_test
+### user_benchmark
+### checkin
+# disable_benchmark --name and2_or2
+# disable_benchmark --name local_clk_test
+### user_benchmark
+# disable_benchmark --name and2_latch_modify_io
+# disable_benchmark --name and2_latch_modify_io_high_rst
+# disable_benchmark --name c2k_comb_logic
+# disable_benchmark --name clb_high_lut_usage
+# disable_benchmark --name clb_LED_verilog
+# disable_benchmark --name clb_local_clk
+# disable_benchmark --name clb_PRBS_32
+
+disable_benchmark --name bench_carry_add 
+disable_benchmark --name many_io 
+disable_benchmark --name c2k_CLB
+disable_benchmark --name c2k_CLB_ccb
+disable_benchmark --name c2k_ECAP_ccb 
+disable_benchmark --name c2k_ECAP_pcnt
+disable_benchmark --name c2k_EQEP
+disable_benchmark --name c2k_EQEP_16bit
+disable_benchmark --name c2k_Glue_Logic
+disable_benchmark --name c2k_sig_gen_check
+disable_benchmark --name c2k_sig_gen_check_ccb  
+disable_benchmark --name c2k_single_PWM_pcnt 
+disable_benchmark --name c2k_timer_ccb
+disable_benchmark --name C2000_PWM
+disable_benchmark --name C2000_PWM_rstp
+disable_benchmark --name C2000_testcase2
+disable_benchmark --name C2000_testcase4
+disable_benchmark --name clb_LED_pcnt
+disable_benchmark --name clb_UART_PWM_ccb 
+disable_benchmark --name local_reset_gen_test 
+disable_benchmark --name mult_clk_rst 
+disable_benchmark --name arith32_add 
+disable_benchmark --name arith32_sub 
+disable_benchmark --name arith16_add 
+disable_benchmark --name arith16_sub 
+disable_benchmark --name arith16_shift 
+disable_benchmark --name arith16_shift_left_right 
+disable_benchmark --name pcnt32_arstp 
+disable_benchmark --name pcnt32_arstn 
+disable_benchmark --name pcnt32_srstp 
+disable_benchmark --name pcnt32_srstn 
+disable_benchmark --name pcnt16_srstpn 
+disable_benchmark --name pcnt16_arstpn 
+disable_benchmark --name arith32_shift 
+disable_benchmark --name pcnt32_carry 
+### user_DV
+# disable_benchmark --name ae_case1 # 无checker
+# disable_benchmark --name ae_case2 # 无checker
+# disable_benchmark --name ae_case3 # 无checker
+# # disable_benchmark --name and2_latch_rstn  # 无checker
+# # disable_benchmark --name and2_latch_rstp  # 无checker
+# # disable_benchmark --name and2_latch_wdt # 无checker
+# disable_benchmark --name ccb_ECAP # 无checker
+# disable_benchmark --name ccb_EQEP # 无checker
+# disable_benchmark --name ccb_mult_clk_rst # 无checker
+# disable_benchmark --name ccb_single_8instra_pcnt32_sync # 无checker
+# disable_benchmark --name ccb_single_8instra_pcnt32_async # 无checker
+# disable_benchmark --name ccb_tile_ahb_access # 无checker
+# disable_benchmark --name ccb_UART_PWM # 无checker
+# disable_benchmark --name cnt32_add_sub_shift # 无checker
+# disable_benchmark --name cnt32_clkpn_rstas # 无checker
+# disable_benchmark --name wdt_pwm  # 无checker
+# disable_benchmark --name ccb_single_32instra  # 无checker
+# disable_benchmark --name cnt32_srst_clkn # 无checker
+# disable_benchmark --name cnt16_rst_clk
+# disable_benchmark --name ccb_parallel_event 
+# disable_benchmark --name ccb_instr_instruction 
+# # disable_benchmark --name and2_latch_wdt_maxdiv 
+# disable_benchmark --name ccb_keep 
+# disable_benchmark --name ccb_4event 
+# ### user_TEST
+# # disable_benchmark --name and2_dffr_pcf
+# # disable_benchmark --name and2_dffr_pcf2
+# # disable_benchmark --name and2_dffr1
+# # disable_benchmark --name c2k_CLB_2 
+# # disable_benchmark --name c2k_sig_gen_check_ccb_16bit 
+# # disable_benchmark --name c2k_SR_PWM_ccb 
+# # disable_benchmark --name local_clk_test 
+create_arch 
+set_core_dimension --height 12 --width 12
+set_num_clock --num 4
+set_num_reset --num 2
+set_num_prog_clock --num 32
+set_num_config_region --num 16
+set_io_num --side top --type input --num 144 # 144=12*12
+set_io_num --side top --type output --num 108 # 108=12*9
+set_io_num --side bottom --type input --num 144 # 144=12*12
+set_io_num --side bottom --type output --num 108 # 108=12*9
+set_io_num --side left --type input --num 144 # 144=12*12
+set_io_num --side left --type output --num 96 # 96=12*8
+set_io_num --side right --type input --num 144 # 144=12*12
+set_io_num --side right --type output --num 108 # 108=12*9
+analyze_logic_resource --min_lut_size 5 --max_lut_size 5 --report_qor ./save/report/qor_prearch.csv --verbosity 1
+setup_arch
+save_tapeout --config_file ./save/project/s1_setup.xml
+set_arch --type module_names --file ./config/module_names1.xml
+set_arch --type crafted_fabric_key --file ./config/custom_fabric_key.xml
+# set_arch --type module_names
+# set_arch --type crafted_fabric_key
+set_arch --fabric dp --type io_pin_table_naming_rules 
+set_arch --fabric ultimate --type io_pin_table_naming_rules 
+eval_arch --report_qor ./save/report/rpt0_eval_arch.csv --verbosity 1
+save_tapeout --config_file ./save/project/s2_eval.xml
+analyze_qor --file ./save/report/rpt1_analyze_qor.csv --verbosity 1
+generate_netlist --netlist_makeup
+save_tapeout --config_file ./save/project/s3_rtl.xml
+optimize_netlist --jobs 64 --dryrun
+save_tapeout --config_file ./save/project/s4_gl.xml
+setup_design_verification --jobs 64
+save_tapeout --config_file ./save/project/s5_setup_dv.xml
+run_preconfigured_simulation --jobs 64 --dump_waveform fsdb --netlist_type rtl
+optimize_netlist --jobs 64
+run_preconfigured_simulation --jobs 64 --dump_waveform fsdb --netlist_type gl
+# # run_benchmark_power_analysis --jobs 64 --benchmark and2_latch
+# # report_benchmark_power --benchmark and2_latch --file ./save/report/rpt6_benchmark_power.csv --verbosity 1
+# coarse_analyze_netlist --jobs 64
+# save_tapeout --config_file ./save/project/s6_floorplan.xml
+# # coarse_floorplan --report_file ./save/report/rpt2_floorplan.csv --strategy ./config/t22ull_7t_floorplan_strategy1.xml --verbosity 1
+# coarse_floorplan --report_file ./save/report/rpt2_floorplan.csv --verbosity 1
+# extract_netlist_qor --jobs 64
+# save_tapeout --config_file ./save/project/s7_extract_qor.xml
+# report_corners --file ./save/report/rpt3_corners.csv --verbosity 1
+# # report_module_names
+# report_io --file ./save/report/rpt4_io.csv --verbosity 1
+# report_static_power --file ./save/report/rpt5_static_power.csv --verbosity 1
+# # report_benchmark_power --benchmark and2_latch --file ./save/report/rpt6_benchmark_power.csv --verbosity 1
+# report_config_power --file ./save/report/rpt7_config_power.csv --verbosity 1
+# report_config_stats --pclk_freq 50000000 --file ./save/report/rpt8_config_stats.csv --verbosity 1
+# report_qor_scale  --file ./save/report/rpt9_qor_scale.csv --verbosity 1
+# show_dashboard
+# save_tapeout --config_file ./save/project/end.xml
+# backannotate
+# analyze_logic_resource --min_lut_size 5 --max_lut_size 5 --report_qor ./save_backanno/report/qor_prearch.csv --verbosity 1
+# setup_arch
+# save_tapeout --config_file ./save_backanno/project/s1_setup.xml
+# set_arch --type module_names --file ./config/module_names1.xml --verbosity 1
+# set_arch --type crafted_fabric_key --file ./config/crafted_fabric_key1.xml --verbosity 1
+# set_arch --fabric dp --type io_pin_table_naming_rules --verbosity 1
+# set_arch --fabric ultimate --type io_pin_table_naming_rules --verbosity 1
+# eval_arch --report_qor ./save_backanno/report/rpt0_eval_arch_back.csv --verbosity 1
+# analyze_qor --file ./save_backanno/report/rpt1_analyze_back.csv --verbosity 1
+# save_tapeout --config_file ./save_backanno/project/s2_eval.xml
+# coarse_floorplan --report_file ./save_backanno/report/rpt2_floorplan_back.csv --strategy ./config/t22ull_7t_floorplan_strategy1.xml --verbosity 1
+# report_corners --file ./save_backanno/report/rpt3_corners_back.csv --verbosity 1
+# # report_module_names --verbosity 1
+# report_io --file ./save_backanno/report/rpt4_io_back.csv --verbosity 1
+# report_static_power --file ./save_backanno/report/rpt5_static_power_back.csv --verbosity 1
+# # report_benchmark_power --benchmark and2_latch --file ./save_backanno/report/rpt6_benchmark_power_back.csv --verbosity 1
+# report_config_power --file ./save_backanno/report/rpt7_config_power_back.csv --verbosity 1
+# report_config_stats --pclk_freq 50000000 --file ./save_backanno/report/rpt8_config_stats_back.csv --verbosity 1
+# report_qor_scale --file ./save_backanno/report/rpt9_qor_scale_back.csv --verbosity 1
+# run_benchmark_simulation --benchmark and2_latch --type rtl --dump_waveform fsdb --verbosity 1
+# run_benchmark_simulation --benchmark c2k_off_pwm_ctrl_g3p18 --type rtl --dump_waveform fsdb --verbosity 1
+# run_benchmark_power_analysis --benchmark and2_latch --jobs 64
+# run_benchmark_power_analysis --benchmark c2k_off_pwm_ctrl_g3p18 --jobs 64
+# run_benchmark_sta --benchmark and2_latch --jobs 64 
+# run_benchmark_sta --benchmark c2k_off_pwm_ctrl_g3p18 --jobs 64

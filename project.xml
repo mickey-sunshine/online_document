@@ -1,0 +1,37 @@
+me is the nickname of the tape-out project
+     Family is the device/arch family which the tape-out project is based on
+     It will impact the project setup and execuation on arch, netlist, dv and pd etc.
+     Path is the home directory of the project
+     Reserved keywords when defining the paths include: 
+     - ${PWD} represents the absolute path where Arkangel is called
+     - ${PROJ_PATH} represents the absolute path of the home directory of the project as defined by syntax 'path'
+     - ${ROOT_PATH} represents the absolute path of Arkangel installed binaries
+  -->
+<tapeout name="alkaid_ex" family="alkaidL" path="${PWD}/../alkaid_exto_akLe_2K_s40">
+  <stamp>
+    <author>RapidFlex</author>
+    <dates>
+      <created>Sat Dec 31 03:14:41 PM PST 2022</created>
+      <last_modified>Sat Dec 31 03:14:41 PM PST 2022</last_modified>
+    </dates>
+    <tool_version>0.0.15-dev+023fa82</tool_version>
+  </stamp>
+  <!-- Specify the PDK configuration file -->
+  <pdk>${ROOT_PATH}/etc/pdk_config/s40ulp.xml</pdk>
+  <!-- Specify the benchmark configuration files
+              The default benchmark is the one will be used for all the flows except benchmarking
+    -->
+  <benchmarks default="and2" default_for_clock_sweep="and2_latch" default_for_reset_sweep="and2_dffr">
+    <file>${ROOT_PATH}/etc/benchmarks/checkin.xml</file>
+    <file>${PWD}/config/user_benchmark.xml</file>
+    <!-- <file>${PWD}/config/user_DV.xml</file> -->
+    <!-- <file>${PWD}/config/user_TEST.xml</file> -->
+  </benchmarks>
+  <corner_map default="tt_25C_v0p9">
+  </corner_map>
+  <arch_template_file>${ROOT_PATH}/etc/device/ALKDLe/flow_conf/efpga_arch_template.xml</arch_template_file>
+  <!-- Record each run and the status
+              frozen means a protected run where no changes are allowed unless user flips the flag
+       failed runs will block the downstream steps
+    -->
+
